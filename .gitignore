@@ -1,0 +1,5 @@
+#ignore les fichiers emacs
+*~
+
+#ignore les fichiers .class
+*.class
