@@ -15,7 +15,6 @@ public class App extends JFrame {
 
     private void initUI() {
         // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -29,13 +28,13 @@ public class App extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 3;
-        c.ipady = 1000;
-
+        c.ipady = 1500;
         // System.out.println(dimensionFrame.getHeight());
         // System.out.println((int) dimensionFrame.getHeight());
         c.gridx = 1;
         c.gridy = 0;
-        add(new Board(), c);
+        Board board = new Board();
+        add(board, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -43,9 +42,15 @@ public class App extends JFrame {
         c.gridy = 0;
         add(right, c);
 
+        // System.out.println(dimensionFrame);
+
         pack();
+
+        System.out.println("dim board" + board.getSize());
+
         dimensionFrame = this.getBounds().getSize();
-        System.out.println(dimensionFrame);
+
+        System.out.println("dim frame" + dimensionFrame);
 
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,6 +79,5 @@ public class App extends JFrame {
         public void componentResized(ComponentEvent e) {
             dimensionFrame = e.getComponent().getBounds().getSize();
         }
-
     }
 }
