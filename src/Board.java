@@ -5,11 +5,9 @@ import java.awt.*;
 public class Board extends JPanel {
 
     private Image imageBoard;
-    private Dimension dimFrameApp;
 
-    public Board(Dimension dimFrameApp) {
+    public Board() {
         initBoard();
-        this.dimFrameApp = dimFrameApp;
     }
 
     private void initBoard() {
@@ -27,10 +25,6 @@ public class Board extends JPanel {
     public void paintComponent(Graphics g) {
 
         g.drawImage(imageBoard, 0, 0, null);
-        double w = dimFrameApp.getWidth();
-        double h = dimFrameApp.getHeight();
-
-        g.drawLine((int) (w / 10), 0, (int) (w / 10), (int) h);
 
     }
 
