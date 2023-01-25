@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 import javax.swing.* ;
 import java.awt.* ;
 import java.awt.geom.Line2D ;
@@ -8,21 +9,32 @@ public class Board extends JPanel {
     private Image imageBoard ;
 
     public Board(){
+=======
+import javax.swing.*;
+import java.awt.*;
+
+public class Board extends JPanel {
+
+    private Image imageBoard;
+
+    public Board() {
+>>>>>>> 2b3c75035ea1627a5693a35f55153f63118fe4c5
         initBoard();
     }
 
-    private void initBoard(){
+    private void initBoard() {
         loadImage("src/ressources/bgd-peggle-img-1.jpg");
-        int width = imageBoard.getWidth(this) ;
+        int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
     }
 
-    private void loadImage(String path){  
-        ImageIcon img = new ImageIcon(path) ;
-        imageBoard = img.getImage() ;
+    private void loadImage(String path) {
+        ImageIcon img = new ImageIcon(path);
+        imageBoard = img.getImage();
     }
 
+<<<<<<< HEAD
     public void paintComponent(Graphics g){
         
         Graphics2D g2d = (Graphics2D)g ;
@@ -31,6 +43,11 @@ public class Board extends JPanel {
         // double w = dimFrameApp.getWidth() ;
         // double h = dimFrameApp.getHeight() ;
         // System.out.println(w + " " + h);
+=======
+    public void paintComponent(Graphics g) {
+
+        g.drawImage(imageBoard, 0, 0, null);
+>>>>>>> 2b3c75035ea1627a5693a35f55153f63118fe4c5
 
         // g2d.setColor(Color.BLUE);
         // g2d.setStroke(new BasicStroke(2f)) ;
