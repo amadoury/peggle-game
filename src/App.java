@@ -1,34 +1,49 @@
-import java.awt.EventQueue;
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class App extends JFrame {
 
-    public App() {
+    private Dimension dimensionFrame;
 
+    public App() {
         initUI();
     }
 
     private void initUI() {
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        // add(new Board());
+        dimensionFrame = this.getBounds().getSize();
+        add(new Board(dimensionFrame));
+        pack();
 
-        setLayout(null);
-
-         
-
-        setSize(250, 200);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        setTitle("Application");
+        setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        this.addComponentListener(new ResizeListener());
     }
 
     public static void main(String[] args) {
-
         EventQueue.invokeLater(() -> {
-            App ex = new App();
-            ex.setVisible(true);
+            App app = new App();
+            app.setVisible(true);
         });
+    }
+
+    private class ResizeListener implements ComponentListener {
+        public void componentHidden(ComponentEvent e) {
+        }
+
+        public void componentMoved(ComponentEvent e) {
+        }
+
+        public void componentShown(ComponentEvent e) {
+        }
+
+        public void componentResized(ComponentEvent e) {
+            dimensionFrame = e.getComponent().getBounds().getSize();
+        }
+
     }
 }
