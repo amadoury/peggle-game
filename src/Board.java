@@ -1,63 +1,62 @@
 
-<<<<<<< HEAD
 import javax.swing.* ;
 import java.awt.* ;
 import java.awt.geom.Line2D ;
+import java.util.TimerTask;
+import java.util.Timer ;
 
 public class Board extends JPanel {
+
+    private Timer timer ;
+    private int x = 25 ;
+    private int y = 25 ;
 
     private Image imageBoard ;
-
     public Board(){
-=======
-import javax.swing.*;
-import java.awt.*;
-
-public class Board extends JPanel {
-
-    private Image imageBoard;
-
-    public Board() {
->>>>>>> 2b3c75035ea1627a5693a35f55153f63118fe4c5
         initBoard();
     }
 
-    private void initBoard() {
+    private void initBoard(){
         loadImage("src/ressources/bgd-peggle-img-1.jpg");
-        int width = imageBoard.getWidth(this);
+        int width = imageBoard.getWidth(this) ;
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
+
+
+        //timer : animation 
+        final int INTIAL_DELAY = 100 ;
+        final int PERIO_INTERVAL = 15 ;
+        timer = new Timer() ;
+        timer.scheduleAtFixedRate(new ScheduleTask(), INTIAL_DELAY, PERIO_INTERVAL) ;
     }
 
-    private void loadImage(String path) {
-        ImageIcon img = new ImageIcon(path);
-        imageBoard = img.getImage();
+    private void loadImage(String path){  
+        ImageIcon img = new ImageIcon(path) ;
+        imageBoard = img.getImage() ;
     }
 
-<<<<<<< HEAD
+    @Override
     public void paintComponent(Graphics g){
         
         Graphics2D g2d = (Graphics2D)g ;
 
         g2d.drawImage(imageBoard, 0, 0, null) ;
-        // double w = dimFrameApp.getWidth() ;
-        // double h = dimFrameApp.getHeight() ;
-        // System.out.println(w + " " + h);
-=======
-    public void paintComponent(Graphics g) {
-
-        g.drawImage(imageBoard, 0, 0, null);
->>>>>>> 2b3c75035ea1627a5693a35f55153f63118fe4c5
-
-        // g2d.setColor(Color.BLUE);
-        // g2d.setStroke(new BasicStroke(2f)) ;
-        // g2d.draw(new Line2D.Double(w / 10, 0 ,w / 10, h)) ;
 
         g2d.setColor(Color.BLUE);
         g2d.setStroke(new BasicStroke(8f)) ;
         g2d.drawLine(10, 10, 10, 700) ;
 
-        g2d.drawOval(100, 100, 200, 40);
+        g2d.drawOval(x, y, 200, 40);
+    }
+
+    private class ScheduleTask extends TimerTask {
+        @Override
+        public void run(){
+            x += 10 ;
+            y += 10 ;
+
+            repaint() ;
+        }
     }
 
 }

@@ -1,53 +1,84 @@
-import javax.swing.* ;
-import java.awt.* ;
-import java.awt.event.* ;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
-public class App extends JFrame{
+public class App extends JFrame {
 
-    private Dimension dimensionFrame ;
-    private JLabel left = new JLabel() ;
-    private JLabel right = new JLabel() ;
+    private Dimension dimensionFrame;
 
+    private JPanel left = new JPanel();
+    private JPanel right = new JPanel();
+    private JPanel top = new JPanel();
+    private JPanel bottom = new JPanel();
 
-
-    public App(){
-        initUI() ;
+    public App() {
+        initUI();
     }
+    private void initUI() {
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setLayout(new GridBagLayout());
 
-    private void initUI(){
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH) ;
-        dimensionFrame = this.getBounds().getSize();
+        GridBagConstraints c = new GridBagConstraints();
 
-        System.out.println(dimensionFrame) ;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 0;
+        add(left, c);
 
-        this.setLayout(new GridLayout(1, 3)) ;
-        add(left) ;
-        add(new Board()) ;
-        add(right) ;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 3;
+        c.ipady = 1500 ;
+        // System.out.println(dimensionFrame.getHeight());
+        // System.out.println((int) dimensionFrame.getHeight());
+        c.gridx = 1;
+        c.gridy = 0;
+        Board board = new Board() ;
+        add(board, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5; 
+        c.gridx = 2;
+        c.gridy = 0;
+        add(right, c);
+
+        //System.out.println(dimensionFrame);
+        
         pack();
-        dimensionFrame = this.getBounds().getSize();
-        System.out.println(dimensionFrame) ;
 
-        setTitle("App") ;
+        System.out.println("dim board" + board.getSize());
+
+        dimensionFrame = this.getBounds().getSize();
+
+        System.out.println("dim frame" + dimensionFrame);
+
+
+        setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        this.addComponentListener(new ResizeListener()) ;
+        this.addComponentListener(new ResizeListener());
     }
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            App app = new App() ;
-            app.setVisible(true) ;
+            App app = new App();
+            app.setVisible(true);
         });
     }
 
-    private class ResizeListener implements ComponentListener{
-        public void componentHidden(ComponentEvent e) {}
-        public void componentMoved(ComponentEvent e) {}
-        public void componentShown(ComponentEvent e){}
-        public void componentResized(ComponentEvent e){
-            dimensionFrame = e.getComponent().getBounds().getSize() ;
+     private class ResizeListener implements ComponentListener {
+        public void componentHidden(ComponentEvent e) {
+        }
+
+        public void componentMoved(ComponentEvent e) {
+        }
+
+        public void componentShown(ComponentEvent e) {
+        }
+ 
+        public void componentResized(ComponentEvent e) {
+            dimensionFrame = e.getComponent().getBounds().getSize();
         }
     }
 }
