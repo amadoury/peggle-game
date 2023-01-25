@@ -1,16 +1,14 @@
 
 import javax.swing.* ;
 import java.awt.* ;
-
+import java.awt.geom.Line2D ;
 
 public class Board extends JPanel {
 
     private Image imageBoard ;
-    private Dimension dimFrameApp ;
 
-    public Board(Dimension dimFrameApp){
+    public Board(){
         initBoard();
-        this.dimFrameApp = dimFrameApp ;
     }
 
     private void initBoard(){
@@ -27,12 +25,22 @@ public class Board extends JPanel {
 
     public void paintComponent(Graphics g){
         
-        g.drawImage(imageBoard, 0, 0, null) ;
-        double w = dimFrameApp.getWidth() ;
-        double h = dimFrameApp.getHeight() ;
+        Graphics2D g2d = (Graphics2D)g ;
 
-        g.drawLine((int)(w / 10) , 0, (int)(w / 10) , (int)h) ;
+        g2d.drawImage(imageBoard, 0, 0, null) ;
+        // double w = dimFrameApp.getWidth() ;
+        // double h = dimFrameApp.getHeight() ;
+        // System.out.println(w + " " + h);
 
+        // g2d.setColor(Color.BLUE);
+        // g2d.setStroke(new BasicStroke(2f)) ;
+        // g2d.draw(new Line2D.Double(w / 10, 0 ,w / 10, h)) ;
+
+        g2d.setColor(Color.BLUE);
+        g2d.setStroke(new BasicStroke(8f)) ;
+        g2d.drawLine(10, 10, 10, 700) ;
+
+        g2d.drawOval(100, 100, 200, 40);
     }
 
 }
