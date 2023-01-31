@@ -131,7 +131,8 @@ public class Board extends JPanel implements MouseInputListener {
         // drawOrbitingSphere(timeCanon, g);
         canon.radianChanged(theta, g2d);
 
-        g2d.drawOval(x, y, 200, 40);
+    public void setDimensionBoard(Dimension dim ){
+        this.dimensionBoard = dim ;
     }
 
     private class ScheduleTask extends TimerTask {
