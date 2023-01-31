@@ -8,19 +8,19 @@ public class App extends JFrame {
 
     private JPanel left = new JPanel();
     private JPanel right = new JPanel();
-    private JPanel top = new JPanel();
-    private JPanel bottom = new JPanel();
 
     public App() {
         initUI();
     }
+
     private void initUI() {
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
 
         c.fill = GridBagConstraints.HORIZONTAL;
+
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
@@ -28,22 +28,22 @@ public class App extends JFrame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 3;
-        c.ipady = 1500 ;
+        c.ipady = 1500;
         // System.out.println(dimensionFrame.getHeight());
         // System.out.println((int) dimensionFrame.getHeight());
         c.gridx = 1;
         c.gridy = 0;
-        Board board = new Board() ;
+        Board board = new Board();
         add(board, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5; 
+        c.weightx = 0.5;
         c.gridx = 2;
         c.gridy = 0;
         add(right, c);
 
-        //System.out.println(dimensionFrame);
-        
+        // System.out.println(dimensionFrame);
+
         pack();
 
         System.out.println("dim board" + board.getSize());
@@ -53,6 +53,7 @@ public class App extends JFrame {
 
         System.out.println("dim frame" + dimensionFrame);
 
+        board.setWidthScreen(dimensionFrame.getWidth());
 
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +69,7 @@ public class App extends JFrame {
         });
     }
 
-     private class ResizeListener implements ComponentListener {
+    private class ResizeListener implements ComponentListener {
         public void componentHidden(ComponentEvent e) {
         }
 
@@ -77,7 +78,7 @@ public class App extends JFrame {
 
         public void componentShown(ComponentEvent e) {
         }
- 
+
         public void componentResized(ComponentEvent e) {
             dimensionFrame = e.getComponent().getBounds().getSize();
         }
