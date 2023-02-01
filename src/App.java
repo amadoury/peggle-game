@@ -47,6 +47,7 @@ public class App extends JFrame {
         pack();
 
         System.out.println("dim board" + board.getSize());
+        board.setDimensionBoard(board.getSize());
 
         dimensionFrame = this.getBounds().getSize();
 

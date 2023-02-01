@@ -2,6 +2,7 @@ public class Trou{;
     private int x ;
     private int y ;
     private int diametre ;
+    private int dx ; //valeur ajoutée a x pour deplacer le trou horizontalement
 
     public Trou(int x, int y, int d){
         this.x = x ;
@@ -32,4 +33,17 @@ public class Trou{;
     public void setDiametre(int d){
         this.diametre = d ;
     } 
+
+    public void move(int width){
+        if (x <= 0){
+            x = 0;
+        }
+        else if (x + diametre + dx < width){
+            x += dx ;
+        }
+        else{
+            x -= dx ;
+        }
+    }
+
 }

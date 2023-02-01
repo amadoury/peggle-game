@@ -16,6 +16,7 @@ public class Board extends JPanel implements MouseInputListener {
     private JPanel boardCenter = new BoardCenter();
     private int x = 25;
     private int y = getHeight() - 50;
+    private Dimension dimensionBoard;
 
     private int centreXCanon = 500;
     private int centreYCanon = 500;
@@ -138,7 +139,10 @@ public class Board extends JPanel implements MouseInputListener {
         g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
 
         g2d.drawOval(x, y, 200, 40);
+    }
 
+    public void setDimensionBoard(Dimension dim) {
+        this.dimensionBoard = dim;
     }
 
     private class ScheduleTask extends TimerTask {
