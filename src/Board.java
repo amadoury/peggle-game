@@ -16,6 +16,7 @@ public class Board extends JPanel implements MouseInputListener {
     private JPanel boardCenter = new BoardCenter();
     private int x = 25;
     private int y = getHeight() - 50;
+    private Dimension dimensionBoard;
 
     private int centreXCanon = 500;
     private int centreYCanon = 500;
@@ -27,6 +28,9 @@ public class Board extends JPanel implements MouseInputListener {
     private double theta = -Math.PI / 2;
 
     Graphics2D g2d;
+
+    private double sourisX;
+    private double sourisY;
 
     private Image imageBoard;
 
@@ -69,7 +73,7 @@ public class Board extends JPanel implements MouseInputListener {
         // bottom.setVisible(true);
         // bottom.setBackground(Color.RED);
         // add(bottom, c);
-        canon = new Canon(widthScreen / 2, 0, 50);
+        canon = new Canon(getBounds().getWidth() / 2, 0, 50);
 
         // timer : animation
         final int INTIAL_DELAY = 100;
@@ -78,6 +82,7 @@ public class Board extends JPanel implements MouseInputListener {
         timer.scheduleAtFixedRate(new ScheduleTask(), INTIAL_DELAY, PERIO_INTERVAL);
 
         addMouseListener(this);
+        addMouseMotionListener(this);
 
     }
 
@@ -119,7 +124,7 @@ public class Board extends JPanel implements MouseInputListener {
     public void paintComponent(Graphics g) {
 
         g2d = (Graphics2D) g;
-        super.paintComponent(g);
+        // super.paintComponent(g);
 
         g2d.drawImage(imageBoard, 0, 0, null);
 
@@ -131,8 +136,13 @@ public class Board extends JPanel implements MouseInputListener {
         // drawOrbitingSphere(timeCanon, g);
         canon.radianChanged(theta, g2d);
 
-    public void setDimensionBoard(Dimension dim ){
-        this.dimensionBoard = dim ;
+        g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
+
+        g2d.drawOval(x, y, 200, 40);
+    }
+
+    public void setDimensionBoard(Dimension dim) {
+        this.dimensionBoard = dim;
     }
 
     private class ScheduleTask extends TimerTask {
@@ -149,11 +159,20 @@ public class Board extends JPanel implements MouseInputListener {
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
 
+        System.out.println("mouseClicked");
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
+
+        // canon.radianChanged(Math.acos(theta), g2d);
+        System.out.println(theta);
+        System.out.println(Math.abs(e.getY() - 50)
+                / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
+        System.out.println(e.getY() - 50);
+        System.out.println(e.getX() - getBounds().getWidth() / 2);
 
     }
 
@@ -184,15 +203,13 @@ public class Board extends JPanel implements MouseInputListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         // TODO Auto-generated method stub
-
-        theta = Math.acos(Math.abs(e.getY() - 50)
+        double angle = Math.acos(Math.abs(e.getY() - 50)
                 / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
-        // canon.radianChanged(Math.acos(theta), g2d);
-        System.out.println(theta);
-        System.out.println(Math.abs(e.getY() - 50)
-                / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
-        System.out.println(e.getY() - 50);
-        System.out.println(e.getX() - getBounds().getWidth() / 2);
+        if (e.getX() < getBounds().getWidth() / 2)
+            angle = -angle;
+        theta = angle - Math.PI / 2;
+        sourisX = e.getX();
+        sourisY = e.getY();
     }
 
     public void setWidthScreen(double w) {
