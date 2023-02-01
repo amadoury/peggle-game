@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.*;
 
 public class Canon {
 
@@ -51,7 +52,11 @@ public class Canon {
     private void drawCanon(double drawX, double drawY, double sphereRadius, Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
+        // g2d.drawImage(null, 0, 0, null, null);
+        // Ellipse2D.Double c = new Ellipse2D.Double(100, 100, 50, 50);
+        // g2d.fill(c);
         g2d.drawOval((int) drawX, (int) drawY, (int) sphereRadius, (int) sphereRadius);
+
     }
 
     public void setOrbX(double d) {
