@@ -4,28 +4,31 @@ import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import java.util.TimerTask;
 import java.util.Timer;
 
 public class Board extends JPanel implements MouseInputListener {
 
     private Timer timer;
-    private JPanel top = new JPanel();
-    private JPanel bottom = new JPanel();
     private JPanel boardCenter = new BoardCenter();
     private int x = 25;
     private int y = getHeight() - 50;
     private Dimension dimensionBoard;
 
+    private Ball ball ;
+    private final double vInitial = 200 ; /* initial speed of the ball */
+    private double angleChute = -60;
+    private double time = 1 ;
+    private double x_peg = 500 ; 
+    private double y_peg = 500 ; 
+
     private int centreXCanon = 500;
     private int centreYCanon = 500;
-    // private int canonX;
-    // private int canonY;
-    // private double deltaCanon;
     private int timeCanon;
     private Canon canon;
     private double theta = -Math.PI / 2;
+    private double drawX ; // x de la balle sur l'orbit 
+    private double drawY ; // y 
 
     Graphics2D g2d;
 
@@ -41,7 +44,7 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     private void initBoard() {
-        loadImage("ressources/bgd-peggle-img-1.jpg");
+        loadImage("src/ressources/bgd-peggle-img-1.jpg");
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
@@ -74,6 +77,7 @@ public class Board extends JPanel implements MouseInputListener {
         // bottom.setBackground(Color.RED);
         // add(bottom, c);
         canon = new Canon(getBounds().getWidth() / 2, 0, 50);
+        ball = new Ball(canon.getCanonX(), canon.getCanonY(),angleChute,getBounds()) ;
 
         // timer : animation
         final int INTIAL_DELAY = 100;
@@ -138,7 +142,10 @@ public class Board extends JPanel implements MouseInputListener {
 
         g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
 
-        g2d.drawOval(x, y, 200, 40);
+        ball.drawBall(g2d);
+        //g2d.drawOval((int)x_peg, (int)y_peg, 30, 30);
+        System.out.println("peg : " + x_peg + " " + y_peg);
+
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -149,9 +156,11 @@ public class Board extends JPanel implements MouseInputListener {
         @Override
         public void run() {
             x += 0.555;
-
-            repaint();
-            boardCenter.repaint();
+            time += 0.015; 
+            ball.move(time) ;
+            //x_peg = vInitial * Math.sin(Math.toRadians(angleChute)) * time + canon.getCanonX();
+            //y_peg =   0.5 * 9.81 * (time * time) + (vInitial * Math.cos(Math.toRadians(angleChute)) * time) + canon.getCanonY();
+            repaint();        
         }
     }
 
@@ -160,19 +169,10 @@ public class Board extends JPanel implements MouseInputListener {
         // TODO Auto-generated method stub
 
         System.out.println("mouseClicked");
-
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-        // canon.radianChanged(Math.acos(theta), g2d);
-        System.out.println(theta);
-        System.out.println(Math.abs(e.getY() - 50)
-                / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
-        System.out.println(e.getY() - 50);
-        System.out.println(e.getX() - getBounds().getWidth() / 2);
 
     }
 
@@ -202,7 +202,6 @@ public class Board extends JPanel implements MouseInputListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
         double angle = Math.acos(Math.abs(e.getY() - 50)
                 / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
         if (e.getX() < getBounds().getWidth() / 2)
@@ -210,10 +209,13 @@ public class Board extends JPanel implements MouseInputListener {
         theta = angle - Math.PI / 2;
         sourisX = e.getX();
         sourisY = e.getY();
+
+        double hypothenuse = Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)) ;
+        //angleChute = Math.acos((e.getY() - 50) / hypothenuse);
+        //ball.setTheta(angleChute);
     }
 
     public void setWidthScreen(double w) {
-
         canon.setOrbX(getBounds().getWidth());
     }
 

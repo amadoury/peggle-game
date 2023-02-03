@@ -1,17 +1,22 @@
-public class Ball {
-    private double xt; // position x de la bille à chaque instant
-    private double yt; // position y de la bille à chaque instant
-    private double x_initial; // position x initial de la bille
-    private double y_initial; // position y initial de la bille
-    private double thetha; // angle
-    private double vInitial; // vitesse initiale
-    private final double g = 9.81; // acceleration de la pesanteur
+import java.awt.Graphics2D ;
+import java.awt.Rectangle ;
 
-    public Ball(double x_initial, double y_initial, double vInitial, double thetha) {
+public class Ball {
+    private double xt; // position x de la balle à chaque instant
+    private double yt; // position y de la balle à chaque instant
+    private double x_initial; // position x initial de la balle
+    private double y_initial; // position y initial de la balle
+    private double thetha; // angle
+    private final double vInitial = 300; // vitesse initiale
+    private final double g = 9.81; // acceleration de la pesanteur
+    private final String path = "src/ressources/ball.png" ;
+    private Rectangle rectBoard ;
+
+    public Ball(double x_initial, double y_initial, double thetha,Rectangle  rect) {
         this.x_initial = x_initial;
         this.y_initial = y_initial;
-        this.vInitial = vInitial;
-        this.thetha = thetha;
+        this.thetha = Math.toRadians(thetha) ;
+        this.rectBoard = rect ;
     }
 
     public double XInitial() {
@@ -42,20 +47,24 @@ public class Ball {
         this.thetha = thetha;
     }
 
-    // met à jour les coordonnées de la bille à l'instant dt
-    public void move(int dt) {
+    // met à jour les coordonnées de la balle à l'instant dt
+    public void move(double dt) {
         xt = xt(dt);
         yt = yt(dt);
     }
 
-    // calcule la position x de la bille à l'instant dt passé en argumant
-    private double xt(int dt) {
-        return vInitial * Math.sin(thetha) * dt;
+    // calcule la position x de la balle à l'instant dt passé en argumant
+    private double xt(double dt) {
+        return vInitial * Math.sin(thetha) * dt + x_initial;
     }
 
-    // calcule la position y de la bille à l'instant dt passé en argumant
-    private double yt(int dt) {
-        return 0.5 * g * (dt * dt) + (vInitial * Math.cos(thetha) * dt);
+    // calcule la position y de la balle à l'instant dt passé en argumant
+    private double yt(double dt) {
+        return 0.5 * g * (dt * dt) + (vInitial * Math.cos(thetha) * dt) + y_initial ;
     }
 
+    public void drawBall(Graphics2D g){
+       g.drawOval((int)xt, (int)yt, 20, 20) ;
+       //g.drawOval(500, 200, 20, 20) ;
+    }
 }

@@ -64,4 +64,12 @@ public class Canon {
         orbitX = d / 2;
     }
 
+    public double getCanonX() {
+        return canonX;
+    }
+
+    public double getCanonY() {
+        return canonY;
+    }
+
 }
