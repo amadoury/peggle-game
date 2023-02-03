@@ -45,6 +45,7 @@ public class Board extends JPanel implements MouseInputListener {
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
+        setLayout(null);
 
         // GridBagConstraints c = new GridBagConstraints();
 
@@ -73,7 +74,12 @@ public class Board extends JPanel implements MouseInputListener {
         // bottom.setVisible(true);
         // bottom.setBackground(Color.RED);
         // add(bottom, c);
+
         canon = new Canon(getBounds().getWidth() / 2, 0, 50);
+        PegCercle pc = new PegCercle(500, 500, 50, "Bleu");
+        add(pc.getJlabel());
+        // pc.getJlabel().setBounds((int) pc.getPegX(), (int) pc.getPegY(), (int)
+        // pc.getRayon(), (int) pc.getRayon());
 
         // timer : animation
         final int INTIAL_DELAY = 100;
@@ -135,8 +141,8 @@ public class Board extends JPanel implements MouseInputListener {
         timeCanon += 1;
         // drawOrbitingSphere(timeCanon, g);
         canon.radianChanged(theta, g2d);
-
-        g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
+        // System.out.println((int) (getBounds().getWidth() / 2) + "position ligne");
+        g2d.drawLine((int) sourisX, (int) sourisY, (int) (getBounds().getWidth() / 2), 0);
 
         g2d.drawOval(x, y, 200, 40);
     }
@@ -213,7 +219,6 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     public void setWidthScreen(double w) {
-
         canon.setOrbX(getBounds().getWidth());
     }
 

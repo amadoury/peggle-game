@@ -60,7 +60,7 @@ public class Canon {
     }
 
     public void setOrbX(double d) {
-        System.out.println(d);
+        System.out.println(d / 2 + "position orbit canon");
         orbitX = d / 2;
     }
 

@@ -53,7 +53,7 @@ public class App extends JFrame {
 
         System.out.println("dim frame" + dimensionFrame);
 
-        board.setWidthScreen(dimensionFrame.getWidth());
+        board.setWidthScreen(dimensionFrame.getWidth() - dimensionFrame.getWidth() / 8);
 
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
