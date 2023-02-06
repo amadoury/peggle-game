@@ -10,25 +10,16 @@ import java.util.Timer;
 public class Board extends JPanel implements MouseInputListener {
 
     private Timer timer;
-    private JPanel boardCenter = new BoardCenter();
     private int x = 25;
-    private int y = getHeight() - 50;
     private Dimension dimensionBoard;
+    private Dimension DimensionFrame ;
 
-    private Ball ball ;
-    private final double vInitial = 200 ; /* initial speed of the ball */
-    private double angleChute = -60;
+
+    /* BoardModel */
+    BoardModel boardModel ;
+
     private double time = 1 ;
-    private double x_peg = 500 ; 
-    private double y_peg = 500 ; 
 
-    private int centreXCanon = 500;
-    private int centreYCanon = 500;
-    private int timeCanon;
-    private Canon canon;
-    private double theta = -Math.PI / 2;
-    private double drawX ; // x de la balle sur l'orbit 
-    private double drawY ; // y 
 
     Graphics2D g2d;
 
@@ -49,41 +40,14 @@ public class Board extends JPanel implements MouseInputListener {
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
 
-        // GridBagConstraints c = new GridBagConstraints();
-
-        // c.fill = GridBagConstraints.VERTICAL;
-
-        // // c.weighty = 0.5;
-        // c.gridx = 0;
-        // c.gridy = 0;
-        // top.setVisible(true);
-        // top.setBackground(Color.BLACK);
-        // c.ipadx = 9999;
-        // // top.setPreferredSize(new Dimension(9999, 9999));
-        // add(top, c);
-
-        // c.fill = GridBagConstraints.VERTICAL;
-        // // c.weighty = 3;
-        // c.gridx = 0;
-        // c.gridy = 1;
-        // c.ipady = 1000;
-        // add(boardCenter, c);
-
-        // c.fill = GridBagConstraints.VERTICAL;
-        // // c.weighty = 0.5;
-        // c.gridx = 0;
-        // c.gridy = 2;
-        // bottom.setVisible(true);
-        // bottom.setBackground(Color.RED);
-        // add(bottom, c);
-        canon = new Canon(getBounds().getWidth() / 2, 0, 50);
-        ball = new Ball(canon.getCanonX(), canon.getCanonY(),angleChute,getBounds()) ;
+        /* boardModele initialisation */
+        boardModel = new BoardModel();
 
         // timer : animation
-        final int INTIAL_DELAY = 100;
-        final int PERIO_INTERVAL = 15;
+        final int INITIAL_DELAY = 100;
+        final int PERIOD_INTERVAL = 15;
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), INTIAL_DELAY, PERIO_INTERVAL);
+        timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -95,56 +59,29 @@ public class Board extends JPanel implements MouseInputListener {
         imageBoard = img.getImage();
     }
 
-    public void drawOrbitingSphere(int timeInterval, Graphics g) {
-
-        // let's just choose a bunch of values that we'll need
-        double orbitX = centreXCanon; /* x-coordinate in orbit's center */
-        double orbitY = centreYCanon; /* y-coordinate in orbit's center */
-        double orbitRadius = 50;
-        double orbitSpeed = Math.PI / 16;
-        double sphereRadius = 10;
-
-        /*
-         * based on the current time interval, we'll calculate where the sphere
-         * is at on its orbit
-         */
-        double radian = orbitSpeed * timeInterval;
-        double drawX = orbitX + orbitRadius * Math.cos(radian);
-        double drawY = orbitY + orbitRadius * Math.sin(radian);
-        // canonX = (int) drawX;
-        // canonY = (int) drawY;
-
-        // use whichever Draw method is provided by your API
-        drawSphere(drawX, drawY, sphereRadius, g);
-    }
-
-    private void drawSphere(double drawX, double drawY, double sphereRadius, Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.drawOval((int) drawX, (int) drawY, (int) sphereRadius, (int) sphereRadius);
-    }
-
     @Override
     public void paintComponent(Graphics g) {
 
         g2d = (Graphics2D) g;
-        // super.paintComponent(g);
 
         g2d.drawImage(imageBoard, 0, 0, null);
 
         g2d.setColor(Color.BLUE);
         g2d.setStroke(new BasicStroke(8f));
-        // g2d.drawLine(10, 10, 10, 700);
 
-        timeCanon += 1;
-        // drawOrbitingSphere(timeCanon, g);
-        canon.radianChanged(theta, g2d);
+        /* changing  */
+        boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
 
         g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
 
-        ball.drawBall(g2d);
-        //g2d.drawOval((int)x_peg, (int)y_peg, 30, 30);
-        System.out.println("peg : " + x_peg + " " + y_peg);
+        boardModel.getBall().setXInitial(boardModel.getCanon().getCanonX());
+        boardModel.getBall().setYInitial(boardModel.getCanon().getCanonY());
+
+        System.out.println(boardModel.getCanon().getCanonX() + " " +boardModel.getCanon().getCanonY() );
+
+        /* updating the ball's image */
+        boardModel.getBall().updateImgBall();
+        add(boardModel.getBall().getLabelImgBall()) ;
 
     }
 
@@ -157,9 +94,11 @@ public class Board extends JPanel implements MouseInputListener {
         public void run() {
             x += 0.555;
             time += 0.015; 
-            ball.move(time) ;
-            //x_peg = vInitial * Math.sin(Math.toRadians(angleChute)) * time + canon.getCanonX();
-            //y_peg =   0.5 * 9.81 * (time * time) + (vInitial * Math.cos(Math.toRadians(angleChute)) * time) + canon.getCanonY();
+            //old
+            //ball.move(time) ;
+
+            /* new */
+            boardModel.getBall().move(time);
             repaint();        
         }
     }
@@ -206,7 +145,10 @@ public class Board extends JPanel implements MouseInputListener {
                 / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
         if (e.getX() < getBounds().getWidth() / 2)
             angle = -angle;
-        theta = angle - Math.PI / 2;
+        double theta = angle - Math.PI / 2;
+
+        boardModel.setThetaCanon(theta) ;
+
         sourisX = e.getX();
         sourisY = e.getY();
 
@@ -216,7 +158,18 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     public void setWidthScreen(double w) {
-        canon.setOrbX(getBounds().getWidth());
+        double var = w - (2.0 / 8.0) * w ;
+        // /* old */
+        // canon.setOrbX(var);
+
+        /* New */
+        boardModel.getCanon().setOrbX(var);
+
+        System.out.println(" var " + var + " w = " + w + " calcul = " + var);
+    }
+
+    public void setDimensionFrame(Dimension w){
+        DimensionFrame = w ;
     }
 
 }
