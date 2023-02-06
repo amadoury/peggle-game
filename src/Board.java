@@ -12,14 +12,12 @@ public class Board extends JPanel implements MouseInputListener {
     private Timer timer;
     private int x = 25;
     private Dimension dimensionBoard;
-    private Dimension DimensionFrame ;
-
+    private Dimension DimensionFrame;
 
     /* BoardModel */
-    BoardModel boardModel ;
+    BoardModel boardModel;
 
-    private double time = 1 ;
-
+    private double time = 1;
 
     Graphics2D g2d;
 
@@ -27,6 +25,7 @@ public class Board extends JPanel implements MouseInputListener {
     private double sourisY;
 
     private Image imageBoard;
+    private PegCercle pc;
 
     private double widthScreen;
 
@@ -39,9 +38,20 @@ public class Board extends JPanel implements MouseInputListener {
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
+        setLayout(null);
 
-        /* boardModele initialisation */
         boardModel = new BoardModel();
+
+        // canon = new Canon(getBounds().getWidth() / 2, 0, 50);
+        add(boardModel.getCanon().getJlabel());
+        pc = new PegCercle(500, 500, 50, "Bleu");
+        // add(pc.getJlabel());
+        PegGenerator generator = new PegGenerator();
+        for (int i = 0; i < generator.getPegListe().size(); ++i) {
+            add(generator.getPegListe().get(i).getJlabel());
+        }
+        // pc.getJlabel().setBounds((int) pc.getPegX(), (int) pc.getPegY(), (int)
+        // pc.getRayon(), (int) pc.getRayon());
 
         // timer : animation
         final int INITIAL_DELAY = 100;
@@ -69,7 +79,7 @@ public class Board extends JPanel implements MouseInputListener {
         g2d.setColor(Color.BLUE);
         g2d.setStroke(new BasicStroke(8f));
 
-        /* changing  */
+        /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
 
         g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
@@ -77,11 +87,11 @@ public class Board extends JPanel implements MouseInputListener {
         boardModel.getBall().setXInitial(boardModel.getCanon().getCanonX());
         boardModel.getBall().setYInitial(boardModel.getCanon().getCanonY());
 
-        System.out.println(boardModel.getCanon().getCanonX() + " " +boardModel.getCanon().getCanonY() );
+        System.out.println(boardModel.getCanon().getCanonX() + " " + boardModel.getCanon().getCanonY());
 
         /* updating the ball's image */
         boardModel.getBall().updateImgBall();
-        add(boardModel.getBall().getLabelImgBall()) ;
+        add(boardModel.getBall().getLabelImgBall());
 
     }
 
@@ -93,13 +103,13 @@ public class Board extends JPanel implements MouseInputListener {
         @Override
         public void run() {
             x += 0.555;
-            time += 0.015; 
-            //old
-            //ball.move(time) ;
+            time += 0.015;
+            // old
+            // ball.move(time) ;
 
             /* new */
             boardModel.getBall().move(time);
-            repaint();        
+            repaint();
         }
     }
 
@@ -147,18 +157,18 @@ public class Board extends JPanel implements MouseInputListener {
             angle = -angle;
         double theta = angle - Math.PI / 2;
 
-        boardModel.setThetaCanon(theta) ;
+        boardModel.setThetaCanon(theta);
 
         sourisX = e.getX();
         sourisY = e.getY();
 
-        double hypothenuse = Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)) ;
-        //angleChute = Math.acos((e.getY() - 50) / hypothenuse);
-        //ball.setTheta(angleChute);
+        double hypothenuse = Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2));
+        // angleChute = Math.acos((e.getY() - 50) / hypothenuse);
+        // ball.setTheta(angleChute);
     }
 
     public void setWidthScreen(double w) {
-        double var = w - (2.0 / 8.0) * w ;
+        double var = w - (2.0 / 8.0) * w;
         // /* old */
         // canon.setOrbX(var);
 
@@ -168,8 +178,8 @@ public class Board extends JPanel implements MouseInputListener {
         System.out.println(" var " + var + " w = " + w + " calcul = " + var);
     }
 
-    public void setDimensionFrame(Dimension w){
-        DimensionFrame = w ;
+    public void setDimensionFrame(Dimension w) {
+        DimensionFrame = w;
     }
 
 }
