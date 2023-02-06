@@ -1,5 +1,7 @@
 import java.awt.Graphics2D;
 
+import javax.swing.JLabel;
+
 public abstract class Peg {
 
     protected int pegX;
@@ -27,5 +29,9 @@ public abstract class Peg {
     }
 
     public abstract void drawPeg(Graphics2D g);
+
+    public abstract JLabel getJlabel();
+
+    public abstract void pegTouchdown();
 
 }

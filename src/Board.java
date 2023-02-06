@@ -33,6 +33,7 @@ public class Board extends JPanel implements MouseInputListener {
     private double sourisY;
 
     private Image imageBoard;
+    private PegCercle pc;
 
     private double widthScreen;
 
@@ -76,8 +77,13 @@ public class Board extends JPanel implements MouseInputListener {
         // add(bottom, c);
 
         canon = new Canon(getBounds().getWidth() / 2, 0, 50);
-        PegCercle pc = new PegCercle(500, 500, 50, "Bleu");
-        add(pc.getJlabel());
+        add(canon.getJlabel());
+        pc = new PegCercle(500, 500, 50, "Bleu");
+        // add(pc.getJlabel());
+        PegGenerator generator = new PegGenerator();
+        for (int i = 0; i < generator.getPegListe().size(); ++i) {
+            add(generator.getPegListe().get(i).getJlabel());
+        }
         // pc.getJlabel().setBounds((int) pc.getPegX(), (int) pc.getPegY(), (int)
         // pc.getRayon(), (int) pc.getRayon());
 
@@ -143,6 +149,8 @@ public class Board extends JPanel implements MouseInputListener {
         canon.radianChanged(theta, g2d);
         // System.out.println((int) (getBounds().getWidth() / 2) + "position ligne");
         g2d.drawLine((int) sourisX, (int) sourisY, (int) (getBounds().getWidth() / 2), 0);
+        // pc.drawPeg(g2d);
+        // pc.pegTouchdown();
 
         g2d.drawOval(x, y, 200, 40);
     }
@@ -212,14 +220,14 @@ public class Board extends JPanel implements MouseInputListener {
         double angle = Math.acos(Math.abs(e.getY() - 50)
                 / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
         if (e.getX() < getBounds().getWidth() / 2)
-            angle = -angle;
+            angle = -angle;//
         theta = angle - Math.PI / 2;
         sourisX = e.getX();
         sourisY = e.getY();
     }
 
     public void setWidthScreen(double w) {
-        canon.setOrbX(getBounds().getWidth());
+        canon.setOrbX(w);
     }
 
 }
