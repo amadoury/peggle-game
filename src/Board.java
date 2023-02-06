@@ -44,7 +44,7 @@ public class Board extends JPanel implements MouseInputListener {
 
         // canon = new Canon(getBounds().getWidth() / 2, 0, 50);
         add(boardModel.getCanon().getJlabel());
-        pc = new PegCercle(500, 500, 50, "Bleu");
+        pc = new PegCercle(500, 500, 50, "bleu");
         // add(pc.getJlabel());
         PegGenerator generator = new PegGenerator();
         for (int i = 0; i < generator.getPegListe().size(); ++i) {
