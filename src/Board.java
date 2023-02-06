@@ -4,28 +4,22 @@ import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
 import java.util.TimerTask;
 import java.util.Timer;
 
 public class Board extends JPanel implements MouseInputListener {
 
     private Timer timer;
-    private JPanel top = new JPanel();
-    private JPanel bottom = new JPanel();
-    private JPanel boardCenter = new BoardCenter();
     private int x = 25;
-    private int y = getHeight() - 50;
     private Dimension dimensionBoard;
+    private Dimension DimensionFrame ;
 
-    private int centreXCanon = 500;
-    private int centreYCanon = 500;
-    // private int canonX;
-    // private int canonY;
-    // private double deltaCanon;
-    private int timeCanon;
-    private Canon canon;
-    private double theta = -Math.PI / 2;
+
+    /* BoardModel */
+    BoardModel boardModel ;
+
+    private double time = 1 ;
+
 
     Graphics2D g2d;
 
@@ -42,7 +36,7 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     private void initBoard() {
-        loadImage("ressources/bgd-peggle-img-1.jpg");
+        loadImage("src/ressources/bgd-peggle-img-1.jpg");
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
@@ -88,10 +82,10 @@ public class Board extends JPanel implements MouseInputListener {
         // pc.getRayon(), (int) pc.getRayon());
 
         // timer : animation
-        final int INTIAL_DELAY = 100;
-        final int PERIO_INTERVAL = 15;
+        final int INITIAL_DELAY = 100;
+        final int PERIOD_INTERVAL = 15;
         timer = new Timer();
-        timer.scheduleAtFixedRate(new ScheduleTask(), INTIAL_DELAY, PERIO_INTERVAL);
+        timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -103,56 +97,30 @@ public class Board extends JPanel implements MouseInputListener {
         imageBoard = img.getImage();
     }
 
-    public void drawOrbitingSphere(int timeInterval, Graphics g) {
-
-        // let's just choose a bunch of values that we'll need
-        double orbitX = centreXCanon; /* x-coordinate in orbit's center */
-        double orbitY = centreYCanon; /* y-coordinate in orbit's center */
-        double orbitRadius = 50;
-        double orbitSpeed = Math.PI / 16;
-        double sphereRadius = 10;
-
-        /*
-         * based on the current time interval, we'll calculate where the sphere
-         * is at on its orbit
-         */
-        double radian = orbitSpeed * timeInterval;
-        double drawX = orbitX + orbitRadius * Math.cos(radian);
-        double drawY = orbitY + orbitRadius * Math.sin(radian);
-        // canonX = (int) drawX;
-        // canonY = (int) drawY;
-
-        // use whichever Draw method is provided by your API
-        drawSphere(drawX, drawY, sphereRadius, g);
-    }
-
-    private void drawSphere(double drawX, double drawY, double sphereRadius, Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        g2d.drawOval((int) drawX, (int) drawY, (int) sphereRadius, (int) sphereRadius);
-    }
-
     @Override
     public void paintComponent(Graphics g) {
 
         g2d = (Graphics2D) g;
-        // super.paintComponent(g);
 
         g2d.drawImage(imageBoard, 0, 0, null);
 
         g2d.setColor(Color.BLUE);
         g2d.setStroke(new BasicStroke(8f));
-        // g2d.drawLine(10, 10, 10, 700);
 
-        timeCanon += 1;
-        // drawOrbitingSphere(timeCanon, g);
-        canon.radianChanged(theta, g2d);
-        // System.out.println((int) (getBounds().getWidth() / 2) + "position ligne");
-        g2d.drawLine((int) sourisX, (int) sourisY, (int) (getBounds().getWidth() / 2), 0);
-        // pc.drawPeg(g2d);
-        // pc.pegTouchdown();
+        /* changing  */
+        boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
 
-        g2d.drawOval(x, y, 200, 40);
+        g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
+
+        boardModel.getBall().setXInitial(boardModel.getCanon().getCanonX());
+        boardModel.getBall().setYInitial(boardModel.getCanon().getCanonY());
+
+        System.out.println(boardModel.getCanon().getCanonX() + " " +boardModel.getCanon().getCanonY() );
+
+        /* updating the ball's image */
+        boardModel.getBall().updateImgBall();
+        add(boardModel.getBall().getLabelImgBall()) ;
+
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -163,9 +131,13 @@ public class Board extends JPanel implements MouseInputListener {
         @Override
         public void run() {
             x += 0.555;
+            time += 0.015; 
+            //old
+            //ball.move(time) ;
 
-            repaint();
-            boardCenter.repaint();
+            /* new */
+            boardModel.getBall().move(time);
+            repaint();        
         }
     }
 
@@ -174,19 +146,10 @@ public class Board extends JPanel implements MouseInputListener {
         // TODO Auto-generated method stub
 
         System.out.println("mouseClicked");
-
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-        // canon.radianChanged(Math.acos(theta), g2d);
-        System.out.println(theta);
-        System.out.println(Math.abs(e.getY() - 50)
-                / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
-        System.out.println(e.getY() - 50);
-        System.out.println(e.getX() - getBounds().getWidth() / 2);
 
     }
 
@@ -216,18 +179,35 @@ public class Board extends JPanel implements MouseInputListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
         double angle = Math.acos(Math.abs(e.getY() - 50)
                 / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
         if (e.getX() < getBounds().getWidth() / 2)
-            angle = -angle;//
-        theta = angle - Math.PI / 2;
+            angle = -angle;
+        double theta = angle - Math.PI / 2;
+
+        boardModel.setThetaCanon(theta) ;
+
         sourisX = e.getX();
         sourisY = e.getY();
+
+        double hypothenuse = Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)) ;
+        //angleChute = Math.acos((e.getY() - 50) / hypothenuse);
+        //ball.setTheta(angleChute);
     }
 
     public void setWidthScreen(double w) {
-        canon.setOrbX(w);
+        double var = w - (2.0 / 8.0) * w ;
+        // /* old */
+        // canon.setOrbX(var);
+
+        /* New */
+        boardModel.getCanon().setOrbX(var);
+
+        System.out.println(" var " + var + " w = " + w + " calcul = " + var);
+    }
+
+    public void setDimensionFrame(Dimension w){
+        DimensionFrame = w ;
     }
 
 }

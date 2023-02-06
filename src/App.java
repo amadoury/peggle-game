@@ -46,12 +46,15 @@ public class App extends JFrame {
 
         pack();
 
-        System.out.println("dim board" + board.getSize());
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
+        System.out.println(" toolkit dim " + dim);
+
+        System.out.println("dim frame " + getBounds().getWidth() / 2);
         board.setDimensionBoard(board.getSize());
 
         dimensionFrame = this.getBounds().getSize();
-
-        System.out.println("dim frame" + dimensionFrame);
+        System.out.println("dim frame " + dimensionFrame);
+        System.out.println("dim board " +  board.getWidth()) ;
 
         board.setWidthScreen(dimensionFrame.getWidth() - dimensionFrame.getWidth() / 8 * 2);
 
