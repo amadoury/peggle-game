@@ -40,25 +40,16 @@ public class Canon {
         // way
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel = new JLabel(imageIcon);
-        // jlabel.setSize(200, 200);
-        // jlabel.setBounds((int) orbX, (int) orbY, (int) 200, (int) 200);
     }
 
     void radianChanged(double r, Graphics g) {
         radian = r;
         canonX = orbitX + orbitRayon * Math.cos(radian) - (3. / 4.) * orbitRayon;
         canonY = orbitY - orbitRayon * Math.sin(radian);
-        drawCanon(canonX, canonY, 50, g);
         rotateCanon(r, (Graphics2D) g);
     }
 
-    private void drawCanon(double drawX, double drawY, double sphereRadius, Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawOval((int) drawX, (int) drawY, (int) sphereRadius, (int) sphereRadius);
-    }
-
     public void setOrbX(double d) {
-        System.out.println(d / 2 + "position orbit canon");
         orbitX = d / 2;
         jlabel.setBounds((int) (orbitX - (3. / 4.) * orbitRayon - orbitRayon / 2), (int) (orbitY - orbitRayon / 2),
                 (int) orbitRayon * 2,
@@ -67,8 +58,8 @@ public class Canon {
 
     public void rotateCanon(double radian, Graphics2D g2d) {
         final double rads = -radian - Math.PI / 2;
-        final double sin = Math.abs(Math.sin(rads));
-        final double cos = Math.abs(Math.cos(rads));
+        // final double sin = Math.abs(Math.sin(rads));
+        // final double cos = Math.abs(Math.cos(rads));
         final int w = (int) Math.floor(imageBasic.getWidth());
         final int h = (int) Math.floor(imageBasic.getHeight());
         final BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
@@ -87,32 +78,6 @@ public class Canon {
         ImageIcon imageIcon = new ImageIcon(newimg); // transform it back
         jlabel.setIcon(imageIcon);
 
-    }
-
-    public BufferedImage rotateImageByDegrees(BufferedImage img, double angle, Graphics2D g2d) {
-        double rads = angle;
-        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
-        int w = img.getWidth();
-        int h = img.getHeight();
-        int newWidth = (int) Math.floor(w * cos + h * sin);
-        int newHeight = (int) Math.floor(h * cos + w * sin);
-
-        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-        g2d = rotated.createGraphics();
-        AffineTransform at = new AffineTransform();
-        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
-
-        int x = w / 2;
-        int y = h / 2;
-
-        at.rotate(rads, x, y);
-        g2d.setTransform(at);
-        ((Graphics) g2d).drawImage(img, 100, 100, null);
-        g2d.setColor(Color.RED);
-        g2d.drawRect(0, 0, newWidth - 1, newHeight - 1);
-        g2d.dispose();
-
-        return rotated;
     }
 
     public JLabel getJlabel() {

@@ -10,7 +10,6 @@ import java.util.Timer;
 public class Board extends JPanel implements MouseInputListener {
 
     private Timer timer;
-    private int x = 25;
     private Dimension dimensionBoard;
     private Dimension DimensionFrame;
 
@@ -21,20 +20,14 @@ public class Board extends JPanel implements MouseInputListener {
 
     Graphics2D g2d;
 
-    private double sourisX;
-    private double sourisY;
-
     private Image imageBoard;
-    private PegCercle pc;
-
-    private double widthScreen;
 
     public Board() {
         initBoard();
     }
 
     private void initBoard() {
-        loadImage("src/ressources/bgd-peggle-img-1.jpg");
+        loadImage("ressources/bgd-peggle-img-1.jpg");
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
@@ -42,16 +35,12 @@ public class Board extends JPanel implements MouseInputListener {
 
         boardModel = new BoardModel();
 
-        // canon = new Canon(getBounds().getWidth() / 2, 0, 50);
         add(boardModel.getCanon().getJlabel());
-        pc = new PegCercle(500, 500, 50, "Bleu");
-        // add(pc.getJlabel());
+
         PegGenerator generator = new PegGenerator();
         for (int i = 0; i < generator.getPegListe().size(); ++i) {
             add(generator.getPegListe().get(i).getJlabel());
         }
-        // pc.getJlabel().setBounds((int) pc.getPegX(), (int) pc.getPegY(), (int)
-        // pc.getRayon(), (int) pc.getRayon());
 
         // timer : animation
         final int INITIAL_DELAY = 100;
@@ -82,12 +71,8 @@ public class Board extends JPanel implements MouseInputListener {
         /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
 
-        g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
-
         boardModel.getBall().setXInitial(boardModel.getCanon().getCanonX());
         boardModel.getBall().setYInitial(boardModel.getCanon().getCanonY());
-
-        System.out.println(boardModel.getCanon().getCanonX() + " " + boardModel.getCanon().getCanonY());
 
         /* updating the ball's image */
         boardModel.getBall().updateImgBall();
@@ -102,7 +87,6 @@ public class Board extends JPanel implements MouseInputListener {
     private class ScheduleTask extends TimerTask {
         @Override
         public void run() {
-            x += 0.555;
             time += 0.015;
             // old
             // ball.move(time) ;
@@ -116,8 +100,6 @@ public class Board extends JPanel implements MouseInputListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
-
-        System.out.println("mouseClicked");
     }
 
     @Override
@@ -159,9 +141,6 @@ public class Board extends JPanel implements MouseInputListener {
 
         boardModel.setThetaCanon(theta);
 
-        sourisX = e.getX();
-        sourisY = e.getY();
-
         double hypothenuse = Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2));
         // angleChute = Math.acos((e.getY() - 50) / hypothenuse);
         // ball.setTheta(angleChute);
@@ -169,13 +148,10 @@ public class Board extends JPanel implements MouseInputListener {
 
     public void setWidthScreen(double w) {
         double var = w - (2.0 / 8.0) * w;
-        // /* old */
-        // canon.setOrbX(var);
 
         /* New */
         boardModel.getCanon().setOrbX(var);
 
-        System.out.println(" var " + var + " w = " + w + " calcul = " + var);
     }
 
     public void setDimensionFrame(Dimension w) {
