@@ -29,8 +29,6 @@ public class App extends JFrame {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 3;
         c.ipady = 1500;
-        // System.out.println(dimensionFrame.getHeight());
-        // System.out.println((int) dimensionFrame.getHeight());
         c.gridx = 1;
         c.gridy = 0;
         Board board = new Board();
@@ -42,21 +40,15 @@ public class App extends JFrame {
         c.gridy = 0;
         add(right, c);
 
-        // System.out.println(dimensionFrame);
-
         pack();
 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
-        System.out.println(" toolkit dim " + dim);
+        //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
 
-        System.out.println("dim frame " + getBounds().getWidth() / 2);
         board.setDimensionBoard(board.getSize());
 
         dimensionFrame = this.getBounds().getSize();
-        System.out.println("dim frame " + dimensionFrame);
-        System.out.println("dim board " +  board.getWidth()) ;
 
-        board.setWidthScreen(dimensionFrame.getWidth() - dimensionFrame.getWidth() / 8 * 2);
+        board.setWidthScreen(dimensionFrame.getWidth());
 
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

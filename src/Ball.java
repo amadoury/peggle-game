@@ -23,12 +23,10 @@ public class Ball {
         this.x_initial = x_initial;
         this.y_initial = y_initial;
         this.thetha = Math.toRadians(thetha) ;
-        //this.board = board ;
         imageBall = new ImageIcon(this.getClass().getResource(path)) ;
         labelImgBall = new JLabel(imageBall) ;
         labelImgBall.setSize(75, 75);
         labelImgBall.setBounds((int)(x_initial + widthBall / 2) , (int)y_initial, widthBall, widthBall);
-        System.out.println("rect : " + rectBoard);
     }
 
     public JLabel getLabelImgBall() {
@@ -42,8 +40,8 @@ public class Ball {
        else {
             labelImgBall.setBounds((int)xt, (int)yt, widthBall, widthBall);
        }
+      //labelImgBall.setBounds((int)xt, (int)yt, widthBall, widthBall);
     }
-
 
     public double XInitial() {
         return x_initial;
@@ -77,14 +75,32 @@ public class Ball {
         return yt;
     }
 
+    public boolean isBallStart() {
+        return this.startBall ;
+    }
+
+    public void setStartBall(boolean start){
+        startBall = start ;
+    }
+
     public void setTheta(double thetha) {
         this.thetha = thetha;
     }
 
+    /* updating ball  */
+    public void updateBall(double dt){
+        updateCoordBall(dt);
+    }
+
     // met à jour les coordonnées de la balle à l'instant dt
-    public void move(double dt) {
+    public void updateCoordBall(double dt) {
         double xt_before = xt(dt) ;
         double yt_before = yt(dt) ;
+
+        xt = xt_before ;
+        yt = yt_before ;
+
+        System.out.println("xt " + xt + " yt " + yt);
 
         // if ((xt_before + radiusBall > 0) && ((xt_before + radiusBall) < rectBoard.getWidth())) {
         //     xt = xt_before ;
@@ -96,8 +112,7 @@ public class Ball {
         //     xt = -xt_before ;
         // }
 
-
-        yt = yt(dt);
+        //yt = yt(dt);
     }
 
     // calcule la position x de la balle à l'instant dt passé en argumant
