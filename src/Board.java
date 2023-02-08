@@ -148,9 +148,13 @@ public class Board extends JPanel implements MouseInputListener {
 
     public void setWidthScreen(double w) {
         double var = w - (2.0 / 8.0) * w;
-
+        boardModel.getBall().setWidthBoard(var);
         /* New */
         boardModel.getCanon().setOrbX(var);
+    }
+
+    public void setHeightScreen(double w) {
+        boardModel.getBall().setHeightBoard(w);
     }
 
     public void setDimensionFrame(Dimension w) {

@@ -38,6 +38,7 @@ public class BoardModel {
 
     public void setAngleChute(double angleChute) {
         this.angleChute = angleChute;
+        ball.setTheta(angleChute);
     }
 
     public double getThetaCanon() {

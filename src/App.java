@@ -49,6 +49,11 @@ public class App extends JFrame {
         dimensionFrame = this.getBounds().getSize();
 
         board.setWidthScreen(dimensionFrame.getWidth());
+        board.setHeightScreen(dimensionFrame.getHeight());
+
+
+        System.out.println(dimensionFrame);
+
 
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
