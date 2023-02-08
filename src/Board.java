@@ -71,9 +71,6 @@ public class Board extends JPanel implements MouseInputListener {
         /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
 
-        // g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2,
-        // 0);
-
         boardModel.getBall().setXInitial(boardModel.getCanon().getCanonX());
         boardModel.getBall().setYInitial(boardModel.getCanon().getCanonY());
 

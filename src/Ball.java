@@ -9,7 +9,7 @@ public class Ball {
     private double y_initial; // position y initial de la balle
     private double thetha; // angle
     private final double vInitial = 300; // vitesse initiale
-    private final double g = 9.81; // acceleration de la pesanteur
+    private final double g = 9.81 * 5 ; // acceleration de la pesanteur
     private final String path = "ressources/ball2.png" ;
     private Rectangle rectBoard ;
     private Icon imageBall ;
@@ -22,7 +22,7 @@ public class Ball {
     public Ball(double x_initial, double y_initial, double thetha) {
         this.x_initial = x_initial;
         this.y_initial = y_initial;
-        this.thetha = Math.toRadians(thetha) ;
+       // this.thetha = Math.toRadians(thetha) ;
         imageBall = new ImageIcon(this.getClass().getResource(path)) ;
         labelImgBall = new JLabel(imageBall) ;
         labelImgBall.setSize(75, 75);
@@ -84,7 +84,7 @@ public class Ball {
     }
 
     public void setTheta(double thetha) {
-        this.thetha = thetha;
+        this.thetha = thetha + Math.PI / 2 ;
     }
 
     /* updating ball  */
@@ -102,29 +102,28 @@ public class Ball {
 
         System.out.println("xt " + xt + " yt " + yt);
 
-        // if ((xt_before + radiusBall > 0) && ((xt_before + radiusBall) < rectBoard.getWidth())) {
-        //     xt = xt_before ;
-        // }
-        // else if ((xt_before + radiusBall) >= rectBoard.getWidth()) {
-        //     xt = -xt_before ;
-        // }
-        // else if (xt_before + (widthBall / 2) <= 0){
-        //     xt = -xt_before ;
-        // }
-
+        if ((xt_before + radiusBall > 0)) {
+            xt = xt_before ;
+        }
+        else if ((xt_before + radiusBall) >= rectBoard.getWidth()) {
+            xt = -xt_before ;
+        }
+        else if (xt_before + (widthBall / 2) <= 0){
+            xt = -xt_before ;
+        }
         //yt = yt(dt);
     }
 
     // calcule la position x de la balle à l'instant dt passé en argumant
     private double xt(double dt) {
-        //return vInitial * Math.sin(thetha) * dt + x_initial;
-        return vInitial * dt + x_initial;
+        return vInitial * Math.sin(thetha) * dt + x_initial;
+        //return vInitial * dt + x_initial;
     }
 
     // calcule la position y de la balle à l'instant dt passé en argumant
     private double yt(double dt) {
-        //return 0.5 * g * (dt * dt) + (vInitial * Math.cos(thetha) * dt) + y_initial ;
-        return 0.5 * g * (dt * dt) + (vInitial * dt) + y_initial ;
+        return 0.5 * g * (dt * dt) + (vInitial * Math.cos(thetha) * dt) + y_initial ;
+       // return 0.5 * g * (dt * dt) + (vInitial * dt) + y_initial ;
     }
 
     public void drawBall(Graphics g){
