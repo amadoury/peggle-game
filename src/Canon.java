@@ -27,7 +27,7 @@ public class Canon {
         canonX = orbitX + orbitRayon * Math.cos(radian);
         canonY = orbitY - (orbitRayon * Math.sin(radian));
         try {
-            imageBasic = ImageIO.read(new File("src/ressources/cannon.png"));
+            imageBasic = ImageIO.read(new File("ressources/cannon.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
