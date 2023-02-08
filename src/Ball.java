@@ -11,7 +11,8 @@ public class Ball {
     private final double vInitial = 300; // vitesse initiale
     private final double g = 9.81 * 5 ; // acceleration de la pesanteur
     private final String path = "ressources/ball2.png" ;
-    private Rectangle rectBoard ;
+    private double widthBoard ;
+    private double heightBoard ;
     private Icon imageBall ;
     private JLabel labelImgBall ;
     private int widthBall = 45 ;
@@ -83,6 +84,14 @@ public class Ball {
         startBall = start ;
     }
 
+    public void setWidthBoard(double widthBoard) {
+        this.widthBoard = widthBoard;
+    }
+
+    public void setHeightBoard(double heightBoard) {
+        this.heightBoard = heightBoard;
+    }
+
     public void setTheta(double thetha) {
         this.thetha = thetha + Math.PI / 2 ;
     }
@@ -90,6 +99,7 @@ public class Ball {
     /* updating ball  */
     public void updateBall(double dt){
         updateCoordBall(dt);
+        resetBall();
     }
 
     // met à jour les coordonnées de la balle à l'instant dt
@@ -97,21 +107,30 @@ public class Ball {
         double xt_before = xt(dt) ;
         double yt_before = yt(dt) ;
 
-        xt = xt_before ;
-        yt = yt_before ;
+        //System.out.println( " width board " +widthBoard + "height : " + heightBoard);
 
         System.out.println("xt " + xt + " yt " + yt);
 
         if ((xt_before + radiusBall > 0)) {
             xt = xt_before ;
         }
-        else if ((xt_before + radiusBall) >= rectBoard.getWidth()) {
+        if ((xt_before + radiusBall) >= widthBoard ) {
+            double tmp = xt_before - widthBoard ;
+
+            xt = widthBoard - tmp ;
+        }
+        if (xt_before + (widthBall / 2) <= 0){
             xt = -xt_before ;
         }
-        else if (xt_before + (widthBall / 2) <= 0){
-            xt = -xt_before ;
+        yt = yt(dt);
+    }
+
+    public void resetBall() {
+        if (yt + 2 * widthBall >= heightBoard){
+            xt = x_initial ;
+            yt = y_initial ;
+            startBall = false ;
         }
-        //yt = yt(dt);
     }
 
     // calcule la position x de la balle à l'instant dt passé en argumant
@@ -131,7 +150,5 @@ public class Ball {
         g2d.drawOval((int)(xt + widthBall / 2) , (int)yt, 20, 20) ;
     }
 
-    public void setRectBoard(Rectangle rect){
-        this.rectBoard = rect ;
-    }
+
 }
