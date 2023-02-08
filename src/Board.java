@@ -16,7 +16,7 @@ public class Board extends JPanel implements MouseInputListener {
     /* BoardModel */
     BoardModel boardModel;
 
-    private double time = 1;
+    private double time = 0.015;
 
     Graphics2D g2d;
 
@@ -33,13 +33,13 @@ public class Board extends JPanel implements MouseInputListener {
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
 
+        /* Initialisation of boardModel */
         boardModel = new BoardModel();
 
         add(boardModel.getCanon().getJlabel());
-
         PegGenerator generator = new PegGenerator();
-        for (int i = 0; i < generator.getPegListe().size(); ++i) {
-            add(generator.getPegListe().get(i).getJlabel());
+        for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
+            add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
         }
 
         // timer : animation
@@ -71,13 +71,15 @@ public class Board extends JPanel implements MouseInputListener {
         /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
 
+        // g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2,
+        // 0);
+
         boardModel.getBall().setXInitial(boardModel.getCanon().getCanonX());
         boardModel.getBall().setYInitial(boardModel.getCanon().getCanonY());
 
         /* updating the ball's image */
         boardModel.getBall().updateImgBall();
         add(boardModel.getBall().getLabelImgBall());
-
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -87,19 +89,20 @@ public class Board extends JPanel implements MouseInputListener {
     private class ScheduleTask extends TimerTask {
         @Override
         public void run() {
-            time += 0.015;
-            // old
-            // ball.move(time) ;
-
+            if (boardModel.getBall().isBallStart())
+                time += 0.015;
+            else {
+                time = 0.015;
+            }
             /* new */
-            boardModel.getBall().move(time);
+            boardModel.updateBoardModel(time);
             repaint();
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
+        boardModel.setBallStart(true);
     }
 
     @Override
@@ -151,7 +154,6 @@ public class Board extends JPanel implements MouseInputListener {
 
         /* New */
         boardModel.getCanon().setOrbX(var);
-
     }
 
     public void setDimensionFrame(Dimension w) {

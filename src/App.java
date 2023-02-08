@@ -42,7 +42,8 @@ public class App extends JFrame {
 
         pack();
 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
+
         board.setDimensionBoard(board.getSize());
 
         dimensionFrame = this.getBounds().getSize();

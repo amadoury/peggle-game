@@ -9,9 +9,7 @@ public class BoardModel {
     private double xInitBall = 0 ;
     private double yInitBall = 0 ;
     private double angleChute = -60;
-
-    private final double vInitial = 200 ; /* initial speed of the ball */
-
+    PegGenerator generator ;
 
     public BoardModel () {
         initBoardModel() ;
@@ -23,6 +21,7 @@ public class BoardModel {
         xInitBall  = canon.getCanonX() ;
         yInitBall = canon.getCanonY() ;
         ball = new Ball(xInitBall, yInitBall, angleChute) ;
+        generator = new PegGenerator();
     }
 
     public Canon getCanon(){
@@ -37,8 +36,23 @@ public class BoardModel {
         this.thetaCanon = theta ;
     }
 
+    public void setAngleChute(double angleChute) {
+        this.angleChute = angleChute;
+    }
+
     public double getThetaCanon() {
         return thetaCanon;
     }
 
+    public PegGenerator getGenerator() {
+        return generator ;
+    }
+
+    public void updateBoardModel(double dt){
+        ball.updateBall(dt);
+    }
+
+    public void setBallStart(boolean b){
+        ball.setStartBall(b);
+    }
 }
