@@ -20,8 +20,6 @@ public class Board extends JPanel implements MouseInputListener {
 
     Graphics2D g2d;
 
-    private double sourisX;
-    private double sourisY;
 
     private Image imageBoard;
 
@@ -73,8 +71,6 @@ public class Board extends JPanel implements MouseInputListener {
 
         /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
-
-        //g2d.drawLine((int) sourisX, (int) sourisY, (int) getBounds().getWidth() / 2, 0);
 
         boardModel.getBall().setXInitial(boardModel.getCanon().getCanonX());
         boardModel.getBall().setYInitial(boardModel.getCanon().getCanonY());
@@ -145,9 +141,8 @@ public class Board extends JPanel implements MouseInputListener {
         double theta = angle - Math.PI / 2;
 
         boardModel.setThetaCanon(theta);
+        boardModel.setAngleChute(theta);
 
-        sourisX = e.getX();
-        sourisY = e.getY();
 
         double hypothenuse = Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2));
         // angleChute = Math.acos((e.getY() - 50) / hypothenuse);
