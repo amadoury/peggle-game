@@ -7,6 +7,7 @@ public abstract class Peg {
     protected int pegX;
     protected int pegY;
     protected boolean touched;
+    protected boolean destructed;
 
     Peg(int x, int y) {
         pegX = x;
@@ -30,8 +31,19 @@ public abstract class Peg {
     }
 
     public void updatePeg() {
-        if (touched)
+        if (touched) {
             delete();
+            destructed = true;
+        }
+
+    }
+
+    public boolean isTouched() {
+        return touched;
+    }
+
+    public boolean isDestructed() {
+        return destructed;
     }
 
     public abstract void delete();

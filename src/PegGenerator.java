@@ -71,7 +71,7 @@ public class PegGenerator {
     public Peg contact(Ball b) {// retourne null si contact avec aucun peg
         for (int i = 0; i < pegListe.size(); ++i) {
             Peg p = pegListe.get(i);
-            if (p instanceof PegCercle) {
+            if (p instanceof PegCercle && !p.isDestructed()) {
                 double normeVect = (Math
                         .sqrt(Math.pow(b.getXt() - p.getPegX(), 2) + Math.pow(b.getYt() - p.getPegY(), 2)));
                 if (normeVect <= ((PegCercle) p).getRayon() + b.getRayon()) {
