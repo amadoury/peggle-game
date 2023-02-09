@@ -10,7 +10,6 @@ public class PegCercle extends Peg {
     private BufferedImage image;
     private JLabel jlabel;
     private String color;
-    private boolean touched;
 
     PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
         super(x, y);
@@ -18,12 +17,13 @@ public class PegCercle extends Peg {
         color = c;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance((int) rayon, (int) rayon, java.awt.Image.SCALE_SMOOTH); // scale it the
-                                                                                                       // smooth way
+        Image newimg = image.getScaledInstance((int) 2 * rayon, (int) 2 * rayon, java.awt.Image.SCALE_SMOOTH); // scale
+                                                                                                               // it the
+        // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel = new JLabel(imageIcon);
         // jlabel.setSize(rayon * 2, rayon * 2);
-        jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) rayon, (int) rayon);
+        jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) 2 * rayon, (int) 2 * rayon);
     }
 
     public int getRayon() {
@@ -46,10 +46,6 @@ public class PegCercle extends Peg {
         return jlabel;
     }
 
-    public boolean isTouched() {
-        return touched;
-    }
-
     @Override
     public void pegTouchdown() {
         if (touched)
@@ -61,6 +57,11 @@ public class PegCercle extends Peg {
                                                                                                    // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel.setIcon(imageIcon);
+    }
+
+    @Override
+    public void delete() {
+        jlabel.setIcon(null);
     }
 
 }

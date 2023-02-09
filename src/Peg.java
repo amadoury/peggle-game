@@ -6,6 +6,7 @@ public abstract class Peg {
 
     protected int pegX;
     protected int pegY;
+    protected boolean touched;
 
     Peg(int x, int y) {
         pegX = x;
@@ -27,6 +28,13 @@ public abstract class Peg {
     public void setPegY(int pegY) {
         this.pegY = pegY;
     }
+
+    public void updatePeg() {
+        if (touched)
+            delete();
+    }
+
+    public abstract void delete();
 
     public abstract void drawPeg(Graphics2D g);
 

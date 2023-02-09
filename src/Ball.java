@@ -12,7 +12,7 @@ public class Ball {
     private double vitesseX;
     private double vitesseY;
     private final double g = 9.81 * 5; // acceleration de la pesanteur
-    private final String path = "ressources/ball2.png";
+    private final String path = "ressources/ball.png";
     private double widthBoard;
     private double heightBoard;
     private JLabel labelImgBall;
@@ -21,13 +21,15 @@ public class Ball {
     private Board board;
     private boolean startBall = false;
     private int rayon;
+    private BoardModel boardModel;
 
-    public Ball(double x_initial, double y_initial, double thetha, int r) {
+    public Ball(double x_initial, double y_initial, double thetha, int r, BoardModel bm) {
         this.x_initial = x_initial;
         this.y_initial = y_initial;
         xt = x_initial;
         yt = y_initial;
         rayon = r;
+        boardModel = bm;
         // this.thetha = Math.toRadians(thetha) ;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource(path));
         labelImgBall = new JLabel(imageIcon);
@@ -149,6 +151,7 @@ public class Ball {
             xt = x_initial;
             yt = y_initial;
             startBall = false;
+            boardModel.retireAllTouched();
         }
     }
 
@@ -181,7 +184,7 @@ public class Ball {
             vitesseY -= 2 * produitScalaire * vectOthogonalY;
             // vitesseX *= 0.8;
             // vitesseY *= 0.8;
-            // p.pegTouchdown();
+            p.pegTouchdown();
         }
     }
 

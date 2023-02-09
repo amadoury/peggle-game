@@ -12,7 +12,7 @@ public class PegGenerator {
     PegGenerator() {
         // circleOfPeg(200, 20, 200, 200);
         // lineHorizontalOfPeg(50, 100, 100, 900, 60);
-        multipleLinesOfPeg(25, 100, 250, 900, 80, 7);
+        multipleLinesOfPeg(12, 100, 250, 900, 80, 7);
         // pegListe.add(null);
     }
 
@@ -80,5 +80,12 @@ public class PegGenerator {
             }
         }
         return null;
+    }
+
+    public void retireAllTouched() {
+        for (int i = 0; i < pegListe.size(); ++i) {
+            pegListe.get(i).updatePeg();
+            ;
+        }
     }
 }

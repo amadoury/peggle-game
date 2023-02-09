@@ -20,7 +20,7 @@ public class BoardModel {
         canon = new Canon(0, 25, 50);
         xInitBall = canon.getCanonX();
         yInitBall = canon.getCanonY();
-        ball = new Ball(xInitBall, yInitBall, angleChute, 12);
+        ball = new Ball(xInitBall, yInitBall, angleChute, 12, this);
         generator = new PegGenerator();
     }
 
@@ -59,5 +59,9 @@ public class BoardModel {
 
     public void contact() {
         ball.contactPeg(generator.contact(ball));
+    }
+
+    public void retireAllTouched() {
+        generator.retireAllTouched();
     }
 }
