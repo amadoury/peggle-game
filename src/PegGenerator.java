@@ -12,7 +12,7 @@ public class PegGenerator {
     PegGenerator() {
         // circleOfPeg(200, 20, 200, 200);
         // lineHorizontalOfPeg(50, 100, 100, 900, 60);
-        multipleLinesOfPeg(25, 100, 250, 900, 60, 7);
+        multipleLinesOfPeg(25, 100, 250, 900, 80, 7);
         // pegListe.add(null);
     }
 
@@ -25,7 +25,7 @@ public class PegGenerator {
         }
     }
 
-    void lineHorizontalOfPeg(double radius, int coordX, int coordY, int length, int pegSpacing) {
+    void lineHorizontalOfPeg(int radius, int coordX, int coordY, int length, int pegSpacing) {
         String c = "bleu";
         Random r = new Random();
         int numberOfOrangePeg = r.nextInt(5) + 2;
@@ -43,7 +43,7 @@ public class PegGenerator {
         }
     }
 
-    void multipleLinesOfPeg(double radius, int coordX, int coordY, int length, int pegSpacing, int numberLines) {
+    void multipleLinesOfPeg(int radius, int coordX, int coordY, int length, int pegSpacing, int numberLines) {
         for (int i = 0; i < numberLines * pegSpacing; i += pegSpacing) {
             if (i / pegSpacing % 2 == 0)
                 coordX += pegSpacing / 2;
@@ -66,5 +66,19 @@ public class PegGenerator {
         l = l.subList(0, len);
         Collections.sort(l);
         return l;
+    }
+
+    public Peg contact(Ball b) {// retourne null si contact avec aucun peg
+        for (int i = 0; i < pegListe.size(); ++i) {
+            Peg p = pegListe.get(i);
+            if (p instanceof PegCercle) {
+                double normeVect = (Math
+                        .sqrt(Math.pow(b.getXt() - p.getPegX(), 2) + Math.pow(b.getYt() - p.getPegY(), 2)));
+                if (normeVect <= ((PegCercle) p).getRayon() + b.getRayon()) {
+                    return p;
+                }
+            }
+        }
+        return null;
     }
 }

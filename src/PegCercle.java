@@ -6,30 +6,31 @@ import javax.swing.*;
 
 public class PegCercle extends Peg {
 
-    private double rayon;
+    private int rayon;
     private BufferedImage image;
     private JLabel jlabel;
     private String color;
+    private boolean touched;
 
-    PegCercle(int x, int y, double r, String c) {// couleur avec majuscue
+    PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
         super(x, y);
         rayon = r;
         color = c;
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + "@1x.png"));
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance((int) rayon, (int) rayon, java.awt.Image.SCALE_SMOOTH); // scale it the
                                                                                                        // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel = new JLabel(imageIcon);
-        jlabel.setSize(50, 50);
-        jlabel.setBounds((int) pegX, (int) pegY, (int) rayon, (int) rayon);
+        // jlabel.setSize(rayon * 2, rayon * 2);
+        jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) rayon, (int) rayon);
     }
 
-    public double getRayon() {
+    public int getRayon() {
         return rayon;
     }
 
-    public void setRayon(double rayon) {
+    public void setRayon(int rayon) {
         this.rayon = rayon;
     }
 
@@ -45,11 +46,19 @@ public class PegCercle extends Peg {
         return jlabel;
     }
 
+    public boolean isTouched() {
+        return touched;
+    }
+
     @Override
     public void pegTouchdown() {
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + "-glow@1x.png"));
+        if (touched)
+            return;
+        touched = true;
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + "-glow.png"));
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(rayon * 2, rayon * 2, java.awt.Image.SCALE_SMOOTH); // scale it the
+                                                                                                   // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel.setIcon(imageIcon);
     }

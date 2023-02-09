@@ -37,7 +37,6 @@ public class Board extends JPanel implements MouseInputListener {
         boardModel = new BoardModel();
 
         add(boardModel.getCanon().getJlabel());
-        PegGenerator generator = new PegGenerator();
         for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
             add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
         }
@@ -77,6 +76,7 @@ public class Board extends JPanel implements MouseInputListener {
         /* updating the ball's image */
         boardModel.getBall().updateImgBall();
         add(boardModel.getBall().getLabelImgBall());
+        boardModel.contact();
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -133,17 +133,21 @@ public class Board extends JPanel implements MouseInputListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        double angle = Math.acos(Math.abs(e.getY() - 50)
-                / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
-        if (e.getX() < getBounds().getWidth() / 2)
-            angle = -angle;
-        double theta = angle - Math.PI / 2;
+        if (!boardModel.getBall().isBallStart()) {
+            double normeVect = (Math
+                    .sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)));
+            double angle = Math.acos(Math.abs(e.getY() - 50)
+                    / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
+            if (e.getX() < getBounds().getWidth() / 2)
+                angle = -angle;
+            double theta = angle - Math.PI / 2;
 
-        boardModel.setThetaCanon(theta);
-
-        double hypothenuse = Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2));
-        // angleChute = Math.acos((e.getY() - 50) / hypothenuse);
-        // ball.setTheta(angleChute);
+            boardModel.setThetaCanon(theta);
+            // boardModel.setAngleChute(theta);
+            boardModel.getBall().setVitesseX((e.getX() - getBounds().getWidth() / 2) / normeVect);
+            System.out.println(e.getY() / normeVect);
+            boardModel.getBall().setVitesseY(e.getY() / normeVect);
+        }
     }
 
     public void setWidthScreen(double w) {

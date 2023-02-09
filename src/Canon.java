@@ -44,14 +44,14 @@ public class Canon {
 
     void radianChanged(double r, Graphics g) {
         radian = r;
-        canonX = orbitX + orbitRayon * Math.cos(radian) - (3. / 4.) * orbitRayon;
+        canonX = orbitX + orbitRayon * Math.cos(radian);// - (3. / 4.) * orbitRayon
         canonY = orbitY - orbitRayon * Math.sin(radian);
         rotateCanon(r, (Graphics2D) g);
     }
 
-    public void setOrbX(double d) {
+    public void setOrbX(double d) {// - (3. / 4.) * orbitRayon
         orbitX = d / 2;
-        jlabel.setBounds((int) (orbitX - (3. / 4.) * orbitRayon - orbitRayon / 2), (int) (orbitY - orbitRayon / 2),
+        jlabel.setBounds((int) (orbitX - orbitRayon), (int) (orbitY - orbitRayon),
                 (int) orbitRayon * 2,
                 (int) orbitRayon * 2);
     }
