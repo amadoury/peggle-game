@@ -27,7 +27,7 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     private void initBoard() {
-        loadImage("ressources/bgd-peggle-img-1.jpg");
+        loadImage("src/ressources/bgd-peggle-img-1.jpg");
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
