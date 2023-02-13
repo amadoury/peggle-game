@@ -8,6 +8,7 @@ public class App extends JFrame {
 
     private JPanel left = new JPanel();
     private JPanel right = new JPanel();
+    private Board board;
 
     public App() {
         initUI();
@@ -31,7 +32,7 @@ public class App extends JFrame {
         c.ipady = 1500;
         c.gridx = 1;
         c.gridy = 0;
-        Board board = new Board();
+        board = new Board();
         add(board, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -51,9 +52,7 @@ public class App extends JFrame {
         board.setWidthScreen(dimensionFrame.getWidth());
         board.setHeightScreen(dimensionFrame.getHeight());
 
-
         System.out.println(dimensionFrame);
-
 
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,6 +80,8 @@ public class App extends JFrame {
 
         public void componentResized(ComponentEvent e) {
             dimensionFrame = e.getComponent().getBounds().getSize();
+            board.setWidthScreen(dimensionFrame.getWidth());
+            board.setHeightScreen(dimensionFrame.getHeight());
         }
     }
 }

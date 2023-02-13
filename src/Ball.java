@@ -9,6 +9,8 @@ public class Ball {
     private double y_initial; // position y initial de la balle
     private double thetha; // angle
     private final double vInitial = 300; // vitesse initiale
+    private double vitesseX_initial;
+    private double vitesseY_initial;
     private double vitesseX;
     private double vitesseY;
     private final double g = 9.81 * 5; // acceleration de la pesanteur
@@ -118,10 +120,12 @@ public class Ball {
     }
 
     public void setVitesseX(double vitesseX) {
+        vitesseX_initial = vitesseX;
         this.vitesseX = vitesseX;
     }
 
     public void setVitesseY(double vitesseY) {
+        vitesseY_initial = vitesseY;
         this.vitesseY = vitesseY;
     }
 
@@ -149,6 +153,8 @@ public class Ball {
             yt = y_initial;
             startBall = false;
             boardModel.retireAllTouched();
+            vitesseX = vitesseX_initial;
+            vitesseY = vitesseY_initial;
         }
     }
 

@@ -12,6 +12,8 @@ public class Board extends JPanel implements MouseInputListener {
     private Timer timer;
     private Dimension dimensionBoard;
     private Dimension DimensionFrame;
+    private double width;
+    private double height;
 
     /* BoardModel */
     BoardModel boardModel;
@@ -62,7 +64,7 @@ public class Board extends JPanel implements MouseInputListener {
 
         g2d = (Graphics2D) g;
 
-        g2d.drawImage(imageBoard, 0, 0, null);
+        g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null, null);
 
         g2d.setColor(Color.BLUE);
         g2d.setStroke(new BasicStroke(8f));
@@ -99,12 +101,12 @@ public class Board extends JPanel implements MouseInputListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        boardModel.setBallStart(true);
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        boardModel.setBallStart(true);
     }
 
     @Override
@@ -152,6 +154,7 @@ public class Board extends JPanel implements MouseInputListener {
 
     public void setWidthScreen(double w) {
         double var = w - (2.0 / 8.0) * w;
+        width = var;
         boardModel.getBall().setWidthBoard(var);
         /* New */
         boardModel.getCanon().setOrbX(var);
@@ -159,6 +162,7 @@ public class Board extends JPanel implements MouseInputListener {
 
     public void setHeightScreen(double w) {
         boardModel.getBall().setHeightBoard(w);
+        height = w;
     }
 
     public void setDimensionFrame(Dimension w) {
