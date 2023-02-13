@@ -31,21 +31,23 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     private void initBoard() {
-        // loadImage("ressources/bgd-peggle-img-1.jpg");
+
+        double pixelWidth = 0;
+        double pixelHeight = 0;
 
         try {
             imageBoard = ImageIO.read(this.getClass().getResource("ressources/bgd-peggle-img-1.jpg"));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel();
+        boardModel = new BoardModel(Toolkit.getDefaultToolkit().getScreenResolution());
 
         add(boardModel.getCanon().getJlabel());
         for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
@@ -80,6 +82,7 @@ public class Board extends JPanel implements MouseInputListener {
         boardModel.getBall().updateImgBall();
         add(boardModel.getBall().getLabelImgBall());
         boardModel.contact();
+
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -148,7 +151,6 @@ public class Board extends JPanel implements MouseInputListener {
             boardModel.setThetaCanon(theta);
             // boardModel.setAngleChute(theta);
             boardModel.getBall().setVitesseX((e.getX() - getBounds().getWidth() / 2) / normeVect);
-            System.out.println(e.getY() / normeVect);
             boardModel.getBall().setVitesseY(e.getY() / normeVect);
         }
     }
@@ -156,6 +158,9 @@ public class Board extends JPanel implements MouseInputListener {
     public void setWidthScreen(double w) {
         double var = w - (2.0 / 8.0) * w;
         width = var;
+
+        boardModel.setWidthBoard(var);
+
         boardModel.getBall().setWidthBoard(var);
         /* New */
         boardModel.getCanon().setOrbX(var);

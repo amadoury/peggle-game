@@ -54,14 +54,11 @@ public class App extends JFrame {
         board.setWidthScreen(dimensionFrame.getWidth());
         board.setHeightScreen(dimensionFrame.getHeight());
 
-        System.out.println(dimensionFrame);
-
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
         this.addComponentListener(new ResizeListener());
-
+*
     }
 
     public static void main(String[] args) {

@@ -10,18 +10,21 @@ public class BoardModel {
     private double yInitBall = 0;
     private double angleChute = -60;
     PegGenerator generator;
+    private double widthBoard ;
+    private double heightBoard ;
 
-    public BoardModel() {
-        initBoardModel();
+
+    public BoardModel(int resolutionScreen) {
+        initBoardModel(resolutionScreen);
     }
 
     /* BoardModel initialisation */
-    public void initBoardModel() {
+    public void initBoardModel(int resolutionScreen) {
         canon = new Canon(0, 25, 50);
         xInitBall = canon.getCanonX();
         yInitBall = canon.getCanonY();
         ball = new Ball(xInitBall, yInitBall, angleChute, 12, this);
-        generator = new PegGenerator();
+        generator = new PegGenerator(resolutionScreen);
     }
 
     public Canon getCanon() {
@@ -63,5 +66,17 @@ public class BoardModel {
 
     public void retireAllTouched() {
         generator.retireAllTouched();
+    }
+
+    public void setWidthBoard(double widthBoard) {
+        this.widthBoard = widthBoard;
+
+        ball.setWidthBoard(widthBoard);
+        canon.setOrbX(widthBoard);
+
+    }
+
+    public void setHeightBoard(double heightBoard) {
+        this.heightBoard = heightBoard;
     }
 }
