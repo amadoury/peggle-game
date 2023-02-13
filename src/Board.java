@@ -1,9 +1,11 @@
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.TimerTask;
 import java.util.Timer;
 
@@ -29,7 +31,14 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     private void initBoard() {
-        loadImage("ressources/bgd-peggle-img-1.jpg");
+        // loadImage("ressources/bgd-peggle-img-1.jpg");
+
+        try {
+            imageBoard = ImageIO.read(this.getClass().getResource("ressources/bgd-peggle-img-1.jpg"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
