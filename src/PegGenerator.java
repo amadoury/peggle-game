@@ -12,7 +12,11 @@ public class PegGenerator {
     PegGenerator() {
         // circleOfPeg(200, 20, 200, 200);
         // lineHorizontalOfPeg(50, 100, 100, 900, 60);
-        multipleLinesOfPeg(12, 100, 250, 900, 80, 7);
+        // multipleLinesOfPeg(12, 100, 250, 900, 80, 7);
+        multipleLinesOfPeg((int) (12 / 1.2), (int) (100 / 1.2),
+                (int) (250 / 1.2),
+                (int) (900 / 1.2),
+                (int) (80 / 1.2), 7);
         // pegListe.add(null);
     }
 

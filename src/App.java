@@ -62,19 +62,6 @@ public class App extends JFrame {
 
         this.addComponentListener(new ResizeListener());
 
-        Image image;
-        double pixelWidth = 0;
-        double pixelHeight = 0;
-        try {
-            image = ImageIO.read(this.getClass().getResource("ressources/1x1_#8b7b6fff.png"));
-            pixelWidth = image.getWidth(null);
-            pixelHeight = image.getHeight(null);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println("pixelSize = " + pixelWidth + " " + pixelHeight);
-
     }
 
     public static void main(String[] args) {

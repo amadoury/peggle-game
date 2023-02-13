@@ -60,12 +60,6 @@ public class Board extends JPanel implements MouseInputListener {
 
         addMouseListener(this);
         addMouseMotionListener(this);
-
-    }
-
-    private void loadImage(String path) {
-        ImageIcon img = new ImageIcon(path);
-        imageBoard = img.getImage();
     }
 
     @Override
@@ -73,10 +67,8 @@ public class Board extends JPanel implements MouseInputListener {
 
         g2d = (Graphics2D) g;
 
-        g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null, null);
-
-        g2d.setColor(Color.BLUE);
-        g2d.setStroke(new BasicStroke(8f));
+        g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height,
+                null, null);
 
         /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
