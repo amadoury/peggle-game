@@ -16,13 +16,13 @@ public class BoardLeft extends JPanel  {
         labelNumberBall.setText(number + "") ;
 
         setLayout(new GridLayout(3, 1));
-        this.add(labelNumberBall) ;
-        this.add(labelPeg) ;
-        this.add(labelButton) ;
+        // this.add(labelNumberBall) ;
+        // this.add(labelPeg) ;
+        // this.add(labelButton) ;
 
-        // this.add(b1) ;
-        // this.add(b2) ;
-        // this.add(b3) ;
+        this.add(b1) ;
+        this.add(b2) ;
+        this.add(b3) ;
 
     }
 

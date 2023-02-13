@@ -33,6 +33,7 @@ public class App extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
+        c.ipady = 1200 ;
         add(board.getBoardLeft() , c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
