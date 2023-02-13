@@ -13,6 +13,8 @@ public class Board extends JPanel implements MouseInputListener {
     private Dimension dimensionBoard;
     private Dimension DimensionFrame;
 
+    private BoardLeft boardLeft ;
+
     /* BoardModel */
     BoardModel boardModel;
 
@@ -27,7 +29,7 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     private void initBoard() {
-        loadImage("ressources/bgd-peggle-img-1.jpg");
+        loadImage("src/ressources/bgd-peggle-img-1.jpg");
         int width = imageBoard.getWidth(this);
         int height = imageBoard.getHeight(this);
         setPreferredSize(new Dimension(width, height));
@@ -37,9 +39,13 @@ public class Board extends JPanel implements MouseInputListener {
         boardModel = new BoardModel();
 
         add(boardModel.getCanon().getJlabel());
-        for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
-            add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
-        }
+        // for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
+        //     add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
+        // }
+
+        /* BoardLeft */
+        boardLeft = new BoardLeft(boardModel.getNumberBall()) ;
+
 
         // timer : animation
         final int INITIAL_DELAY = 100;
@@ -59,13 +65,15 @@ public class Board extends JPanel implements MouseInputListener {
 
     @Override
     public void paintComponent(Graphics g) {
+        //super.paintComponent(g);
 
         g2d = (Graphics2D) g;
 
         g2d.drawImage(imageBoard, 0, 0, null);
 
-        g2d.setColor(Color.BLUE);
-        g2d.setStroke(new BasicStroke(8f));
+        for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
+             add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
+        }
 
         /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
@@ -77,6 +85,15 @@ public class Board extends JPanel implements MouseInputListener {
         boardModel.getBall().updateImgBall();
         add(boardModel.getBall().getLabelImgBall());
         boardModel.contact();
+
+        if (boardModel.getBall().isBallStart()){
+            int numberBall = boardModel.getNumberBall() ;
+            boardLeft.setNumberBall(numberBall);
+            if (numberBall <= 0 && boardModel.getGenerator().areThereOrangePeg()){
+                boardLeft.setLabelBall("vous avez perdu");
+            }
+        }
+
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -99,12 +116,11 @@ public class Board extends JPanel implements MouseInputListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        boardModel.setBallStart(true);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        boardModel.setBallStart(true);
     }
 
     @Override
@@ -145,8 +161,9 @@ public class Board extends JPanel implements MouseInputListener {
             boardModel.setThetaCanon(theta);
             // boardModel.setAngleChute(theta);
             boardModel.getBall().setVitesseX((e.getX() - getBounds().getWidth() / 2) / normeVect);
-            System.out.println(e.getY() / normeVect);
+            //System.out.println(e.getY() / normeVect);
             boardModel.getBall().setVitesseY(e.getY() / normeVect);
+            // boardLeft.setNumberBall(boardModel.getNumberBall()) ;
         }
     }
 
@@ -163,6 +180,18 @@ public class Board extends JPanel implements MouseInputListener {
 
     public void setDimensionFrame(Dimension w) {
         DimensionFrame = w;
+    }
+
+    public BoardModel getBoardModel(){
+        return boardModel ;
+    }
+
+    public int numberBall(){
+        return boardModel.getNumberBall() ;
+    }
+
+    public BoardLeft getBoardLeft() {
+        return boardLeft;
     }
 
 }

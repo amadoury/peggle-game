@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -20,7 +19,6 @@ public class PegGenerator {
         for (int i = 0; i < 360; i += pegSpacing) {
             int x = coordX + (int) (radius * Math.cos(Math.toRadians(i)));
             int y = coordY + (int) (radius * Math.sin(Math.toRadians(i)));
-            // g.fillOval(x - 2, y - 2, 50, 50);
             pegListe.add(new PegCercle(x, y, 50, "bleu"));
         }
     }
@@ -85,7 +83,15 @@ public class PegGenerator {
     public void retireAllTouched() {
         for (int i = 0; i < pegListe.size(); ++i) {
             pegListe.get(i).updatePeg();
-            ;
         }
+    }
+
+    public boolean areThereOrangePeg(){
+        for(Peg peg : pegListe) {
+            if (peg.color.equals("orange") && !peg.isDestructed()) {
+                return true ;
+            }
+        }
+        return false ;
     }
 }

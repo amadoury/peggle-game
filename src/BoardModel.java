@@ -11,6 +11,9 @@ public class BoardModel {
     private double angleChute = -60;
     PegGenerator generator;
 
+    /* Numbers Ball */
+    private int numberBall = 10 ;
+
     public BoardModel() {
         initBoardModel();
     }
@@ -63,5 +66,12 @@ public class BoardModel {
 
     public void retireAllTouched() {
         generator.retireAllTouched();
+        numberBall-- ;
+        //System.out.println(generator.areThereOrangePeg()) ;
+    }
+
+    public int getNumberBall() {
+        return numberBall;
     }
 }
+

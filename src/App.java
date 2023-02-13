@@ -6,8 +6,12 @@ public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private JPanel left = new JPanel();
+    private JPanel left = new JPanel() ;
     private JPanel right = new JPanel();
+    private JLabel labelBall = new JLabel() ;
+    private Board board ;
+    private boolean isEditing = false ;
+
 
     public App() {
         initUI();
@@ -15,24 +19,34 @@ public class App extends JFrame {
 
     private void initUI() {
         // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        /* board creation */
+        board = new Board() ;
+
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        /* Label ball */
 
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
-        add(left, c);
+        add(board.getBoardLeft() , c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 3;
         c.ipady = 1500;
         c.gridx = 1;
         c.gridy = 0;
-        Board board = new Board();
-        add(board, c);
+
+        if (!isEditing) {
+            add(board , c);
+        }
+        else{
+            add(new BoardEdit(), c) ;
+        }
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -42,8 +56,6 @@ public class App extends JFrame {
 
         pack();
 
-        // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
-
         board.setDimensionBoard(board.getSize());
 
         dimensionFrame = this.getBounds().getSize();
@@ -52,15 +64,13 @@ public class App extends JFrame {
         board.setHeightScreen(dimensionFrame.getHeight());
 
 
-        System.out.println(dimensionFrame);
-
-
         setTitle("App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         this.addComponentListener(new ResizeListener());
     }
+
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
