@@ -73,8 +73,6 @@ public class Board extends JPanel implements MouseInputListener {
 
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
 
-        g2d.setColor(Color.BLUE);
-        g2d.setStroke(new BasicStroke(8f));
 
         /* changing */
         boardModel.getCanon().radianChanged(boardModel.getThetaCanon(), g2d);
