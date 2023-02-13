@@ -33,6 +33,7 @@ public class Board extends JPanel implements MouseInputListener {
 
     private void initBoard() {
 
+        
        
         double pixelWidth = 0;
         double pixelHeight = 0;
@@ -79,7 +80,6 @@ public class Board extends JPanel implements MouseInputListener {
 
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
 
@@ -103,6 +103,11 @@ public class Board extends JPanel implements MouseInputListener {
 
 
         g2d.drawImage(image, 100, 100, null);
+
+        Rectangle r = g2d.getClipBounds();
+        System.out.println("pixel "+ r.getWidth() / width + " hauteur " + r.getHeight() / height);
+
+        System.out.println(" rectangle device :" + r);
     }
 
     public void setDimensionBoard(Dimension dim) {
