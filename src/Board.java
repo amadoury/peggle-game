@@ -25,12 +25,29 @@ public class Board extends JPanel implements MouseInputListener {
     Graphics2D g2d;
 
     private Image imageBoard;
+    Image image;
 
     public Board() {
         initBoard();
     }
 
     private void initBoard() {
+
+       
+        double pixelWidth = 0;
+        double pixelHeight = 0;
+
+        try {
+            image = ImageIO.read(this.getClass().getResource("ressources/1x1_#8b7b6fff.png"));
+            pixelWidth = image.getWidth(null);
+            pixelHeight = image.getHeight(null);
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        System.out.println("pixelSize = " + pixelWidth + " " + pixelHeight);
 
         try {
             imageBoard = ImageIO.read(this.getClass().getResource("ressources/bgd-peggle-img-1.jpg"));
@@ -83,6 +100,9 @@ public class Board extends JPanel implements MouseInputListener {
         boardModel.getBall().updateImgBall();
         add(boardModel.getBall().getLabelImgBall());
         boardModel.contact();
+
+
+        g2d.drawImage(image, 100, 100, null);
     }
 
     public void setDimensionBoard(Dimension dim) {
