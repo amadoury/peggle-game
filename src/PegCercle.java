@@ -17,7 +17,7 @@ public class PegCercle extends Peg {
         color = c;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance((int) 2 * rayon, (int) 2 * rayon, java.awt.Image.SCALE_SMOOTH); // scale
+        Image newimg = image.getScaledInstance((int)(2 * rayon) , (int) (2 * rayon), java.awt.Image.SCALE_SMOOTH); // scale
                                                                                                                // it the
         // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back

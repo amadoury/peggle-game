@@ -25,7 +25,6 @@ public class Board extends JPanel implements MouseInputListener {
     Graphics2D g2d;
 
     private Image imageBoard;
-    Image image;
 
     public Board() {
         initBoard();
@@ -33,22 +32,8 @@ public class Board extends JPanel implements MouseInputListener {
 
     private void initBoard() {
 
-        
-       
         double pixelWidth = 0;
         double pixelHeight = 0;
-
-        try {
-            image = ImageIO.read(this.getClass().getResource("ressources/1x1_#8b7b6fff.png"));
-            pixelWidth = image.getWidth(null);
-            pixelHeight = image.getHeight(null);
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        System.out.println("pixelSize = " + pixelWidth + " " + pixelHeight);
 
         try {
             imageBoard = ImageIO.read(this.getClass().getResource("ressources/bgd-peggle-img-1.jpg"));
@@ -62,7 +47,8 @@ public class Board extends JPanel implements MouseInputListener {
         setLayout(null);
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel();
+        boardModel = new BoardModel(Toolkit.getDefaultToolkit().getScreenResolution());
+
 
         add(boardModel.getCanon().getJlabel());
         for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
@@ -85,7 +71,7 @@ public class Board extends JPanel implements MouseInputListener {
 
         g2d = (Graphics2D) g;
 
-        g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null, null);
+        g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
 
         g2d.setColor(Color.BLUE);
         g2d.setStroke(new BasicStroke(8f));
@@ -101,13 +87,6 @@ public class Board extends JPanel implements MouseInputListener {
         add(boardModel.getBall().getLabelImgBall());
         boardModel.contact();
 
-
-        g2d.drawImage(image, 100, 100, null);
-
-        Rectangle r = g2d.getClipBounds();
-        System.out.println("pixel "+ r.getWidth() / width + " hauteur " + r.getHeight() / height);
-
-        System.out.println(" rectangle device :" + r);
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -176,7 +155,6 @@ public class Board extends JPanel implements MouseInputListener {
             boardModel.setThetaCanon(theta);
             // boardModel.setAngleChute(theta);
             boardModel.getBall().setVitesseX((e.getX() - getBounds().getWidth() / 2) / normeVect);
-            System.out.println(e.getY() / normeVect);
             boardModel.getBall().setVitesseY(e.getY() / normeVect);
         }
     }
@@ -184,6 +162,9 @@ public class Board extends JPanel implements MouseInputListener {
     public void setWidthScreen(double w) {
         double var = w - (2.0 / 8.0) * w;
         width = var;
+
+        boardModel.setWidthBoard(var);
+
         boardModel.getBall().setWidthBoard(var);
         /* New */
         boardModel.getCanon().setOrbX(var);
