@@ -3,27 +3,55 @@ import java.awt.* ;
 
 public class BoardLeft extends JPanel  {
     private JLabel labelNumberBall ;
-    private JLabel labelPeg = new JLabel("Peg") ; 
-    private JLabel labelButton = new JLabel("Button");
-
-    JButton b1 = new JButton("1") ;
-    JButton b2 = new JButton("2") ;
-    JButton b3 = new JButton("3") ;
+    private JLabel labelPeg ; 
+    private JLabel labelButton ; 
+    private JButton buttonEdit ; 
 
 
     public BoardLeft(int number) {
-        labelNumberBall = new JLabel() ;
-        labelNumberBall.setText(number + "") ;
 
-        setLayout(new GridLayout(3, 1));
-        // this.add(labelNumberBall) ;
-        // this.add(labelPeg) ;
-        // this.add(labelButton) ;
+        labelNumberBall = new JLabel(number + "") ;
 
-        this.add(b1) ;
-        this.add(b2) ;
-        this.add(b3) ;
+        labelPeg = new JLabel("Peg") ;
+        labelPeg.setLocation(0, 50) ;
 
+
+        labelButton = new JLabel("button") ;
+        labelButton.setLocation(0, 50);
+
+
+        setLayout(new GridBagLayout()) ;
+
+        GridBagConstraints gbc = new GridBagConstraints() ;
+
+        gbc.fill =  GridBagConstraints.HORIZONTAL;
+        gbc.ipady = 100 ;
+        gbc.weighty = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+       //gbc.ipady = 1200 ;
+
+        add(labelNumberBall , gbc);
+
+        gbc.fill =  GridBagConstraints.HORIZONTAL;
+        gbc.ipady = 100 ;
+
+        gbc.weighty = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+
+        add(labelPeg, gbc) ;
+
+        gbc.fill =  GridBagConstraints.HORIZONTAL;
+        gbc.ipady = 100 ;
+        gbc.weighty = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(labelButton, gbc);
+     
+        this.add(labelNumberBall) ;
+        this.add(labelPeg) ;
+        this.add(labelButton) ;
     }
 
     public void updateLabelBall(int number) {
