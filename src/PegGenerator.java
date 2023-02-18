@@ -13,9 +13,7 @@ public class PegGenerator {
 
 
     PegGenerator(double resolutionScreen) {
-        //multipleLinesOfPeg(12, 100 , 250, 1200, 80 , 7);
         this.resolutionScreen = resolutionScreen / 100;
-        //multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250 /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
         adaptResolutionPeg(12, 100 , 250, (int)widthBoard - 50, 80 , 7);
     }
 
