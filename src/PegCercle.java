@@ -7,9 +7,6 @@ import javax.swing.*;
 public class PegCercle extends Peg {
 
     private int rayon;
-    private BufferedImage image;
-    private JLabel jlabel;
-    private String color;
 
     PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
         super(x, y);
@@ -17,8 +14,8 @@ public class PegCercle extends Peg {
         color = c;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance((int)(2 * rayon) , (int) (2 * rayon), java.awt.Image.SCALE_SMOOTH); // scale
-                                                                                                               // it the
+        Image newimg = image.getScaledInstance((int) (2 * rayon), (int) (2 * rayon), java.awt.Image.SCALE_SMOOTH); // scale
+        // it the
         // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel = new JLabel(imageIcon);

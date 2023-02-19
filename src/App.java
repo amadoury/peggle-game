@@ -11,6 +11,8 @@ public class App extends JFrame {
     private JPanel left = new JPanel();
     private JPanel right = new JPanel();
     private Board board;
+    private double width;
+    private double height;
 
     public App() {
         initUI();
@@ -51,14 +53,16 @@ public class App extends JFrame {
 
         dimensionFrame = this.getBounds().getSize();
 
-        board.setWidthScreen(dimensionFrame.getWidth());
-        board.setHeightScreen(dimensionFrame.getHeight());
+        width = dimensionFrame.getWidth();
+        height = dimensionFrame.getHeight();
 
-        setTitle("App");
+        board.setWidthScreen(width);
+        board.setHeightScreen(height);
+
+        setTitle("Peggle Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         this.addComponentListener(new ResizeListener());
-*
     }
 
     public static void main(String[] args) {
@@ -79,8 +83,11 @@ public class App extends JFrame {
         }
 
         public void componentResized(ComponentEvent e) {
-            dimensionFrame = e.getComponent().getBounds().getSize();
-            board.setWidthScreen(dimensionFrame.getWidth());
+            dimensionFrame = getBounds().getSize();
+            if (width != dimensionFrame.getWidth())
+                board.setWidthScreen(dimensionFrame.getWidth());
+            if (height != dimensionFrame.getHeight())
+                dimensionFrame = e.getComponent().getBounds().getSize();
             board.setHeightScreen(dimensionFrame.getHeight());
         }
     }

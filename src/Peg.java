@@ -8,6 +8,8 @@ public abstract class Peg {
     protected int pegY;
     protected boolean touched;
     protected boolean destructed;
+    protected JLabel jlabel;
+    protected String color;
 
     Peg(int x, int y) {
         pegX = x;

@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Ball {
@@ -8,7 +10,7 @@ public class Ball {
     private double x_initial; // position x initial de la balle
     private double y_initial; // position y initial de la balle
     private double thetha; // angle
-    private final double vInitial = 300; // vitesse initiale
+    private final double vInitial = 600; // vitesse initiale
     private double vitesseX_initial;
     private double vitesseY_initial;
     private double vitesseX;
@@ -26,14 +28,16 @@ public class Ball {
     private boolean startBall = false;
     private int rayon;
     private BoardModel boardModel;
+    private int nombreBall;
 
-    public Ball(double x_initial, double y_initial, double thetha, int r, BoardModel bm) {
+    public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm) {
         this.x_initial = x_initial;
         this.y_initial = y_initial;
         xt = x_initial;
         yt = y_initial;
         rayon = r;
         boardModel = bm;
+        nombreBall = nb;
         // this.thetha = Math.toRadians(thetha) ;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource(path));
         labelImgBall = new JLabel(imageIcon);
@@ -131,9 +135,63 @@ public class Ball {
 
     /* updating ball */
     public void updateBall(double dt) {
+        if (!startBall || nombreBall == 0)
+            return;
         updateCoordBall(dt);
         resetBall();
     }
+
+    public ArrayList<Point> trajectoire() {
+        if (startBall)
+            return null;
+        int rebond = 0;
+        ArrayList<Point> l = new ArrayList<Point>();
+        while (rebond < 2) {
+            updateCoordBall(dt);
+            if (yt + rayon >= heightBoard)
+                break;
+            if (boardModel.contact() || (xt + rayon) >= widthBoard || xt + rayon <= 0)
+                ++rebond;
+            l.add(new Point((int) xt, (int) yt));
+        }
+        vitesseX = vitesseX_initial;
+        vitesseY = vitesseY_initial;
+        xt = x_initial;
+        yt = y_initial;
+        return l;
+    }
+
+    // public Point[] trajectoire() {
+    // if (startBall)
+    // return null;
+    // int rebond = 0;
+    // Point[] tab = new Point[6];
+    // ArrayList<Point> l = new ArrayList<Point>();
+    // while (rebond < 2) {
+    // updateCoordBall(dt);
+    // if (yt + rayon >= heightBoard)
+    // break;
+    // if (boardModel.contact()) {
+    // if (rebond == 0) {
+    // tab[1] = l.get(l.size() / 2);
+    // tab[2] = l.get(l.size() - 1);
+    // }
+    // if (rebond == 1) {
+    // tab[3] = l.get(l.size() / 2);
+    // tab[4] = l.get(l.size() - 1);
+    // }
+    // ++rebond;
+    // l = new ArrayList<Point>();
+    // }
+
+    // l.add(new Point((int) xt, (int) yt));
+    // }
+    // vitesseX = vitesseX_initial;
+    // vitesseY = vitesseY_initial;
+    // xt = x_initial;
+    // yt = y_initial;
+    // return tab;
+    // }
 
     // met à jour les coordonnées de la balle à l'instant dt
     public void updateCoordBall(double dt) {
@@ -148,13 +206,16 @@ public class Ball {
     }
 
     public void resetBall() {
-        if (yt + rayon >= heightBoard) {
+        boolean c = boardModel.getTrou().contactTrou(this);
+        if (yt + rayon >= heightBoard || c) {
             xt = x_initial;
             yt = y_initial;
             startBall = false;
             boardModel.retireAllTouched();
             vitesseX = vitesseX_initial;
             vitesseY = vitesseY_initial;
+            if (!c)
+                --nombreBall;
         }
     }
 
@@ -169,7 +230,7 @@ public class Ball {
         return (vInitial * vitesseY * dt) + yt;
     }
 
-    public void contactPeg(Peg p) {
+    public boolean contactPeg(Peg p) {
         if (p instanceof PegCercle) {
             double normeVectOrtho = (Math
                     .sqrt(Math.pow(xt - p.getPegX(), 2) + Math.pow(yt - p.getPegY(), 2)));
@@ -184,8 +245,11 @@ public class Ball {
 
             vitesseX *= 0.8;
             vitesseY *= 0.8;
-            p.pegTouchdown();
+            if (startBall)
+                p.pegTouchdown();
+            return true;
         }
+        return false;
     }
 
 }

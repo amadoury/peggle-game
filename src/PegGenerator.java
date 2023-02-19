@@ -9,13 +9,15 @@ public class PegGenerator {
     private ArrayList<Peg> pegListe = new ArrayList<Peg>();
     private double resolutionScreen;
     private double widthBoard = 900;
+    private int rayonPeg;
 
-    PegGenerator(double resolutionScreen) {
+    PegGenerator(double resolutionScreen, int r) {
         // multipleLinesOfPeg(12, 100 , 250, 1200, 80 , 7);
-        this.resolutionScreen = resolutionScreen / 100;
+        this.resolutionScreen = resolutionScreen;
+        rayonPeg = r;
         // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
         // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
-        adaptResolutionPeg(12, 100, 250, (int) widthBoard - 50, 80, 7);
+
     }
 
     void circleOfPeg(double radius, int pegSpacing, int coordX, int coordY) {
@@ -99,6 +101,12 @@ public class PegGenerator {
         for (int i = 0; i < pegListe.size(); ++i) {
             pegListe.get(i).updatePeg();
         }
+    }
+
+    public void setWidthBoard(double w) {
+        widthBoard = w;
+        adaptResolutionPeg(rayonPeg, 100, 250, (int) widthBoard - 100, 60 + 2 * rayonPeg, 6);
+
     }
 
 }

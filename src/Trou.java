@@ -1,49 +1,98 @@
-public class Trou{; 
-    private int x ;
-    private int y ;
-    private int diametre ;
-    private int dx ; //valeur ajoutée a x pour deplacer le trou horizontalement
+import java.awt.*;
 
-    public Trou(int x, int y, int d){
-        this.x = x ;
-        this.y = y ;
-        this.diametre = d ;
+import javax.swing.*;
+
+public class Trou {
+
+    private double x;
+    private double y;
+    private int longueur;// meilleure dimension : longeur = 12 x largeur
+    private int largeur;
+    private double longueurImage;
+    private double largeurImage;
+    private int dx = 2; // valeur ajoutée a x pour deplacer le trou horizontalement
+    private JLabel labelImgBall;
+    private BoardModel boardModel;
+    private double widthBoard;
+    private double heightBoard;
+    private JLabel jlabel;
+
+    public Trou(int heightBoard, int lo, int la, BoardModel bm) {
+        this.heightBoard = heightBoard;
+        longueur = lo;
+        largeur = la;
+        boardModel = bm;
+        longueurImage = longueur * 1.5;
+        largeurImage = largeur * 5;
+        x = longueurImage / 2;
+        y = heightBoard - largeurImage;
+
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/trou.png"));
+        Image image = imageIcon.getImage();
+        Image newimg = image.getScaledInstance((int) (longueurImage), (int) (largeurImage),
+                java.awt.Image.SCALE_SMOOTH); // scale
+        imageIcon = new ImageIcon(newimg);
+        jlabel = new JLabel(imageIcon);
+        jlabel.setBounds((int) (x - longueurImage / 2), (int) (y - largeurImage / 2), (int) longueurImage,
+                (int) largeurImage);
     }
 
-    public int getX(){
-        return x ;
+    public double getX() {
+        return x;
     }
 
-    public int getY(){
+    public double getY() {
         return y;
     }
 
-    public int getDiametre(){
-        return diametre ;
+    public int getLargeur() {
+        return largeur;
     }
 
-    public void setX(int x){
-        this.x = x ;
+    public int getLongueur() {
+        return longueur;
     }
 
-    public void setY(int y){
-        this.y = y ;
+    public double getLongueurImage() {
+        return longueurImage;
     }
 
-    public void setDiametre(int d){
-        this.diametre = d ;
-    } 
+    public double getLargeurImage() {
+        return largeurImage;
+    }
 
-    public void move(int width){
-        if (x <= 0){
-            x = 0;
+    public JLabel getJlabel() {
+        return jlabel;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setHeightBoard(double heightBoard) {
+        this.heightBoard = heightBoard;
+        y = (int) heightBoard - 120;
+    }
+
+    public void setWidthBoard(double widthBoard) {
+        this.widthBoard = widthBoard;
+    }
+
+    public void move() {
+        if (x + longueurImage / 2 + dx > widthBoard || x - longueurImage / 2 < 0) {
+            dx = -dx;
         }
-        else if (x + diametre + dx < width){
-            x += dx ;
-        }
-        else{
-            x -= dx ;
-        }
+        x += dx;
+        jlabel.setBounds((int) (x - longueurImage / 2), (int) (y - largeurImage / 2), (int) longueurImage,
+                (int) largeurImage);
+    }
+
+    public boolean contactTrou(Ball b) {
+        return b.getYt() >= y - largeur / 2 && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
     }
 
 }
