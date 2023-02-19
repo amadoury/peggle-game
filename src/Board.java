@@ -86,11 +86,6 @@ public class Board extends JPanel implements MouseInputListener {
         add(boardModel.getBall().getLabelImgBall());
         boardModel.contact();
 
-        g2d.fillOval((int) boardModel.getTrou().getX() - boardModel.getTrou().getLongueur() / 2,
-                (int) boardModel.getTrou().getY() - boardModel.getTrou().getLargeur() / 2,
-                boardModel.getTrou().getLongueur(),
-                boardModel.getTrou().getLargeur());
-
         if (listeTrajectoire == null || listeTrajectoire.size() == 0) {
             System.out.println("test");
             return;
