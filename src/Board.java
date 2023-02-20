@@ -83,7 +83,7 @@ public class Board extends JPanel implements MouseInputListener {
 
         /* updating the ball's image */
         boardModel.getBall().updateImgBall();
-        add(boardModel.getBall().getLabelImgBall());
+
         boardModel.contact();
 
         if (listeTrajectoire == null || listeTrajectoire.size() == 0) {

@@ -92,7 +92,7 @@ public class Trou {
     }
 
     public boolean contactTrou(Ball b) {
-        return b.getYt() >= y - largeur / 2 && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
+        return b.getYt() >= y && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
     }
 
 }
