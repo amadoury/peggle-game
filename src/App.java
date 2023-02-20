@@ -7,7 +7,7 @@ public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private JPanel left = new JPanel() ;
+    private JPanel left = new BoardLeft(10) ;
     private JPanel right = new JPanel();
     private BoardMain boardMain;
     private boolean isEditing = false ;
