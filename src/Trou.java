@@ -80,6 +80,7 @@ public class Trou {
 
     public void setWidthBoard(double widthBoard) {
         this.widthBoard = widthBoard;
+        x = longueurImage / 2;
     }
 
     public void move() {
