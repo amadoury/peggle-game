@@ -24,7 +24,7 @@ public class Ball {
     private double dt = 0.015;
     // private int widthBall = 45;
     // private int radiusBall = widthBall / 2;
-    private Board board;
+    private BoardMain board;
     private boolean startBall = false;
     private int rayon;
     private BoardModel boardModel;
