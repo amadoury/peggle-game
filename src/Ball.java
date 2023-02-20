@@ -8,6 +8,8 @@ public class Ball {
     private double y_initial; // position y initial de la balle
     private double thetha; // angle
     private final double vInitial = 300; // vitesse initiale
+    private double vitesseX_initial;
+    private double vitesseY_initial;
     private double vitesseX;
     private double vitesseY;
     private final double g = 9.81 * 5; // acceleration de la pesanteur
@@ -15,9 +17,11 @@ public class Ball {
     private double widthBoard;
     private double heightBoard;
     private JLabel labelImgBall;
+    private double gravity = 0.01;
+    private double dt = 0.015;
     // private int widthBall = 45;
     // private int radiusBall = widthBall / 2;
-    private Board board;
+    private BoardMain board;
     private boolean startBall = false;
     private int rayon;
     private BoardModel boardModel;
@@ -47,12 +51,7 @@ public class Ball {
     }
 
     public void updateImgBall() {
-        if (!startBall) {
-            labelImgBall.setBounds((int) x_initial - rayon, (int) y_initial - rayon, 2 * rayon, 2 * rayon);
-        } else {
-            labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, 2 * rayon);
-        }
-        // labelImgBall.setBounds((int)xt, (int)yt, widthBall, widthBall);
+        labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, 2 * rayon);
     }
 
     public double XInitial() {
@@ -120,10 +119,12 @@ public class Ball {
     }
 
     public void setVitesseX(double vitesseX) {
+        vitesseX_initial = vitesseX;
         this.vitesseX = vitesseX;
     }
 
     public void setVitesseY(double vitesseY) {
+        vitesseY_initial = vitesseY;
         this.vitesseY = vitesseY;
     }
 
@@ -151,25 +152,20 @@ public class Ball {
             yt = y_initial;
             startBall = false;
             boardModel.retireAllTouched();
+            vitesseX = vitesseX_initial;
+            vitesseY = vitesseY_initial;
         }
     }
 
     // calcule la position x de la balle à l'instant dt passé en argumant
-    private double xt(double dt) {
-        // return vInitial * Math.sin(thetha) * dt + x_initial;
-        // return vInitial * vitesseX * dt + x_initial;
-        return xt + vInitial * vitesseX * 0.015;
+    private double xt(double t) {
+        return xt + vInitial * vitesseX * dt;
     }
 
     // calcule la position y de la balle à l'instant dt passé en argumant
-    private double yt(double dt) {
-        // return 0.5 * g * (dt * dt) + (vInitial * Math.cos(thetha) * dt) + y_initial;
-        return 0.5 * g * (0.015 * 0.015) + (vInitial * vitesseY * 0.015) + yt;
-    }
-
-    public void drawBall(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawOval((int) (xt + rayon), (int) yt, 20, 20);
+    private double yt(double t) {
+        vitesseY += gravity;
+        return (vInitial * vitesseY * dt) + yt;
     }
 
     public void contactPeg(Peg p) {
@@ -179,10 +175,14 @@ public class Ball {
             double vectOthogonalX = (xt - p.pegX) / normeVectOrtho;
             double vectOthogonalY = (yt - p.pegY) / normeVectOrtho;
             double produitScalaire = vitesseX * vectOthogonalX + vitesseY * vectOthogonalY;
+            if (produitScalaire >= 0) {
+                produitScalaire -= produitScalaire;
+            }
             vitesseX -= 2 * produitScalaire * vectOthogonalX;
             vitesseY -= 2 * produitScalaire * vectOthogonalY;
-            // vitesseX *= 0.8;
-            // vitesseY *= 0.8;
+
+            vitesseX *= 0.8;
+            vitesseY *= 0.8;
             p.pegTouchdown();
         }
     }

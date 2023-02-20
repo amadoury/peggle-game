@@ -4,15 +4,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+
 public class PegGenerator {
 
     private ArrayList<Peg> pegListe = new ArrayList<Peg>();
+    private double resolutionScreen ;
+    private double widthBoard = 900 ;
 
-    PegGenerator() {
-        // circleOfPeg(200, 20, 200, 200);
-        // lineHorizontalOfPeg(50, 100, 100, 900, 60);
-        multipleLinesOfPeg(12, 100, 250, 900, 80, 7);
-        // pegListe.add(null);
+
+    PegGenerator(double resolutionScreen) {
+        this.resolutionScreen = resolutionScreen / 100;
+        adaptResolutionPeg(12, 100 , 250, (int)widthBoard - 50, 80 , 7);
     }
 
     void circleOfPeg(double radius, int pegSpacing, int coordX, int coordY) {
@@ -51,6 +53,17 @@ public class PegGenerator {
         }
     }
 
+    /* ajoute les peg avec la résolution de l'écran */
+    public void adaptResolutionPeg(int radius, int coordX, int coordY, int length, int pegSpacing, int numberLines) {
+        int r = (int) (radius / resolutionScreen) ;
+        int cordX = (int) (coordX / resolutionScreen); 
+        int cordY = (int) (coordY / resolutionScreen) ;
+        int len = (int) (length / resolutionScreen) ;
+        int pegSpace = (int) (pegSpacing / resolutionScreen) ;     
+
+        multipleLinesOfPeg(r, cordX, cordY, len, pegSpace, numberLines);
+    }
+
     public ArrayList<Peg> getPegListe() {
         return pegListe;
     }
@@ -86,12 +99,4 @@ public class PegGenerator {
         }
     }
 
-    public boolean areThereOrangePeg(){
-        for(Peg peg : pegListe) {
-            if (peg.color.equals("orange") && !peg.isDestructed()) {
-                return true ;
-            }
-        }
-        return false ;
-    }
 }
