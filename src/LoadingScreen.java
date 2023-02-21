@@ -32,16 +32,15 @@ public class LoadingScreen extends JFrame {
         progressBar.setStringPainted(true);
         ProgressBarPanel.setLayout(null);
         progressBar.setBounds(385, 800, 650, 73);
-        //progressBar.setBackground(new Color(0,0,204));
         progressBar.setForeground(new Color(255,102,0));
         progressBar.setBackground(Color.WHITE);
+        progressBar.setMaximum(100);
 
 
         // FONT STYLE
         String path_font = "ressources/font_style/font.ttf";
         InputStream is = MenuPrincipal.class.getResourceAsStream(path_font);
         Font font = Font.createFont(Font.TRUETYPE_FONT,is).deriveFont(65f);
-        //(new Color(0,0,204));
         progressBar.setFont(font);
         
 
@@ -49,9 +48,7 @@ public class LoadingScreen extends JFrame {
         this.getContentPane().add(PanelImage);
         this.getContentPane().add(ProgressBarPanel);
         this.setVisible(true);
-        //System.out.println(end);
         this.loop();
-        //System.out.println(end);
         dispose();
     }
 
