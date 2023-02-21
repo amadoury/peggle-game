@@ -49,25 +49,19 @@ public class LoadingScreen extends JFrame {
         this.getContentPane().add(PanelImage);
         this.getContentPane().add(ProgressBarPanel);
         this.setVisible(true);
-        System.out.println(end);
+        //System.out.println(end);
         this.loop();
-        System.out.println(end);
-
-        /*
-        if(end == true){
-            dispose();
-            System.exit(0);
-        } 
-        */  
+        //System.out.println(end);
+        dispose();
     }
 
     public void loop(){
         Random random = new Random();
         int position = 0;
-        while(progressBar.getValue() < 115){
+        while(position <= 100){
             progressBar.setValue(position);
             try{
-                Thread.sleep(400);
+                Thread.sleep(200);
             } catch (InterruptedException e){}
             position += (random.nextInt(9)+1);
         }
