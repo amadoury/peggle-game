@@ -30,6 +30,7 @@ public class BoardModel {
         ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), 15, this);
         generator = new PegGenerator(resolutionScreen, 20);
         trou = new Trou((int) heightBoard, 144, 12, this);// meilleure dimension : longeur = 12 x largeur
+
     }
 
     public Canon getCanon() {
@@ -76,16 +77,12 @@ public class BoardModel {
 
     public void retireAllTouched() {
         generator.retireAllTouched();
-        //numberBall-- ;
-        //System.out.println(generator.areThereOrangePeg()) ;
     }
-
-    // public int getNumberBall() {
-    //     return //numberBall;
-    // }
 
     public void setWidthBoard(double widthBoard) {
         this.widthBoard = widthBoard;
+
+        board.add(trou.getJlabel());
 
         ball.setWidthBoard(widthBoard);
         canon.setOrbX(widthBoard);
@@ -102,7 +99,8 @@ public class BoardModel {
             board.add(generator.getPegListe().get(i).getJlabel());
         }
 
-        board.add(trou.getJlabel());
+        board.add(ball.getLabelImgBall());
+
     }
 
     public void setHeightBoard(double heightBoard) {
@@ -111,4 +109,3 @@ public class BoardModel {
     }
 
 }
-

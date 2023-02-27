@@ -1,16 +1,15 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 
 public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private JPanel left = new BoardLeft(10) ;
+    private JPanel left = new JPanel();
     private JPanel right = new JPanel();
-    private Board board;
+    private BoardMain boardMain;
+    private boolean isEditing = false;
     private double width;
     private double height;
 
@@ -19,27 +18,36 @@ public class App extends JFrame {
     }
 
     private void initUI() {
-        // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        boardMain = new BoardMain();
+        BoardEdit boardEdit = new BoardEdit();
+
+        CardLayout cardLayout = new CardLayout();
+        JPanel panelBoard = new JPanel();
+        panelBoard.setLayout(cardLayout);
+        panelBoard.add(boardMain, "boardMain");
+        panelBoard.add(boardEdit, "boardEdit");
+
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
 
-        /* Label ball */
-
         c.fill = GridBagConstraints.HORIZONTAL;
+
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
-        c.ipady = 1200 ;
-        add(left , c);
+        add(left, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 3;
         c.ipady = 1500;
         c.gridx = 1;
         c.gridy = 0;
-        board = new Board();
-        add(board, c);
+
+        cardLayout.show(panelBoard, "boardEdit");
+
+        // add(boardEdit , c);
+        add(panelBoard, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -51,22 +59,27 @@ public class App extends JFrame {
 
         // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
 
-        board.setDimensionBoard(board.getSize());
+        boardEdit.setApp(this);
+
+        boardMain.setDimensionBoard(boardMain.getSize());
 
         dimensionFrame = this.getBounds().getSize();
 
         width = dimensionFrame.getWidth();
         height = dimensionFrame.getHeight();
 
-        board.setWidthScreen(width);
-        board.setHeightScreen(height);
+        boardMain.setWidthScreen(width);
+        boardMain.setHeightScreen(dimensionFrame.getHeight());
+
+        // boardEdit.setWidthScreen(dimensionFrame.getWidth());
+        // boardEdit.setHeightScreen(height);
 
         setTitle("Peggle Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         this.addComponentListener(new ResizeListener());
-    }
 
+    }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {

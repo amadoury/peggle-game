@@ -8,13 +8,12 @@ public abstract class Peg {
     protected int pegY;
     protected boolean touched;
     protected boolean destructed;
-    protected String color ;
     protected JLabel jlabel;
+    protected String color;
 
-    Peg(int x, int y, String c) {
+    Peg(int x, int y) {
         pegX = x;
         pegY = y;
-        color = c; 
     }
 
     public double getPegX() {
@@ -31,10 +30,6 @@ public abstract class Peg {
 
     public void setPegY(int pegY) {
         this.pegY = pegY;
-    }
-
-    public String toString(){
-        return "Peg : " + color + " PegX : " + pegX + " PegY : "+ pegY ; 
     }
 
     public void updatePeg() {

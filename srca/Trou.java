@@ -10,13 +10,12 @@ public class Trou {
     private int largeur;
     private double longueurImage;
     private double largeurImage;
-    private double dx = 2; // valeur ajoutée a x pour deplacer le trou horizontalement
+    private int dx = 2; // valeur ajoutée a x pour deplacer le trou horizontalement
     private JLabel labelImgBall;
     private BoardModel boardModel;
     private double widthBoard;
     private double heightBoard;
     private JLabel jlabel;
-    private double vitesse = 1;
 
     public Trou(int heightBoard, int lo, int la, BoardModel bm) {
         this.heightBoard = heightBoard;
@@ -81,29 +80,19 @@ public class Trou {
 
     public void setWidthBoard(double widthBoard) {
         this.widthBoard = widthBoard;
-        x = widthBoard / 2;
     }
 
     public void move() {
         if (x + longueurImage / 2 + dx > widthBoard || x - longueurImage / 2 < 0) {
             dx = -dx;
         }
-        if (x > widthBoard / 2 && dx > 0)
-            vitesse -= 0.001;
-        if (x > widthBoard / 2 && dx < 0)
-            vitesse += 0.001;
-        if (x < widthBoard / 2 && dx > 0)
-            vitesse += 0.001;
-        if (x < widthBoard / 2 && dx < 0)
-            vitesse -= 0.001;
-        x += vitesse * vitesse * dx;
-
+        x += dx;
         jlabel.setBounds((int) (x - longueurImage / 2), (int) (y - largeurImage / 2), (int) longueurImage,
                 (int) largeurImage);
     }
 
     public boolean contactTrou(Ball b) {
-        return b.getYt() >= y - largeur / 2 && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
+        return b.getYt() >= y && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
     }
 
 }

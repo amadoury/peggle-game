@@ -18,12 +18,16 @@ public class PegGenerator {
         // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
         // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
 
+    PegGenerator(double resolutionScreen) {
+        this.resolutionScreen = resolutionScreen / 100;
+        adaptResolutionPeg(12, 100, 250, (int) widthBoard - 50, 80, 7);
     }
 
     void circleOfPeg(double radius, int pegSpacing, int coordX, int coordY) {
         for (int i = 0; i < 360; i += pegSpacing) {
             int x = coordX + (int) (radius * Math.cos(Math.toRadians(i)));
             int y = coordY + (int) (radius * Math.sin(Math.toRadians(i)));
+            // g.fillOval(x - 2, y - 2, 50, 50);
             pegListe.add(new PegCercle(x, y, 50, "bleu"));
         }
     }
