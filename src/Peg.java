@@ -60,5 +60,4 @@ public abstract class Peg {
     public abstract JLabel getJlabel();
 
     public abstract void pegTouchdown();
-
 }

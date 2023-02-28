@@ -157,7 +157,7 @@ public class Board extends JPanel implements MouseInputListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
+        // TODO Auto-ded method stub
 
     }
 
