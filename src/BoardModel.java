@@ -29,7 +29,9 @@ public class BoardModel {
         yInitBall = canon.getCanonY();
         ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), 15, this);
         generator = new PegGenerator(resolutionScreen, 20);
-        trou = new Trou((int) heightBoard, 144, 12, this);// meilleure dimension : longeur = 12 x largeur
+        trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
+                                                         // largeur
+
     }
 
     public Canon getCanon() {

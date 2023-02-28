@@ -14,19 +14,19 @@ public class Trou {
     private JLabel labelImgBall;
     private BoardModel boardModel;
     private double widthBoard;
-    private double heightBoard;
+    // private double heightBoard;
     private JLabel jlabel;
     private double vitesse = 1;
+    private double resolutionScreen;
 
-    public Trou(int heightBoard, int lo, int la, BoardModel bm) {
-        this.heightBoard = heightBoard;
+    public Trou(int lo, int la, BoardModel bm, double res) {
         longueur = lo;
         largeur = la;
         boardModel = bm;
         longueurImage = longueur * 1.5;
         largeurImage = largeur * 5;
         x = longueurImage / 2;
-        y = heightBoard - largeurImage;
+        resolutionScreen = res;
 
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/trou.png"));
         Image image = imageIcon.getImage();
@@ -75,8 +75,8 @@ public class Trou {
     }
 
     public void setHeightBoard(double heightBoard) {
-        this.heightBoard = heightBoard;
-        y = (int) heightBoard - 120;
+        // this.heightBoard = heightBoard;
+        y = (int) heightBoard - 96 * resolutionScreen;
     }
 
     public void setWidthBoard(double widthBoard) {

@@ -9,7 +9,7 @@ public class PegCercle extends Peg {
     private int rayon;
 
     PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
-        super(x, y);
+        super(x, y, c);
         rayon = r;
         color = c;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
@@ -32,18 +32,6 @@ public class PegCercle extends Peg {
     }
 
     @Override
-    public void drawPeg(Graphics2D g) {
-        // TODO Auto-generated method stub
-        // g.drawOval(pegX, pegY, (int) rayon, (int) rayon);
-        g.drawOval(pegX, pegY, jlabel.getWidth(), jlabel.getWidth());
-        // g.drawImage(image, pegX, pegY, null);
-    }
-
-    public JLabel getJlabel() {
-        return jlabel;
-    }
-
-    @Override
     public void pegTouchdown() {
         if (touched)
             return;
@@ -58,11 +46,6 @@ public class PegCercle extends Peg {
         jlabel.setBounds((int) (pegX - 1.5 * rayon), (int) (pegY - 1.5 * rayon), (int) 3 * rayon, (int) 3 * rayon);
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(3 * rayon, 3 * rayon, Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
-    }
-
-    @Override
-    public void delete() {
-        jlabel.setIcon(null);
     }
 
 }

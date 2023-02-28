@@ -1,35 +1,25 @@
 import java.awt.Graphics2D;
-
-import javax.swing.JLabel;
+import java.awt.Image;
+import javax.swing.*;
 
 public class PegRectangle extends Peg {
 
     private int longueur;
     private int largeur;
 
-    PegRectangle(int x, int y, int lo, int la) {
-        super(x, y);
+    PegRectangle(int x, int y, int lo, int la, String c) {
+        super(x, y, c);
         longueur = lo;
         largeur = la;
-        // TODO Auto-generated constructor stub
-    }
 
-    @Override
-    public void delete() {
-        // TODO Auto-generated method stub
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + "-rectangle.png"));
+        Image image = imageIcon.getImage();
+        Image newimg = image.getScaledInstance((int) (longueur), (int) (longueur), java.awt.Image.SCALE_SMOOTH); // scale
 
-    }
-
-    @Override
-    public void drawPeg(Graphics2D g) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public JLabel getJlabel() {
-        // TODO Auto-generated method stub
-        return null;
+        imageIcon = new ImageIcon(newimg);
+        jlabel = new JLabel(imageIcon);
+        // jlabel.setSize(rayon * 2, rayon * 2);
+        jlabel.setBounds((int) pegX - longueur / 2, (int) pegY - largeur / 2, (int) longueur, (int) largeur);
     }
 
     @Override

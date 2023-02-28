@@ -11,9 +11,10 @@ public abstract class Peg {
     protected JLabel jlabel;
     protected String color;
 
-    Peg(int x, int y) {
+    Peg(int x, int y, String c) {
         pegX = x;
         pegY = y;
+        color = c;
     }
 
     public double getPegX() {
@@ -48,12 +49,14 @@ public abstract class Peg {
         return destructed;
     }
 
-    public abstract void delete();
-
-    public abstract void drawPeg(Graphics2D g);
-
-    public abstract JLabel getJlabel();
+    public void delete() {
+        jlabel.setIcon(null);
+    }
 
     public abstract void pegTouchdown();
+
+    public JLabel getJlabel() {
+        return jlabel;
+    }
 
 }

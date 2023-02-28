@@ -35,9 +35,6 @@ public class Board extends JPanel implements MouseInputListener {
 
     private void initBoard() {
 
-        double pixelWidth = 0;
-        double pixelHeight = 0;
-
         try {
             imageBoard = ImageIO.read(this.getClass().getResource("ressources/bgd-peggle-img-1.jpg"));
         } catch (IOException e) {
