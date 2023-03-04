@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BoardModel {
 
     /* for Canon */
@@ -63,8 +65,9 @@ public class BoardModel {
         return trou;
     }
 
-    public void updateBoardModel(double dt) {
-        ball.updateBall(dt);
+    public void updateBoardModel() {
+        ball.updateBall();
+        contact();
         trou.move();
     }
 
@@ -73,7 +76,13 @@ public class BoardModel {
     }
 
     public boolean contact() {
-        return ball.contactPeg(generator.contact(ball));
+        ArrayList<Peg> listPeg = generator.contact(ball);
+        if (listPeg == null)
+            return false;
+        for (Peg p : listPeg) {
+            ball.contactPeg(p);
+        }
+        return true;
     }
 
     public void retireAllTouched() {

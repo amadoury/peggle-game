@@ -22,9 +22,22 @@ public class PegRectangle extends Peg {
         jlabel.setBounds((int) pegX - longueur / 2, (int) pegY - largeur / 2, (int) longueur, (int) largeur);
     }
 
+    public int getLargeur() {
+        return largeur;
+    }
+
+    public int getLongueur() {
+        return longueur;
+    }
+
     @Override
     public void pegTouchdown() {
-        // TODO Auto-generated method stub
+        if (touched)
+            return;
+        touched = true;
+        // ImageIcon imageIcon = new ImageIcon(
+        // PegRectangle.this.getClass().getResource("ressources/peg-" + color +
+        // "-animation.gif"));
 
     }
 

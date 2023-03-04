@@ -10,7 +10,7 @@ public class App extends JFrame {
 
     private JPanel left = new JPanel();
     private JPanel right = new JPanel();
-    private Board board;
+    private BoardMain board;
     private double width;
     private double height;
 
@@ -36,7 +36,7 @@ public class App extends JFrame {
         c.ipady = 1500;
         c.gridx = 1;
         c.gridy = 0;
-        board = new Board();
+        board = new BoardMain();
         add(board, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;

@@ -82,6 +82,7 @@ public class Trou {
     public void setWidthBoard(double widthBoard) {
         this.widthBoard = widthBoard;
         x = widthBoard / 2;
+        vitesse = 1;
     }
 
     public void move() {

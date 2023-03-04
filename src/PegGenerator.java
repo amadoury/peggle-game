@@ -48,8 +48,8 @@ public class PegGenerator {
                 c = "orange";
                 ++lPosition;
             }
-            pegListe.add(new PegCercle(coordX + i, coordY, radius, c));
-            // pegListe.add(new PegRectangle(coordX + i, coordY, 60, 30, "bleu"));
+            // pegListe.add(new PegCercle(coordX + i, coordY, radius, c));
+            pegListe.add(new PegRectangle(coordX + i, coordY, 60, 30, "bleu"));
             c = "bleu";
         }
     }
@@ -101,18 +101,29 @@ public class PegGenerator {
         return l;
     }
 
-    public Peg contact(Ball b) {// retourne null si contact avec aucun peg
+    public ArrayList<Peg> contact(Ball b) {// retourne null si contact avec aucun peg
+        ArrayList<Peg> l = new ArrayList<Peg>();
         for (int i = 0; i < pegListe.size(); ++i) {
             Peg p = pegListe.get(i);
             if (p instanceof PegCercle && !p.isDestructed()) {
                 double normeVect = (Math
                         .sqrt(Math.pow(b.getXt() - p.getPegX(), 2) + Math.pow(b.getYt() - p.getPegY(), 2)));
                 if (normeVect <= ((PegCercle) p).getRayon() + b.getRayon()) {
-                    return p;
+                    l.add(p);
+                }
+            }
+            if (p instanceof PegRectangle && !p.isDestructed()) {
+                if (b.getXt() + b.getRayon() > p.getPegX() - ((PegRectangle) p).getLongueur() / 2.
+                        && b.getXt() - b.getRayon() < p.getPegX() + ((PegRectangle) p).getLongueur() / 2.
+                        && b.getYt() + b.getRayon() > p.getPegY() - (((PegRectangle) p).getLargeur() / 2.)
+                        && b.getYt() - b.getRayon() < p.getPegY() + ((PegRectangle) p).getLargeur() / 2.) {
+                    l.add(p);
                 }
             }
         }
-        return null;
+        if (l.size() == 0)
+            return null;
+        return l;
     }
 
     public void retireAllTouched() {
@@ -125,8 +136,8 @@ public class PegGenerator {
         widthBoard = w;
         adaptResolutionPeg(rayonPeg, 100, 250, (int) widthBoard - 100, 60 + 2 *
                 rayonPeg);
-        multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
-        // spiralOfPeg(500, 500, 300, 15);
+        // multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
+        spiralOfPeg(500, 500, 300, 15);
     }
 
 }
