@@ -1,12 +1,20 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener ;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.util.TimerTask;
 import java.util.Timer;
 
-public class BoardMain extends Board {
+public class BoardMain extends Board implements KeyListener{
 
     private Timer timer;
     private Dimension dimensionBoard;
+
+    private Graphics2D g2d  ;
+
+
+    private int commandKey = -1 ;
 
     /* BoardModel */
     BoardModel boardModel;
@@ -36,12 +44,15 @@ public class BoardMain extends Board {
         final int PERIOD_INTERVAL = 15;
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
+
+        this.addKeyListener(this) ;
+        this.setFocusable(true);
     }
 
     @Override
     public void paintComponent(Graphics g) {
 
-        Graphics2D g2d = (Graphics2D)g ;
+        g2d = (Graphics2D)g ;
 
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
 
@@ -56,6 +67,59 @@ public class BoardMain extends Board {
         add(boardModel.getBall().getLabelImgBall());
         boardModel.contact();
 
+        if(!boardModel.getGenerator().hasOrangePeg()){
+            // this.addKeyListener(this) ;
+            // this.setFocusable(true);
+            boardModel.setGameOver(true);
+            drawGameOverScreen();
+        }
+    }
+
+    public void drawGameOverScreen(){
+        g2d.setColor(new Color(0,0,0, 150));
+        g2d.fillRect(0,0, (int)width, (int)height) ;
+
+        /* gameOver */
+        String text = "Game Over";
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 110f)) ;
+        int x = getXforCenteredText(text); 
+        int y = 210 ;
+        /* shadow */
+        g2d.setColor(Color.black);
+        g2d.drawString(text, x, y) ;
+        /* main color */
+        g2d.setColor(Color.white) ;
+        g2d.drawString(text, x-4, y-4) ;
+
+        /* rety */
+
+        g2d.setFont(g2d.getFont().deriveFont(50f)) ;
+        text = "Retry";
+        x = getXforCenteredText(text);
+        int xbis = x ;
+        y += 2 * y ;
+        g2d.drawString(text, x, y);
+        if (commandKey == 0){
+            g2d.drawString(">", x - 40, y) ;
+        }
+
+        /* back */
+        text = "Quit";
+        x= getXforCenteredText(text);
+        y += 55 ;
+
+        g2d.drawString(text, x, y);
+
+        if (commandKey == 1){
+            g2d.drawString(">", xbis - 40, y) ;
+        }
+
+    }
+
+    public int getXforCenteredText(String text){
+        Font font = g2d.getFont() ;
+        Rectangle2D f = font.getStringBounds(text, g2d.getFontRenderContext());
+        return (int)((width - f.getWidth()) / 2) ;
     }
 
     public void setDimensionBoard(Dimension dim) {
@@ -83,7 +147,7 @@ public class BoardMain extends Board {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!boardModel.getBall().isBallStart()) {
+        if (!boardModel.getBall().isBallStart() && !boardModel.isGameOver()) {
             double normeVect = (Math
                     .sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)));
             double angle = Math.acos(Math.abs(e.getY() - 50)
@@ -111,6 +175,41 @@ public class BoardMain extends Board {
     public void setHeightScreen(double w){
         super.setHeightScreen(w);
         boardModel.getBall().setHeightBoard(w);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode() ;
+
+        if(key == KeyEvent.VK_UP){
+            commandKey = 0 ;
+        }
+
+        if (key ==  KeyEvent.VK_DOWN){
+            commandKey = 1 ;
+        }
+
+        if (key == KeyEvent.VK_ENTER){
+            if(commandKey == 0 ){
+                
+            }
+    
+            if (commandKey == 1 ){
+                
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

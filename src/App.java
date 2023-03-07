@@ -43,7 +43,7 @@ public class App extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
     
-        cardLayout.show(panelBoard, "boardEdit");
+        cardLayout.show(panelBoard, "boardMain");
 
         //add(boardEdit , c); 
         add(panelBoard , c); 

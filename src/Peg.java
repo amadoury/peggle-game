@@ -6,12 +6,14 @@ public abstract class Peg {
 
     protected int pegX;
     protected int pegY;
+    protected String color ;
     protected boolean touched;
     protected boolean destructed;
 
-    Peg(int x, int y) {
+    Peg(int x, int y, String c) {
         pegX = x;
         pegY = y;
+        color = c; 
     }
 
     public double getPegX() {
@@ -20,6 +22,10 @@ public abstract class Peg {
 
     public double getPegY() {
         return pegY;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public void setPegX(int pegX) {

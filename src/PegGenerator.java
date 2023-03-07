@@ -14,7 +14,7 @@ public class PegGenerator {
 
     PegGenerator(double resolutionScreen) {
         this.resolutionScreen = resolutionScreen / 100;
-        adaptResolutionPeg(12, 100 , 250, (int)widthBoard - 50, 80 , 7);
+        adaptResolutionPeg(12, 100 , 250, (int)widthBoard - 50, 80 , 1);
     }
 
     void circleOfPeg(double radius, int pegSpacing, int coordX, int coordY) {
@@ -98,6 +98,15 @@ public class PegGenerator {
         for (int i = 0; i < pegListe.size(); ++i) {
             pegListe.get(i).updatePeg();
         }
+    }
+
+    public boolean hasOrangePeg(){
+        for(int i = 0; i < pegListe.size(); i++){
+            if (pegListe.get(i).getColor().equals("orange") && !pegListe.get(i).isDestructed()){
+                return true ;
+            }
+        }
+        return false ;
     }
 
 

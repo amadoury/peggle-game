@@ -12,6 +12,7 @@ public class BoardModel {
     PegGenerator generator;
     private double widthBoard ;
     private double heightBoard ;
+    private boolean gameOver = false;
 
 
     public BoardModel(int resolutionScreen) {
@@ -48,6 +49,14 @@ public class BoardModel {
         return thetaCanon;
     }
 
+    public boolean isGameOver(){
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+    
     public PegGenerator getGenerator() {
         return generator;
     }

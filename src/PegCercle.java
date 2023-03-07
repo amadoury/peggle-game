@@ -5,12 +5,10 @@ public class PegCercle extends Peg {
 
     private int rayon;
     private LabelPeg jlabel ;
-    private String color;
 
     PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
-        super(x, y);
+        super(x, y, c);
         rayon = r;
-        color = c;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance((int)(2 * rayon) , (int) (2 * rayon), Image.SCALE_SMOOTH); // scale
