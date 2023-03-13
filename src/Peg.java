@@ -8,7 +8,7 @@ public abstract class Peg {
     protected int pegY;
     protected boolean touched;
     protected boolean destructed;
-    protected JLabel jlabel;
+    protected LabelPeg jlabel;
     protected String color;
 
     Peg(int x, int y, String c) {
@@ -55,7 +55,7 @@ public abstract class Peg {
 
     public abstract void pegTouchdown();
 
-    public JLabel getJlabel() {
+    public LabelPeg getLabelPeg() {
         return jlabel;
     }
 

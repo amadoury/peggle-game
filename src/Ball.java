@@ -25,7 +25,7 @@ public class Ball {
     private double nombreUpdatesRepeted = 10;
     // private int widthBall = 45;
     // private int radiusBall = widthBall / 2;
-    private Board board;
+    private BoardMain board;
     private boolean startBall = false;
     private int rayon;
     private BoardModel boardModel;
@@ -228,29 +228,43 @@ public class Ball {
             boolean touch = false;
 
             if (xt < p.getPegX() - ((PegRectangle) p).getLongueur() + rayon) {
-                vitesseX *= -1;
-                xt = p.getPegX() - ((PegRectangle) p).getLongueur() / 2.;
+                if (vitesseX >= 0) {
+                    // vitesseX -= vitesseX;
+                    vitesseX *= -1;
+
+                }
+                // xt = p.getPegX() - ((PegRectangle) p).getLongueur() / 2.;
                 touch = true;
                 vitesseX *= 0.9;
 
             }
             if (xt > p.getPegX() + ((PegRectangle) p).getLongueur() - rayon) {
-                vitesseX *= -1;
-                xt = p.getPegX() + ((PegRectangle) p).getLongueur() / 2.;
+                if (vitesseX <= 0) {
+                    // vitesseX -= vitesseX;
+                    vitesseX *= -1;
+                }
+                // xt = p.getPegX() + ((PegRectangle) p).getLongueur() / 2.;
                 touch = true;
                 vitesseX *= 0.9;
 
             }
             if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() + rayon) {
-                vitesseY *= -1;
-                yt = p.getPegY() - ((PegRectangle) p).getLargeur() / 2.;
+                if (vitesseY >= 0) {
+                    // vitesseY -= vitesseY;
+                    vitesseY *= -1;
+                }
+                // yt = p.getPegY() - ((PegRectangle) p).getLargeur() / 2.;
                 touch = true;
                 vitesseY *= 0.9;
 
             }
             if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() - rayon) {
-                vitesseY *= -1;
-                yt = p.getPegY() + ((PegRectangle) p).getLargeur() / 2.;
+                if (vitesseY <= 0) {
+                    // vitesseY -= vitesseY;
+                    vitesseY *= -1;
+
+                }
+                // yt = p.getPegY() + ((PegRectangle) p).getLargeur() / 2.;
                 touch = true;
                 vitesseY *= 0.9;
 

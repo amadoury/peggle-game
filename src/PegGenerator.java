@@ -4,12 +4,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.xml.crypto.Data;
+
 public class PegGenerator {
 
     private ArrayList<Peg> pegListe = new ArrayList<Peg>();
     private double resolutionScreen;
     private double widthBoard = 900;
-    private int rayonPeg;
 
     private int radius;
     int coordX;
@@ -20,7 +21,7 @@ public class PegGenerator {
     PegGenerator(double resolutionScreen, int r) {
         // multipleLinesOfPeg(12, 100 , 250, 1200, 80 , 7);
         this.resolutionScreen = resolutionScreen;
-        rayonPeg = r;
+        radius = r;
         // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
         // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
 
@@ -66,13 +67,13 @@ public class PegGenerator {
 
     void spiralOfPeg(int coordX, int coordY, int length, int deltaRadius) {
         double deltaTheta = 0;
-        double radius = 60;
-        for (double theta = 0; radius <= length; theta += deltaTheta) {
-            double x = radius * Math.cos(theta);
-            double y = radius * Math.sin(theta);
-            pegListe.add(new PegCercle((int) (coordX + x), (int) (coordY + y), rayonPeg, "bleu"));
-            radius += deltaRadius;
-            deltaTheta = Math.toDegrees(20 * 360 / (2 * Math.PI * radius) / (radius + 500));
+        double radiusSpiral = 60;
+        for (double theta = 0; radiusSpiral <= length; theta += deltaTheta) {
+            double x = radiusSpiral * Math.cos(theta);
+            double y = radiusSpiral * Math.sin(theta);
+            pegListe.add(new PegCercle((int) (coordX + x), (int) (coordY + y), radius, "bleu"));
+            radiusSpiral += deltaRadius;
+            deltaTheta = Math.toDegrees(20 * 360 / (2 * Math.PI * radiusSpiral) / (radiusSpiral + 500));
         }
     }
 
@@ -134,10 +135,10 @@ public class PegGenerator {
 
     public void setWidthBoard(double w) {
         widthBoard = w;
-        adaptResolutionPeg(rayonPeg, 100, 250, (int) widthBoard - 100, 60 + 2 *
-                rayonPeg);
-        // multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
-        spiralOfPeg(500, 500, 300, 15);
+        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 65 + 2 *
+                radius);
+        multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
+        // spiralOfPeg(500, 500, 300, 15);
     }
 
 }

@@ -10,6 +10,7 @@ public class Board extends JPanel implements MouseInputListener {
     protected Image imageBoard;
     public double width;
     public double height;
+    protected double resolutionScreen = Toolkit.getDefaultToolkit().getScreenResolution();
 
     public Board() {
 

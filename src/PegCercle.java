@@ -18,7 +18,7 @@ public class PegCercle extends Peg {
         // it the
         // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back
-        jlabel = new JLabel(imageIcon);
+        jlabel = new LabelPeg(imageIcon);
         // jlabel.setSize(rayon * 2, rayon * 2);
         jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) 2 * rayon, (int) 2 * rayon);
     }

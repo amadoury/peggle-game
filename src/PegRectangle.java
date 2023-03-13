@@ -17,7 +17,7 @@ public class PegRectangle extends Peg {
         Image newimg = image.getScaledInstance((int) (longueur), (int) (longueur), java.awt.Image.SCALE_SMOOTH); // scale
 
         imageIcon = new ImageIcon(newimg);
-        jlabel = new JLabel(imageIcon);
+        jlabel = new LabelPeg(imageIcon);
         // jlabel.setSize(rayon * 2, rayon * 2);
         jlabel.setBounds((int) pegX - longueur / 2, (int) pegY - largeur / 2, (int) longueur, (int) largeur);
     }

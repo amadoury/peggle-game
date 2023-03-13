@@ -14,11 +14,11 @@ public class BoardModel {
     PegGenerator generator;
     private double widthBoard;
     private double heightBoard;
-    private Board board;
+    private BoardMain board;
     private double resolutionScreen;
     private Trou trou;
 
-    public BoardModel(int resolutionScreen, Board board) {
+    public BoardModel(int resolutionScreen, BoardMain board) {
         this.resolutionScreen = resolutionScreen / 100.;
         this.board = board;
         initBoardModel();
@@ -98,13 +98,13 @@ public class BoardModel {
         trou.setHeightBoard(heightBoard);
 
         for (int i = 0; i < generator.getPegListe().size(); ++i) {
-            board.remove(generator.getPegListe().get(i).getJlabel());
+            board.remove(generator.getPegListe().get(i).getLabelPeg());
         }
 
         generator.setWidthBoard(widthBoard);
 
         for (int i = 0; i < generator.getPegListe().size(); ++i) {
-            board.add(generator.getPegListe().get(i).getJlabel());
+            board.add(generator.getPegListe().get(i).getLabelPeg());
         }
 
         board.add(trou.getJlabel());

@@ -33,7 +33,7 @@ public class BoardMain extends Board {
     private void initBoard() {
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel(Toolkit.getDefaultToolkit().getScreenResolution(), this);
+        boardModel = new BoardModel((int) resolutionScreen, this);
 
         add(boardModel.getCanon().getJlabel());
 
