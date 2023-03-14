@@ -21,6 +21,11 @@ public abstract class Peg {
     public double getPegY() {
         return pegY;
     }
+    
+    public String getColor() {
+        return this.getColor();
+    }
+
 
     public void setPegX(int pegX) {
         this.pegX = pegX;
