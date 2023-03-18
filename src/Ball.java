@@ -26,6 +26,7 @@ public class Ball {
     private boolean startBall = false;
     private int rayon;
     private BoardModel boardModel;
+    private Sound sound ;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, BoardModel bm) {
         this.x_initial = x_initial;
@@ -184,8 +185,15 @@ public class Ball {
 
             vitesseX *= 0.8;
             vitesseY *= 0.8;
+
+            sound.setFile(1);
+            sound.play();
+            
             p.pegTouchdown();
         }
     }
 
+    public void setSound(Sound sound) {
+        this.sound = sound;
+    }
 }

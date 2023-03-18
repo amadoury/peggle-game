@@ -109,5 +109,9 @@ public class PegGenerator {
         return false ;
     }
 
+    public void setPegListe(ArrayList<Peg> pegListe) {
+        this.pegListe = pegListe;
+    }
+
 
 }

@@ -3,7 +3,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener ;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.TimerTask;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 
 public class BoardMain extends Board implements KeyListener{
@@ -14,7 +21,7 @@ public class BoardMain extends Board implements KeyListener{
     private Graphics2D g2d  ;
 
 
-    private int commandKey = -1 ;
+    private int commandKey = 0 ;
 
     /* BoardModel */
     BoardModel boardModel;
@@ -22,21 +29,26 @@ public class BoardMain extends Board implements KeyListener{
     private double time = 0.015;
 
 
-    public BoardMain() {
-        initBoard();
+    public BoardMain(String filePath) {
+        initBoard(filePath);
         width = super.width ;
         height = super.height ;
     }
 
-    private void initBoard() {
+    private void initBoard(String filePath) {
 
         /* Initialisation of boardModel */
         boardModel = new BoardModel(Toolkit.getDefaultToolkit().getScreenResolution());
 
 
-        add(boardModel.getCanon().getJlabel());
-        for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
-            add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
+        // add(boardModel.getCanon().getJlabel());
+        // for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
+        //     add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
+        // }
+        if (filePath == null){
+            loadPegOnBoard(boardModel.getGenerator());
+        }else{
+            loadPegOnBoardWithFile(filePath) ;
         }
 
         // timer : animation
@@ -47,6 +59,35 @@ public class BoardMain extends Board implements KeyListener{
 
         this.addKeyListener(this) ;
         this.setFocusable(true);
+    }
+
+
+    public void loadPegOnBoardWithFile(String path){
+        try{
+            ArrayList<Peg> listPeg = new ArrayList<Peg>() ;
+            File file = new File(path);
+            Scanner scanner = new Scanner(file);
+            scanner.useDelimiter("\n");
+            while(scanner.hasNext()){
+                String [] tabRows = scanner.next().split("/");
+                listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]), 12, tabRows[2])) ;
+            }
+            scanner.close();
+
+            boardModel.getGenerator().setPegListe(listPeg);
+
+            loadPegOnBoard(boardModel.getGenerator());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void loadPegOnBoard(PegGenerator pegGen){
+        add(boardModel.getCanon().getJlabel());
+        for (int i = 0; i < pegGen.getPegListe().size(); ++i) {
+            add(pegGen.getPegListe().get(i).getJlabel());
+        }
     }
 
     @Override
@@ -113,7 +154,6 @@ public class BoardMain extends Board implements KeyListener{
         if (commandKey == 1){
             g2d.drawString(">", xbis - 40, y) ;
         }
-
     }
 
     public int getXforCenteredText(String text){
@@ -143,6 +183,8 @@ public class BoardMain extends Board implements KeyListener{
     @Override
     public void mousePressed(MouseEvent e) {
         boardModel.setBallStart(true);
+        boardModel.getSound().setFile(0);
+        boardModel.getSound().play();
     }
 
     @Override
@@ -197,11 +239,20 @@ public class BoardMain extends Board implements KeyListener{
 
         if (key == KeyEvent.VK_ENTER){
             if(commandKey == 0 ){
-                
+                System.out.println("retry");
+
+                for(int i = 0; i < boardModel.getGenerator().getPegListe().size() ; i++){
+                    this.remove(boardModel.getGenerator().getPegListe().get(i).getJlabel()) ;
+                }
+
+                boardModel.setPegGenerator(new PegGenerator(Toolkit.getDefaultToolkit().getScreenResolution()));
+                loadPegOnBoard(boardModel.getGenerator());
+                boardModel.setGameOver(false);
             }
-    
             if (commandKey == 1 ){
-                
+                JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(this);
+                frame.dispose();
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE) ;
             }
         }
     }
@@ -210,6 +261,10 @@ public class BoardMain extends Board implements KeyListener{
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
         
+    }
+
+    public BoardModel getBoardModel(){
+        return boardModel;
     }
 
 }

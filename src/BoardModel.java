@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BoardModel {
 
     /* for Canon */
@@ -13,6 +15,8 @@ public class BoardModel {
     private double widthBoard ;
     private double heightBoard ;
     private boolean gameOver = false;
+    
+    private Sound sound ;
 
 
     public BoardModel(int resolutionScreen) {
@@ -26,6 +30,11 @@ public class BoardModel {
         yInitBall = canon.getCanonY();
         ball = new Ball(xInitBall, yInitBall, angleChute, 12, this);
         generator = new PegGenerator(resolutionScreen);
+
+        ArrayList<String> paths = new ArrayList<String>() ;
+        paths.add("ressources/audio/shot.wav") ;
+        paths.add("ressources/audio/rebond.wav") ;
+        sound = new Sound(paths) ;
     }
 
     public Canon getCanon() {
@@ -71,6 +80,7 @@ public class BoardModel {
 
     public void contact() {
         ball.contactPeg(generator.contact(ball));
+        ball.setSound(sound);
     }
 
     public void retireAllTouched() {
@@ -82,10 +92,17 @@ public class BoardModel {
 
         ball.setWidthBoard(widthBoard);
         canon.setOrbX(widthBoard);
-
     }
 
     public void setHeightBoard(double heightBoard) {
         this.heightBoard = heightBoard;
+    }
+
+    public void setPegGenerator(PegGenerator pegGen){
+        this.generator = pegGen;
+    }
+
+    public Sound getSound(){
+        return sound ;
     }
 }

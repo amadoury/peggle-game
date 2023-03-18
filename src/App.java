@@ -10,21 +10,25 @@ public class App extends JFrame {
     private JPanel left = new JPanel();
     private JPanel right = new JPanel();
     private BoardMain boardMain;
+    private LevelMenu levelMenu ;
     private boolean isEditing = false ;
+    
 
     public App() {
         initUI();
     }
 
     private void initUI() {
-        boardMain = new BoardMain();
+        boardMain = new BoardMain(null);
         BoardEdit boardEdit = new BoardEdit() ;
+        levelMenu = new LevelMenu() ;
 
         CardLayout cardLayout = new CardLayout() ;
         JPanel panelBoard = new JPanel() ;
         panelBoard.setLayout(cardLayout) ;
         panelBoard.add(boardMain, "boardMain") ;
         panelBoard.add(boardEdit, "boardEdit") ;
+        panelBoard.add(levelMenu, "levelMenu") ;
 
         setLayout(new GridBagLayout());
 
@@ -43,9 +47,25 @@ public class App extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
     
-        cardLayout.show(panelBoard, "boardMain");
+        cardLayout.show(panelBoard, "levelMenu");
+        //cardLayout.show(panelBoard, "levelMenu");
+
+        levelMenu.getLevel1().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level1.txt");
+            panelBoard.add(bd, "boardlevel1");
+            cardLayout.show(panelBoard, "boardlevel1");
+            setParams(bd);
+        });
+
+        levelMenu.getLevel2().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level2.txt");
+            panelBoard.add(bd, "boardlevel2");
+            cardLayout.show(panelBoard, "boardlevel2");
+            setParams(bd);
+        });
 
         //add(boardEdit , c); 
+        //cardLayout.show(panelBoard, "boardMain");
         add(panelBoard , c); 
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -59,13 +79,14 @@ public class App extends JFrame {
         // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
 
         boardEdit.setApp(this) ;
+        setParams(boardMain);
 
-        boardMain.setDimensionBoard(boardMain.getSize());
+        // boardMain.setDimensionBoard(boardMain.getSize());
 
-        dimensionFrame = this.getBounds().getSize();
+        // dimensionFrame = this.getBounds().getSize();
 
-        boardMain.setWidthScreen(dimensionFrame.getWidth());
-        boardMain.setHeightScreen(dimensionFrame.getHeight());
+        // boardMain.setWidthScreen(dimensionFrame.getWidth());
+        // boardMain.setHeightScreen(dimensionFrame.getHeight());
 
 
         // boardEdit.setWidthScreen(dimensionFrame.getWidth());
@@ -76,6 +97,15 @@ public class App extends JFrame {
         setLocationRelativeTo(null);
         this.addComponentListener(new ResizeListener());
 
+    }
+
+    public void setParams(BoardMain boardMain){
+        boardMain.setDimensionBoard(boardMain.getSize());
+
+        dimensionFrame = this.getBounds().getSize();
+
+        boardMain.setWidthScreen(dimensionFrame.getWidth());
+        boardMain.setHeightScreen(dimensionFrame.getHeight());
     }
 
     public static void main(String[] args) {
