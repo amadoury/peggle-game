@@ -135,7 +135,7 @@ public class PegGenerator {
 
     public void setWidthBoard(double w) {
         widthBoard = w;
-        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 65 + 2 *
+        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 90 + 2 *
                 radius);
         multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
         // spiralOfPeg(500, 500, 300, 15);

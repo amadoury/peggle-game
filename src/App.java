@@ -8,7 +8,7 @@ public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private JPanel left = new JPanel();
+    private BoardLeft left = new BoardLeft(1);
     private JPanel right = new JPanel();
     private BoardMain boardMain;
     private double width;
@@ -50,7 +50,7 @@ public class App extends JFrame {
         c.gridx = 1;
         c.gridy = 0;
 
-        cardLayout.show(panelBoard, "boardEdit");
+        cardLayout.show(panelBoard, "boardMain");
 
         // board = new BoardMain();
         add(panelBoard, c);
