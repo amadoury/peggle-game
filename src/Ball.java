@@ -227,7 +227,7 @@ public class Ball {
         if (p instanceof PegRectangle) {
             boolean touch = false;
 
-            if (xt < p.getPegX() - ((PegRectangle) p).getLongueur() + rayon) {
+            if (xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + rayon) {
                 if (vitesseX >= 0) {
                     // vitesseX -= vitesseX;
                     vitesseX *= -1;
@@ -238,7 +238,7 @@ public class Ball {
                 vitesseX *= 0.9;
 
             }
-            if (xt > p.getPegX() + ((PegRectangle) p).getLongueur() - rayon) {
+            if (xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - rayon) {
                 if (vitesseX <= 0) {
                     // vitesseX -= vitesseX;
                     vitesseX *= -1;
@@ -248,7 +248,7 @@ public class Ball {
                 vitesseX *= 0.9;
 
             }
-            if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() + rayon) {
+            if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon) {
                 if (vitesseY >= 0) {
                     // vitesseY -= vitesseY;
                     vitesseY *= -1;
@@ -258,7 +258,7 @@ public class Ball {
                 vitesseY *= 0.9;
 
             }
-            if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() - rayon) {
+            if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2 - rayon) {
                 if (vitesseY <= 0) {
                     // vitesseY -= vitesseY;
                     vitesseY *= -1;

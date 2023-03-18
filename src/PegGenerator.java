@@ -17,6 +17,8 @@ public class PegGenerator {
     int coordY;
     int length;
     int pegSpacing;
+    double longueur;
+    double largeur;
 
     PegGenerator(double resolutionScreen, int r) {
         // multipleLinesOfPeg(12, 100 , 250, 1200, 80 , 7);
@@ -50,7 +52,7 @@ public class PegGenerator {
                 ++lPosition;
             }
             // pegListe.add(new PegCercle(coordX + i, coordY, radius, c));
-            pegListe.add(new PegRectangle(coordX + i, coordY, 60, 30, "bleu"));
+            pegListe.add(new PegRectangle(coordX + i, coordY, longueur, largeur, "bleu"));
             c = "bleu";
         }
     }
@@ -78,12 +80,15 @@ public class PegGenerator {
     }
 
     /* ajoute les peg avec la résolution de l'écran */
-    public void adaptResolutionPeg(int radius, int coordX, int coordY, int length, int pegSpacing) {
+    public void adaptResolutionPeg(int radius, int coordX, int coordY, int length, int pegSpacing, int longueur,
+            int largeur) {
         this.radius = (int) (radius / resolutionScreen);
         this.coordX = (int) (coordX / resolutionScreen);
         this.coordY = (int) (coordY / resolutionScreen);
         this.length = (int) (length / resolutionScreen);
         this.pegSpacing = (int) (pegSpacing / resolutionScreen);
+        this.longueur = (int) (longueur / resolutionScreen);
+        this.largeur = (int) (largeur / resolutionScreen);
 
     }
 
@@ -136,7 +141,7 @@ public class PegGenerator {
     public void setWidthBoard(double w) {
         widthBoard = w;
         adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 90 + 2 *
-                radius);
+                radius, 60, 30);
         multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
         // spiralOfPeg(500, 500, 300, 15);
     }

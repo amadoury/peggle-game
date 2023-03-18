@@ -4,10 +4,10 @@ import javax.swing.*;
 
 public class PegRectangle extends Peg {
 
-    private int longueur;
-    private int largeur;
+    private double longueur;
+    private double largeur;
 
-    PegRectangle(int x, int y, int lo, int la, String c) {
+    PegRectangle(int x, int y, double lo, double la, String c) {
         super(x, y, c);
         longueur = lo;
         largeur = la;
@@ -19,14 +19,14 @@ public class PegRectangle extends Peg {
         imageIcon = new ImageIcon(newimg);
         jlabel = new LabelPeg(imageIcon);
         // jlabel.setSize(rayon * 2, rayon * 2);
-        jlabel.setBounds((int) pegX - longueur / 2, (int) pegY - largeur / 2, (int) longueur, (int) largeur);
+        jlabel.setBounds((int) (pegX - longueur / 2), (int) (pegY - largeur / 2), (int) longueur, (int) largeur);
     }
 
-    public int getLargeur() {
+    public double getLargeur() {
         return largeur;
     }
 
-    public int getLongueur() {
+    public double getLongueur() {
         return longueur;
     }
 
