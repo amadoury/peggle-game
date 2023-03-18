@@ -24,6 +24,9 @@ public class PegCercle extends Peg {
     public int getRayon() {
         return rayon;
     }
+    public String getColor(){
+        return this.color;
+    }
 
     public void setRayon(int rayon) {
         this.rayon = rayon;
