@@ -10,6 +10,7 @@ class LevelMenu extends JPanel{
     private JPanel header = new JPanel() ;
     private JButton level1 = new JButton("1") ;
     private JButton level2 = new JButton("2") ;
+    private JButton level3 = new JButton("3");
     private CardLayout cardLayout; 
 
     public LevelMenu(){
@@ -26,6 +27,7 @@ class LevelMenu extends JPanel{
 
         level.add(level1) ;
         level.add(level2) ;
+        level.add(level3) ;
 
 
         // level1.addActionListener((event) -> {
@@ -43,5 +45,9 @@ class LevelMenu extends JPanel{
 
     public JButton getLevel2(){
         return level2 ;
+    }
+
+    public JButton getLevel3(){
+        return level3 ;
     }
 }

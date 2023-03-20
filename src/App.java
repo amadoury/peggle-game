@@ -64,6 +64,14 @@ public class App extends JFrame {
             setParams(bd);
         });
 
+
+        levelMenu.getLevel3().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level3.txt");
+            panelBoard.add(bd, "boardlevel3");
+            cardLayout.show(panelBoard, "boardlevel3");
+            setParams(bd);
+        });
+
         //add(boardEdit , c); 
         //cardLayout.show(panelBoard, "boardMain");
         add(panelBoard , c); 
