@@ -53,7 +53,8 @@ public class BoardMain extends Board implements KeyListener{
         // add(boardModel.getCanon().getJlabel());
         // for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
         //     add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
-        // } 
+        // }
+
         if (filePath == null){
             loadPegOnBoard(boardModel.getGenerator());
         }else{
@@ -81,10 +82,13 @@ public class BoardMain extends Board implements KeyListener{
             File file = new File(path);
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("\n");
+
+
+
             while(scanner.hasNext()){
                 String [] tabRows = scanner.next().split("/");
                 System.out.println(tabRows[0]);
-                listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]), 12, tabRows[2])) ;
+                listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]), boardModel.getGenerator().getRadius(), tabRows[2])) ;
             }
 
             scanner.close();
@@ -101,9 +105,10 @@ public class BoardMain extends Board implements KeyListener{
 
     public void loadPegOnBoard(PegGenerator pegGen){
         add(boardModel.getCanon().getJlabel());
+        System.out.println(" affiche listePeg" + pegGen.getPegListe().size());
         for (int i = 0; i < pegGen.getPegListe().size(); ++i) {
+            System.out.println("test " + pegGen.getPegListe().get(i));
             add(pegGen.getPegListe().get(i).getLabelPeg());
-            System.out.println("peg ajouté");
         }
     }
 
@@ -258,8 +263,8 @@ public class BoardMain extends Board implements KeyListener{
                     this.remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg()) ;
                 }
 
-                boardModel.setPegGenerator(new PegGenerator(Toolkit.getDefaultToolkit().getScreenResolution(), 20));
-                loadPegOnBoard(boardModel.getGenerator());
+                //boardModel.setPegGenerator(new PegGenerator(Toolkit.getDefaultToolkit().getScreenResolution(), 20));
+                //loadPegOnBoard(boardModel.getGenerator());
                 boardModel.setGameOver(false);
             }
             if (commandKey == 1 ){

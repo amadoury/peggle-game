@@ -6,7 +6,7 @@ import javax.swing.*;
 public class PegCercle extends Peg {
 
     private int rayon;
-    private LabelPeg jlabel ;
+    //private LabelPeg jlabel ;
 
     PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
         super(x, y, c);
@@ -49,5 +49,7 @@ public class PegCercle extends Peg {
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(3 * rayon, 3 * rayon, Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
     }
+
+
 
 }

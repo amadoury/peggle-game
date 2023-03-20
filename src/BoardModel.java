@@ -37,6 +37,7 @@ public class BoardModel {
         trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
                                                          // largeur
 
+        board.add(trou.getJlabel());
         ArrayList<String> paths = new ArrayList<String>() ;
         paths.add("ressources/audio/shot.wav") ;
         paths.add("ressources/audio/rebond.wav") ;
@@ -113,17 +114,16 @@ public class BoardModel {
         trou.setWidthBoard(widthBoard);
         trou.setHeightBoard(heightBoard);
 
-        for (int i = 0; i < generator.getPegListe().size(); ++i) {
-            board.remove(generator.getPegListe().get(i).getLabelPeg());
-        }
+        // for (int i = 0; i < generator.getPegListe().size(); ++i) {
+        //     board.remove(generator.getPegListe().get(i).getLabelPeg());
+        // }
 
-        generator.setWidthBoard(widthBoard);
+        // generator.setWidthBoard(widthBoard);
 
-        for (int i = 0; i < generator.getPegListe().size(); ++i) {
-            board.add(generator.getPegListe().get(i).getLabelPeg());
-        }
+        // for (int i = 0; i < generator.getPegListe().size(); ++i) {
+        //     board.add(generator.getPegListe().get(i).getLabelPeg());
+        // }
 
-        board.add(trou.getJlabel());
     }
 
     public void setHeightBoard(double heightBoard) {

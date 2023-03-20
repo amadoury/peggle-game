@@ -11,20 +11,17 @@ class LevelMenu extends JPanel{
     private JButton level1 = new JButton("1") ;
     private JButton level2 = new JButton("2") ;
     private JButton level3 = new JButton("3");
-    private CardLayout cardLayout; 
 
     public LevelMenu(){
 
         text.setBorder(new EmptyBorder(new Insets(75, 0, 0, 0)));
         text.setFont(new Font("Serif", Font.BOLD, 50));
-
         header.add(text) ;
 
         header.setBackground(new Color(250, 245 , 230));
         level.setBackground(new Color(250, 245 , 230));
-
         setLayout(new BorderLayout()) ;
-
+        
         level.add(level1) ;
         level.add(level2) ;
         level.add(level3) ;

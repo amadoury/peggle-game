@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import javax.xml.crypto.Data;
 
 public class PegGenerator {
 
@@ -24,6 +23,8 @@ public class PegGenerator {
         // multipleLinesOfPeg(12, 100 , 250, 1200, 80 , 7);
         this.resolutionScreen = resolutionScreen;
         radius = r;
+        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 90 + 2 *
+        radius, 60, 30);
         //     // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
         //     // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
 
@@ -159,7 +160,11 @@ public class PegGenerator {
 
     public void setPegListe(ArrayList<Peg> pegListe) {
         this.pegListe = pegListe;
+        System.out.println(pegListe.size());
     }
 
+    public int getRadius() {
+        return radius;
+    }
 
 }

@@ -69,7 +69,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel2().addActionListener((event) -> {
-            BoardMain bd = new BoardMain(null);
+            BoardMain bd = new BoardMain("src/ressources/level/level2.txt");
             panelBoard.add(bd, "boardlevel");
             cardLayout.show(panelBoard, "boardlevel2");
             setParams(bd);
