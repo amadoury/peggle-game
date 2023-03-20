@@ -29,11 +29,6 @@ class LevelMenu extends JPanel{
         level.add(level2) ;
         level.add(level3) ;
 
-
-        // level1.addActionListener((event) -> {
-        //     cdl.show()
-        // });
-
         text.setAlignmentX(CENTER_ALIGNMENT);
         add(header, BorderLayout.NORTH);
         this.add(level) ;

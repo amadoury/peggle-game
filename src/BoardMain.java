@@ -83,10 +83,13 @@ public class BoardMain extends Board implements KeyListener{
             scanner.useDelimiter("\n");
             while(scanner.hasNext()){
                 String [] tabRows = scanner.next().split("/");
+                System.out.println(tabRows[0]);
                 listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]), 12, tabRows[2])) ;
             }
+
             scanner.close();
 
+            System.out.println("la taille de la liste listPeg " + listPeg.size());
             boardModel.getGenerator().setPegListe(listPeg);
 
             loadPegOnBoard(boardModel.getGenerator());
@@ -100,6 +103,7 @@ public class BoardMain extends Board implements KeyListener{
         add(boardModel.getCanon().getJlabel());
         for (int i = 0; i < pegGen.getPegListe().size(); ++i) {
             add(pegGen.getPegListe().get(i).getLabelPeg());
+            System.out.println("peg ajouté");
         }
     }
 
@@ -123,7 +127,7 @@ public class BoardMain extends Board implements KeyListener{
         // boardModel.contact();
 
         if (listeTrajectoire == null || listeTrajectoire.size() == 0) {
-            System.out.println("test");
+            //System.out.println("test");
             return;
         }
 

@@ -21,7 +21,7 @@ public class BoardLeft extends JPanel {
 
         for (int i = 0; i < number; i++) {
             ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/ball.png"));
-            JLabel labelImgBall = new JLabel(imageIcon);
+            labelImgBall = new JLabel(imageIcon);
 
             Image image = imageIcon.getImage(); // transform it
             Image newimg = image.getScaledInstance(2 * rayon, 2 * rayon, java.awt.Image.SCALE_SMOOTH);

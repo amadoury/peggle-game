@@ -3,7 +3,6 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Trou {
-
     private double x;
     private double y;
     private int longueur;// meilleure dimension : longeur = 12 x largeur
