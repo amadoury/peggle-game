@@ -24,9 +24,12 @@ public class PegGenerator {
         // multipleLinesOfPeg(12, 100 , 250, 1200, 80 , 7);
         this.resolutionScreen = resolutionScreen;
         radius = r;
-        // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
-        // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
+        //     // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
+        //     // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
 
+        // PegGenerator(double resolutionScreen) {
+        //this.resolutionScreen = resolutionScreen / 100;
+        //adaptResolutionPeg(12, 100 , 250, (int)widthBoard - 50, 80 , 1);
     }
 
     void circleOfPeg(double radius, int pegSpacing, int coordX, int coordY) {
@@ -142,8 +145,22 @@ public class PegGenerator {
         widthBoard = w;
         adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 90 + 2 *
                 radius, 60, 30);
-        multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
+        //multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
         // spiralOfPeg(500, 500, 300, 15);
     }
+
+    public boolean hasOrangePeg(){
+        for(int i = 0; i < pegListe.size(); i++){
+            if (pegListe.get(i).getColor().equals("orange") && !pegListe.get(i).isDestructed()){
+                return true ;
+            }
+        }
+        return false ;
+    }
+
+    public void setPegListe(ArrayList<Peg> pegListe) {
+        this.pegListe = pegListe;
+    }
+
 
 }

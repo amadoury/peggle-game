@@ -12,11 +12,14 @@ public class BoardModel {
     private double yInitBall = 0;
     private double angleChute = -60;
     PegGenerator generator;
-    private double widthBoard;
-    private double heightBoard;
     private BoardMain board;
     private double resolutionScreen;
     private Trou trou;
+    private double widthBoard ;
+    private double heightBoard ;
+    private boolean gameOver = false;
+    
+    private Sound sound ;
 
     public BoardModel(int resolutionScreen, BoardMain board) {
         this.resolutionScreen = resolutionScreen / 100.;
@@ -34,6 +37,10 @@ public class BoardModel {
         trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
                                                          // largeur
 
+        ArrayList<String> paths = new ArrayList<String>() ;
+        paths.add("ressources/audio/shot.wav") ;
+        paths.add("ressources/audio/rebond.wav") ;
+        sound = new Sound(paths) ;
     }
 
     public Canon getCanon() {
@@ -57,6 +64,14 @@ public class BoardModel {
         return thetaCanon;
     }
 
+    public boolean isGameOver(){
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+    
     public PegGenerator getGenerator() {
         return generator;
     }
@@ -81,6 +96,7 @@ public class BoardModel {
             return false;
         for (Peg p : listPeg) {
             ball.contactPeg(p);
+            ball.setSound(sound);
         }
         return true;
     }
@@ -115,4 +131,11 @@ public class BoardModel {
         trou.setHeightBoard(heightBoard);
     }
 
+    public void setPegGenerator(PegGenerator pegGen){
+        this.generator = pegGen;
+    }
+
+    public Sound getSound(){
+        return sound ;
+    }
 }

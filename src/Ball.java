@@ -30,6 +30,7 @@ public class Ball {
     private int rayon;
     private BoardModel boardModel;
     private int nombreBall;
+    private Sound sound ;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm) {
         this.x_initial = x_initial;
@@ -205,30 +206,58 @@ public class Ball {
         return (vInitial * vitesseY * dt) + yt;
     }
 
+  
+    private void rebondCercle(double x, double y) {  
+        double normeVectOrtho = (Math
+                .sqrt(Math.pow(xt - x, 2) + Math.pow(yt - y, 2)));
+        double vectOthogonalX = (xt - x) / normeVectOrtho;
+        double vectOthogonalY = (yt - y) / normeVectOrtho;
+        double produitScalaire = vitesseX * vectOthogonalX + vitesseY * vectOthogonalY;
+        if (produitScalaire >= 0) {
+            produitScalaire -= produitScalaire;
+        }
+        vitesseX -= 2 * produitScalaire * vectOthogonalX;
+        vitesseY -= 2 * produitScalaire * vectOthogonalY;
+    }
+
+
     public boolean contactPeg(Peg p) {
         if (p instanceof PegCercle) {
-            double normeVectOrtho = (Math
-                    .sqrt(Math.pow(xt - p.getPegX(), 2) + Math.pow(yt - p.getPegY(), 2)));
-            double vectOthogonalX = (xt - p.pegX) / normeVectOrtho;
-            double vectOthogonalY = (yt - p.pegY) / normeVectOrtho;
-            double produitScalaire = vitesseX * vectOthogonalX + vitesseY * vectOthogonalY;
-            if (produitScalaire >= 0) {
-                produitScalaire -= produitScalaire;
-            }
-            vitesseX -= 2 * produitScalaire * vectOthogonalX;
-            vitesseY -= 2 * produitScalaire * vectOthogonalY;
+
+            rebondCercle(p.getPegX(), p.getPegY());
 
             vitesseX *= 0.9;
             vitesseY *= 0.9;
-            if (startBall)
+            if (startBall){
                 p.pegTouchdown();
+                sound.setFile(1);
+                sound.play();
+            }
+            
             return true;
         }
         if (p instanceof PegRectangle) {
             boolean touch = false;
 
             if (xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + rayon) {
-                if (vitesseX >= 0) {
+
+                if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2
+                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon
+                        && xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2) {
+                            
+                    rebondCercle(p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + 0.001,
+                            p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + 0.001);
+                }
+
+                else if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2
+                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 - rayon
+                        && xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2) {
+
+                    rebondCercle(p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + 0.001,
+                            p.getPegY() + ((PegRectangle) p).getLargeur() / 2 - 0.001);
+                }
+
+                else if (vitesseX >= 0) {
                     // vitesseX -= vitesseX;
                     vitesseX *= -1;
 
@@ -236,10 +265,26 @@ public class Ball {
                 // xt = p.getPegX() - ((PegRectangle) p).getLongueur() / 2.;
                 touch = true;
                 vitesseX *= 0.9;
-
             }
             if (xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - rayon) {
-                if (vitesseX <= 0) {
+
+                if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2
+                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon
+                        && xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2) {
+
+                    rebondCercle(p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - 0.001,
+                            p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + 0.001);
+                }
+
+                else if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2
+                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 - rayon
+                        && xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2) {
+
+                    rebondCercle(p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - 0.001,
+                            p.getPegY() + ((PegRectangle) p).getLargeur() / 2 - 0.001);
+                }
+
+                else if (vitesseX <= 0) {
                     // vitesseX -= vitesseX;
                     vitesseX *= -1;
                 }
@@ -248,6 +293,17 @@ public class Ball {
                 vitesseX *= 0.9;
 
             }
+            if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon) {
+                if (vitesseY >= 0) {
+                    // vitesseY -= vitesseY;
+                    vitesseY *= -1;
+                }
+                // yt = p.getPegY() - ((PegRectangle) p).getLargeur() / 2.;
+                touch = true;
+                vitesseY *= 0.9;
+
+            }
+            
             if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon) {
                 if (vitesseY >= 0) {
                     // vitesseY -= vitesseY;
@@ -269,12 +325,19 @@ public class Ball {
                 vitesseY *= 0.9;
 
             }
-            if (startBall)
+            if (startBall){
+                sound.setFile(1);
+                sound.play(); 
                 p.pegTouchdown();
+            }
 
             return touch;
         }
+
         return false;
     }
 
+    public void setSound(Sound sound) {
+        this.sound = sound;
+    }
 }

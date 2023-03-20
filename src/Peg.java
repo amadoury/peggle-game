@@ -1,20 +1,16 @@
-import java.awt.Graphics2D;
-
-import javax.swing.JLabel;
-
 public abstract class Peg {
 
     protected int pegX;
     protected int pegY;
+    protected String color ;
     protected boolean touched;
     protected boolean destructed;
-    protected LabelPeg jlabel;
-    protected String color;
+     protected LabelPeg jlabel;
 
     Peg(int x, int y, String c) {
         pegX = x;
         pegY = y;
-        color = c;
+        color = c; 
     }
 
     public double getPegX() {
@@ -23,6 +19,10 @@ public abstract class Peg {
 
     public double getPegY() {
         return pegY;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public void setPegX(int pegX) {

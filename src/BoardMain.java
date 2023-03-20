@@ -4,13 +4,24 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener ;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.TimerTask;
 import java.util.ArrayList;
+import java.awt.geom.Rectangle2D;
+import java.io.File; 
+
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 
-public class BoardMain extends Board {
+public class BoardMain extends Board implements KeyListener{
 
     private Timer timer;
     private Dimension dimensionBoard;
@@ -18,24 +29,36 @@ public class BoardMain extends Board {
 
     private ArrayList<Point> listeTrajectoire = new ArrayList<Point>();
 
+    private Graphics2D g2d  ;
+
+
+    private int commandKey = 0 ;
+
     /* BoardModel */
     BoardModel boardModel;
 
     // private double time = 0.015;
 
-    Graphics2D g2d;
-
-    public BoardMain() {
-        super();
-        initBoard();
+    public BoardMain(String filePath) {
+        initBoard(filePath); 
+        width = super.width ;
+        height = super.height ;
     }
 
-    private void initBoard() {
+    private void initBoard(String filePath) {
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel((int) resolutionScreen, this);
+        boardModel = new BoardModel((int) resolutionScreen, this); 
 
-        add(boardModel.getCanon().getJlabel());
+        // add(boardModel.getCanon().getJlabel());
+        // for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); ++i) {
+        //     add(boardModel.getGenerator().getPegListe().get(i).getJlabel());
+        // } 
+        if (filePath == null){
+            loadPegOnBoard(boardModel.getGenerator());
+        }else{
+            loadPegOnBoardWithFile(filePath) ;
+        }
 
         // timer : animation
         final int INITIAL_DELAY = 100;
@@ -43,15 +66,47 @@ public class BoardMain extends Board {
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
 
-        boardModel.getBall().trajectoire();
-        listeTrajectoire = boardModel.getBall().trajectoire();
+        boardModel.getBall().trajectoire(); 
+        listeTrajectoire = boardModel.getBall().trajectoire(); 
 
+
+        this.addKeyListener(this) ;
+        this.setFocusable(true);
+    }
+
+
+    public void loadPegOnBoardWithFile(String path){
+        try{
+            ArrayList<Peg> listPeg = new ArrayList<Peg>() ;
+            File file = new File(path);
+            Scanner scanner = new Scanner(file);
+            scanner.useDelimiter("\n");
+            while(scanner.hasNext()){
+                String [] tabRows = scanner.next().split("/");
+                listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]), 12, tabRows[2])) ;
+            }
+            scanner.close();
+
+            boardModel.getGenerator().setPegListe(listPeg);
+
+            loadPegOnBoard(boardModel.getGenerator());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void loadPegOnBoard(PegGenerator pegGen){
+        add(boardModel.getCanon().getJlabel());
+        for (int i = 0; i < pegGen.getPegListe().size(); ++i) {
+            add(pegGen.getPegListe().get(i).getLabelPeg());
+        }
     }
 
     @Override
     public void paintComponent(Graphics g) {
 
-        g2d = (Graphics2D) g;
+        g2d = (Graphics2D)g ;
 
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height,
                 null, null);
@@ -104,7 +159,7 @@ public class BoardMain extends Board {
         // dash1, 0.0f);
         // g2.setStroke(dashed);
 
-    }
+    } 
 
     private void changeValue(int[] tab) {
         if (tab[0] + Math.abs(tab[1]) > 255 - Math.abs(tab[1]) || tab[0] + tab[1] < Math.abs(tab[1]))
@@ -133,11 +188,13 @@ public class BoardMain extends Board {
     @Override
     public void mousePressed(MouseEvent e) {
         boardModel.setBallStart(true);
+        boardModel.getSound().setFile(0);
+        boardModel.getSound().play();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!boardModel.getBall().isBallStart()) {
+        if (!boardModel.getBall().isBallStart() && !boardModel.isGameOver()) {
             double normeVect = (Math
                     .sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)));
             double angle = Math.acos(Math.abs(e.getY() - 50)
@@ -165,10 +222,58 @@ public class BoardMain extends Board {
         boardModel.getBall().setHeightBoard(w);
         height = w;
         boardModel.setHeightBoard(w);
-    }
+    } 
 
     public void setDimensionFrame(Dimension w) {
         DimensionFrame = w;
     }
 
-}
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode() ;
+
+        if(key == KeyEvent.VK_UP){
+            commandKey = 0 ;
+        }
+
+        if (key ==  KeyEvent.VK_DOWN){
+            commandKey = 1 ;
+        }
+
+        if (key == KeyEvent.VK_ENTER){
+            if(commandKey == 0 ){
+                System.out.println("retry");
+
+                for(int i = 0; i < boardModel.getGenerator().getPegListe().size() ; i++){
+                    this.remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg()) ;
+                }
+
+                boardModel.setPegGenerator(new PegGenerator(Toolkit.getDefaultToolkit().getScreenResolution(), 20));
+                loadPegOnBoard(boardModel.getGenerator());
+                boardModel.setGameOver(false);
+            }
+            if (commandKey == 1 ){
+                JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(this);
+                frame.dispose();
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE) ;
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public BoardModel getBoardModel(){
+        return boardModel;
+    }
+
+ }

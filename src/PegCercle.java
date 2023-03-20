@@ -1,17 +1,16 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
+
 
 import javax.swing.*;
 
 public class PegCercle extends Peg {
 
     private int rayon;
+    private LabelPeg jlabel ;
 
     PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
         super(x, y, c);
         rayon = r;
-        color = c;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance((int) (2 * rayon), (int) (2 * rayon), java.awt.Image.SCALE_SMOOTH); // scale
@@ -25,6 +24,9 @@ public class PegCercle extends Peg {
 
     public int getRayon() {
         return rayon;
+    }
+    public String getColor(){
+        return this.color;
     }
 
     public void setRayon(int rayon) {
