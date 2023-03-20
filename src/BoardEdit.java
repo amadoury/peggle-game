@@ -19,6 +19,7 @@ public class BoardEdit extends Board {
         listPath.add("ressources/peg-orange.png");
         listPath.add("ressources/peg-bleu.png");
         listPath.add("ressources/peg-bleu-rectangle.png");
+       // listPath.add("ressources/peg-bleu-rectangle.png") ;
 
         popUp = new PopUp(listPath);
 
