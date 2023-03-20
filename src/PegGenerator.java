@@ -92,7 +92,6 @@ public class PegGenerator {
         this.pegSpacing = (int) (pegSpacing / resolutionScreen);
         this.longueur = (int) (longueur / resolutionScreen);
         this.largeur = (int) (largeur / resolutionScreen);
-
     }
 
     public ArrayList<Peg> getPegListe() {
