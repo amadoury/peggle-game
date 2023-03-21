@@ -2,6 +2,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,13 +86,35 @@ public class BoardEdit extends Board {
         }
     }
 
-    public void paintComponent(Graphics g) {
+    // public void paintComponent(Graphics g) {
+    //     g2d = (Graphics2D) g;
+
+    //     g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
+    //     if (editor.getListPeg().size() >= 1)
+    //         System.out.println("peg in editor : x = " + editor.getListPeg().get(0).getPegX() + "y = "
+    //                 + editor.getListPeg().get(0).getPegY());
+    // }
+
+    public void paintComponent(Graphics g){
         g2d = (Graphics2D) g;
 
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
-        if (editor.getListPeg().size() >= 1)
-            System.out.println("peg in editor : x = " + editor.getListPeg().get(0).getPegX() + "y = "
-                    + editor.getListPeg().get(0).getPegY());
+        if(editor.getListPeg().size() >= 1){
+            try {
+                FileWriter writer = new FileWriter("level4.txt");
+                for(Peg e : editor.getListPeg()) {
+                    String type;
+                    if(e instanceof PegCercle) type = "PegCercle";
+                    else type = "PegRectangle";
+                    writer.write(e.pegX + "/" + e.pegY+"/" + e.getColor() + "/" +type + "\n");
+                }  
+                writer.close();
+            } catch(IOException e){
+                System.out.println("Une erreur est survenue lors de la création du fichier.");
+                e.printStackTrace();
+            } 
+            //afficher("level1.txt");
+        } 
     }
 
     // public void setWidthScreen(double w) {

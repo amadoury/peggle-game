@@ -59,7 +59,7 @@ public class App extends JFrame {
         add(panelBoard, c);
     
         cardLayout.show(panelBoard, "levelMenu");
-        //cardLayout.show(panelBoard, "levelMenu");
+        //cardLayout.show(panelBoard, "boardEdit");
 
         levelMenu.getLevel1().addActionListener((event) -> {
             BoardMain bd = new BoardMain("src/ressources/level/level1.txt");
