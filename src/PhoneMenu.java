@@ -32,6 +32,7 @@ public class PhoneMenu extends JFrame {
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Image backgroundImage = new ImageIcon("thback.png").getImage();
+                System.out.println(backgroundImage.getWidth(null));
                 g.drawImage(backgroundImage, 0, 0, null);
             }
         };
