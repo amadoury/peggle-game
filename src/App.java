@@ -1,8 +1,6 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 
 public class App extends JFrame {
 
@@ -10,11 +8,13 @@ public class App extends JFrame {
 
     private BoardLeft left = new BoardLeft(1);
     private JPanel right = new JPanel();
+    private JPanel panelBoard ;
     private BoardMain boardMain;
     private double width;
     private double height; 
     private LevelMenu levelMenu ;
     private boolean isEditing = false ;
+    private CardLayout cardLayout ;
     
 
     public App() {
@@ -26,8 +26,8 @@ public class App extends JFrame {
         BoardEdit boardEdit = new BoardEdit() ;
         levelMenu = new LevelMenu() ;
 
-        CardLayout cardLayout = new CardLayout() ;
-        JPanel panelBoard = new JPanel() ;
+        cardLayout = new CardLayout() ;
+        panelBoard = new JPanel() ;
         panelBoard.setLayout(cardLayout) ;
         panelBoard.add(boardMain, "boardMain") ;
         panelBoard.add(boardEdit, "boardEdit") ;
@@ -58,11 +58,12 @@ public class App extends JFrame {
         // board = new BoardMain(); 
         add(panelBoard, c);
     
-        cardLayout.show(panelBoard, "levelMenu");
-        //cardLayout.show(panelBoard, "boardEdit");
+        //cardLayout.show(panelBoard, "levelMenu");
+        cardLayout.show(panelBoard, "boardEdit");
 
         levelMenu.getLevel1().addActionListener((event) -> {
             BoardMain bd = new BoardMain("src/ressources/level/level1.txt");
+            bd.setApp(this);
             panelBoard.add(bd, "boardlevel1");
             cardLayout.show(panelBoard, "boardlevel1");
             setParams(bd);
@@ -70,13 +71,20 @@ public class App extends JFrame {
 
         levelMenu.getLevel2().addActionListener((event) -> {
             BoardMain bd = new BoardMain("src/ressources/level/level2.txt");
-            panelBoard.add(bd, "boardlevel");
+            bd.setApp(this);
+            panelBoard.add(bd, "boardlevel2");
             cardLayout.show(panelBoard, "boardlevel2");
+
+            // if (bd.commandKey == 2){
+            //     cardLayout.show(panelBoard, "levelMenu");
+            // }
+
             setParams(bd);
         });
 
         levelMenu.getLevel3().addActionListener((event) -> {
             BoardMain bd = new BoardMain("src/ressources/level/level3.txt");
+            bd.setApp(this);
             panelBoard.add(bd, "boardlevel3");
             cardLayout.show(panelBoard, "boardlevel3");
             setParams(bd);
@@ -93,21 +101,9 @@ public class App extends JFrame {
 
         pack();
 
-        // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
-
         boardEdit.setApp(this) ;
 
         setParams(boardMain);
-
-        // boardMain.setDimensionBoard(boardMain.getSize());
-
-        // dimensionFrame = this.getBounds().getSize();
-
-        // width = dimensionFrame.getWidth();
-        // height = dimensionFrame.getHeight();
-
-        // boardMain.setWidthScreen(width);
-        // boardMain.setHeightScreen(height);
 
         setTitle("Peggle Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,10 +118,20 @@ public class App extends JFrame {
 
         boardMain.setWidthScreen(dimensionFrame.getWidth());
         boardMain.setHeightScreen(dimensionFrame.getHeight());
-
-        // boardMain.setWidthScreen(width);
-        // boardMain.setHeightScreen(height);
     }
+
+    public JPanel getPanelBoard(){
+        return panelBoard ;
+    }
+
+    public LevelMenu getLevelMenu() {
+        return levelMenu;
+    }
+
+    public CardLayout getCardLayout(){
+        return cardLayout;
+    }
+    
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {

@@ -86,15 +86,6 @@ public class BoardEdit extends Board {
         }
     }
 
-    // public void paintComponent(Graphics g) {
-    //     g2d = (Graphics2D) g;
-
-    //     g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
-    //     if (editor.getListPeg().size() >= 1)
-    //         System.out.println("peg in editor : x = " + editor.getListPeg().get(0).getPegX() + "y = "
-    //                 + editor.getListPeg().get(0).getPegY());
-    // }
-
     public void paintComponent(Graphics g){
         g2d = (Graphics2D) g;
 
@@ -116,16 +107,7 @@ public class BoardEdit extends Board {
             //afficher("level1.txt");
         } 
     }
-
-    // public void setWidthScreen(double w) {
-    // double var = w - (2.0 / 8.0) * w;
-    // width = var;
-    // }
-
-    // public void setHeightScreen(double w) {
-    // height = w;
-    // }
-
+    
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
@@ -139,4 +121,7 @@ public class BoardEdit extends Board {
         this.app = app;
     }
 
+    public Editor getEditor() {
+        return editor;
+    }
 }

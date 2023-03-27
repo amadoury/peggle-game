@@ -1,4 +1,3 @@
-import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.*;
 
@@ -38,7 +37,6 @@ public class PegRectangle extends Peg {
         // ImageIcon imageIcon = new ImageIcon(
         // PegRectangle.this.getClass().getResource("ressources/peg-" + color +
         // "-animation.gif"));
-
     }
 
 }

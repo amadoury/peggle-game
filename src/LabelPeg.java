@@ -25,11 +25,11 @@ public class LabelPeg extends JLabel implements MouseInputListener {
 
         for (int i = 0; i < listPath.size(); i++) {
             if (listPath.get(i).endsWith("delete.png")) {
-                popUp.getListMenuItem().get(i).addActionListener((event) -> {
+                popUp.getListMenuItem().get(i).addActionListener((event) -> {                    
+                    boardEdit.getEditor().getListPeg().remove(peg);
                     boardEdit.remove(this);
                     boardEdit.validate();
                     boardEdit.repaint();
-                    // this.setIcon(null);
                 });
             }
         }
@@ -49,6 +49,10 @@ public class LabelPeg extends JLabel implements MouseInputListener {
 
     public void setPeg(Peg peg) {
         this.peg = peg;
+    }
+
+    public Peg getPeg() {
+        return peg;
     }
 
     @Override

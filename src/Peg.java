@@ -5,7 +5,7 @@ public abstract class Peg {
     protected String color ;
     protected boolean touched;
     protected boolean destructed;
-     protected LabelPeg jlabel;
+    protected LabelPeg jlabel;
 
     Peg(int x, int y, String c) {
         pegX = x;
@@ -38,7 +38,6 @@ public abstract class Peg {
             delete();
             destructed = true;
         }
-
     }
 
     public boolean isTouched() {
@@ -58,5 +57,4 @@ public abstract class Peg {
     public LabelPeg getLabelPeg() {
         return jlabel;
     }
-
 }

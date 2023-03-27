@@ -328,6 +328,7 @@ public class Ball {
             if (startBall){
                 sound.setFile(1);
                 sound.play(); 
+                sound.stop();
                 p.pegTouchdown();
             }
 

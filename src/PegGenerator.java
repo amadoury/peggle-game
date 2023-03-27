@@ -160,7 +160,6 @@ public class PegGenerator {
 
     public void setPegListe(ArrayList<Peg> pegListe) {
         this.pegListe = pegListe;
-        System.out.println(pegListe.size());
     }
 
     public int getRadius() {
