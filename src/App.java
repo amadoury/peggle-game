@@ -8,9 +8,10 @@ public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private BoardLeft left = new BoardLeft(1);
-    private JPanel right = new JPanel();
+    private JPanel left = new JPanel();
+    private BoardRight right = new BoardRight(10);
     private BoardMain boardMain;
+
     private double width;
     private double height;
     private boolean isEdit = false;
@@ -21,7 +22,7 @@ public class App extends JFrame {
 
     private void initUI() {
 
-        boardMain = new BoardMain();
+        boardMain = new BoardMain(right);
         BoardEdit boardEdit = new BoardEdit();
 
         CardLayout cardLayout = new CardLayout();
@@ -33,7 +34,9 @@ public class App extends JFrame {
         setLayout(new GridBagLayout());
 
         // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLayout(new GridBagLayout());
+        // setLayout(new GridBagLayout());
+
+        // setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -73,6 +76,8 @@ public class App extends JFrame {
 
         width = dimensionFrame.getWidth();
         height = dimensionFrame.getHeight();
+
+        right.setHeight(height);
 
         boardMain.setWidthScreen(width);
         boardMain.setHeightScreen(height);

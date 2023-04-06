@@ -52,7 +52,10 @@ public class PegGenerator {
                 ++lPosition;
             }
             // pegListe.add(new PegCercle(coordX + i, coordY, radius, c));
-            pegListe.add(new PegRectangle(coordX + i, coordY, longueur, largeur, "bleu"));
+            pegListe.add(new PegRectangle(coordX + i, coordY, longueur, largeur, 0,
+                    "bleu"));
+            // pegListe.add(new PegRebond(coordX + i, coordY, radius * 3, c));
+
             c = "bleu";
         }
     }
@@ -119,12 +122,49 @@ public class PegGenerator {
                 }
             }
             if (p instanceof PegRectangle && !p.isDestructed()) {
-                if (b.getXt() + b.getRayon() > p.getPegX() - ((PegRectangle) p).getLongueur() / 2.
-                        && b.getXt() - b.getRayon() < p.getPegX() + ((PegRectangle) p).getLongueur() / 2.
-                        && b.getYt() + b.getRayon() > p.getPegY() - (((PegRectangle) p).getLargeur() / 2.)
-                        && b.getYt() - b.getRayon() < p.getPegY() + ((PegRectangle) p).getLargeur() / 2.) {
+                // if (b.getXt() + b.getRayon() > p.getPegX() - ((PegRectangle) p).getLongueur()
+                // / 2.
+                // && b.getXt() - b.getRayon() < p.getPegX() + ((PegRectangle) p).getLongueur()
+                // / 2.
+                // && b.getYt() + b.getRayon() > p.getPegY() - (((PegRectangle) p).getLargeur()
+                // / 2.)
+                // && b.getYt() - b.getRayon() < p.getPegY() + ((PegRectangle) p).getLargeur() /
+                // 2.) {
+                // l.add(p);
+                // }
+
+                PegRectangle r = (PegRectangle) p;
+
+                double PAx = b.getXt() - r.getOrigineVecteurX();
+                double PAy = b.getYt() - r.getOrigineVecteurY();
+
+                double detWithLongueur = PAx * r.getVecteurLongueurY() -
+                        r.getVecteurLongueurX() * PAy;
+                double detWithLargeur = PAx * r.getVecteurLargeurY() - r.getVecteurLargeurX()
+                        * PAy;
+
+                // double d = det(PQ, PR);
+                // A position de la balle peg PA vecteur longueur
+                // 0 <= -det(PA, PQ)/d <= 1 && 0 <= det(PA, PR)/d <= 1
+                double n = -detWithLongueur / r.getDeterminant();
+                double m = detWithLargeur / r.getDeterminant();
+                // System.out.println(" n m " + n + " " + m);
+                if (0 <= n && n <= 1
+                        && 0 <= m && m <= 1) {
                     l.add(p);
                 }
+
+                // boolean[] conditions = r.projectionBallOrigineVecteurs(b.getXt(), b.getYt(),
+                // b.getRayon());
+
+                // boolean contactWithPeg = false;
+                // for (int j = 0; j < 4; ++j) {
+                // if (conditions[j])
+                // contactWithPeg = true;
+                // }
+                // if (contactWithPeg)
+                // l.add(p);
+
             }
         }
         if (l.size() == 0)
@@ -140,10 +180,13 @@ public class PegGenerator {
 
     public void setWidthBoard(double w) {
         widthBoard = w;
-        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 90 + 2 *
+        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 400, 90 + 2 *
                 radius, 60, 30);
         multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
         // spiralOfPeg(500, 500, 300, 15);
+        // pegListe.add(new PegRebond(500, 500, radius * 3, "bleu"));
+        // pegListe.add(new PegSoleil(600, 200, radius * 3, "bleu"));
+
     }
 
 }

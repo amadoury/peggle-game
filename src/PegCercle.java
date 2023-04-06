@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class PegCercle extends Peg {
 
-    private int rayon;
+    protected int rayon;
 
     PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
         super(x, y, c);

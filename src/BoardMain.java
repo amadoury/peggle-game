@@ -19,21 +19,22 @@ public class BoardMain extends Board {
     private ArrayList<Point> listeTrajectoire = new ArrayList<Point>();
 
     /* BoardModel */
-    BoardModel boardModel;
+    private BoardModel boardModel;
 
     // private double time = 0.015;
 
-    Graphics2D g2d;
+    private Graphics2D g2d;
 
-    public BoardMain() {
+    public BoardMain(BoardRight right) {
         super();
+
+        /* Initialisation of boardModel */
+        boardModel = new BoardModel((int) resolutionScreen, this, right);
+
         initBoard();
     }
 
     private void initBoard() {
-
-        /* Initialisation of boardModel */
-        boardModel = new BoardModel((int) resolutionScreen, this);
 
         add(boardModel.getCanon().getJlabel());
 
@@ -68,7 +69,6 @@ public class BoardMain extends Board {
         // boardModel.contact();
 
         if (listeTrajectoire == null || listeTrajectoire.size() == 0) {
-            System.out.println("test");
             return;
         }
 

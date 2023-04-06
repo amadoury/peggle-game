@@ -1,3 +1,4 @@
+import java.rmi.server.RemoteServer;
 import java.util.ArrayList;
 
 public class BoardModel {
@@ -17,10 +18,14 @@ public class BoardModel {
     private BoardMain board;
     private double resolutionScreen;
     private Trou trou;
+    private BoardRight right;
 
-    public BoardModel(int resolutionScreen, BoardMain board) {
+    private int score;
+
+    public BoardModel(int resolutionScreen, BoardMain board, BoardRight right) {
         this.resolutionScreen = resolutionScreen / 100.;
         this.board = board;
+        this.right = right;
         initBoardModel();
     }
 
@@ -73,6 +78,8 @@ public class BoardModel {
 
     public void setBallStart(boolean b) {
         ball.setStartBall(b);
+        if (b)
+            right.ballUsed();
     }
 
     public boolean contact() {
@@ -89,6 +96,18 @@ public class BoardModel {
         generator.retireAllTouched();
     }
 
+    public void scoreTouchPeg(Peg p) {
+        if (p.touched)
+            return;
+        if (p.color.equals("bleu")) {
+            score += 10;
+            return;
+        }
+        if (p.color.equals("orange"))
+            score += 100;
+        right.upgradeScore(score);
+    }
+
     public void setWidthBoard(double widthBoard) {
         this.widthBoard = widthBoard;
 
@@ -99,6 +118,11 @@ public class BoardModel {
 
         for (int i = 0; i < generator.getPegListe().size(); ++i) {
             board.remove(generator.getPegListe().get(i).getLabelPeg());
+        }
+
+        for (int i = 0; i < board.getComponentCount(); ++i) {
+            if (((Object) board.getComponent(i)).getClass() == Peg.class)
+                board.remove(i);
         }
 
         generator.setWidthBoard(widthBoard);
