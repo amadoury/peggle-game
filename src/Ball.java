@@ -331,7 +331,6 @@ public class Ball {
                 sound.stop();
                 p.pegTouchdown();
             }
-
             return touch;
         }
 

@@ -18,12 +18,16 @@ public class BoardModel {
     private double widthBoard ;
     private double heightBoard ;
     private boolean gameOver = false;
+    private BoardRight right ;
     
+    private int score ;
+
     private Sound sound ;
 
-    public BoardModel(int resolutionScreen, BoardMain board) {
+    public BoardModel(int resolutionScreen, BoardMain board, BoardRight right) {
         this.resolutionScreen = resolutionScreen / 100.;
         this.board = board;
+        this.right = right;
         initBoardModel();
     }
 
@@ -34,8 +38,7 @@ public class BoardModel {
         yInitBall = canon.getCanonY();
         ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), 15, this);
         generator = new PegGenerator(resolutionScreen, 20);
-        trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
-                                                         // largeur
+        trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x                                            // largeur
 
         board.add(trou.getJlabel());
         ArrayList<String> paths = new ArrayList<String>() ;
@@ -89,6 +92,9 @@ public class BoardModel {
 
     public void setBallStart(boolean b) {
         ball.setStartBall(b);
+        if (b)
+            right.ballUsed();
+
     }
 
     public boolean contact() {
@@ -105,6 +111,19 @@ public class BoardModel {
     public void retireAllTouched() {
         generator.retireAllTouched();
     }
+
+    public void scoreTouchPeg(Peg p) {
+        if (p.touched)
+            return;
+        if (p.color.equals("bleu")) {
+            score += 10;
+            return;
+        }
+        if (p.color.equals("orange"))
+            score += 100;
+        right.upgradeScore(score);
+    }
+
 
     public void setWidthBoard(double widthBoard) {
         this.widthBoard = widthBoard;

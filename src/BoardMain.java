@@ -30,12 +30,18 @@ public class BoardMain extends Board implements KeyListener{
     /* BoardModel */
     BoardModel boardModel;
 
+    private BoardRight right;
+
     // private double time = 0.015;
 
-    public BoardMain(String filePath) {
+    public BoardMain(String filePath, BoardRight right) {
+        //super(dim);
         initBoard(filePath); 
-        width = super.width ;
-        height = super.height ;
+        //System.out.println(Toolkit.getDefaultToolkit());
+        this.right = right ;
+
+        // width = dim.getWidth();
+        // height = dim.getHeight() ;
 
         this.addKeyListener(this) ;
         this.setFocusable(true);
@@ -44,7 +50,7 @@ public class BoardMain extends Board implements KeyListener{
     private void initBoard(String filePath) {
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel((int) resolutionScreen, this); 
+        boardModel = new BoardModel((int) resolutionScreen, this, right); 
 
         if (filePath == null){
             loadPegOnBoard(boardModel.getGenerator());
@@ -70,6 +76,19 @@ public class BoardMain extends Board implements KeyListener{
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("\n");
 
+
+            // while(scanner.hasNext()){
+            //     String [] tabRows = scanner.next().split("/");
+            //     System.out.println(tabRows[0]);
+            //     switch(tabRows[3]){
+            //         case "PegCercle" : 
+            //             listPeg.add(new PegCercle((int)(Double.parseDouble(tabRows[0]) * width) , (int)(Double.parseDouble(tabRows[1]) * height), boardModel.getGenerator().getRadius(), tabRows[2])) ;
+            //             break;
+            //         case "PegRectangle" :
+            //             listPeg.add(new PegRectangle((int)(Double.parseDouble(tabRows[0]) * width) , (int)(Double.parseDouble(tabRows[1]) * height), 60, 30, tabRows[2])) ;
+            //             break;                        
+            //     }
+            // } 
 
             while(scanner.hasNext()){
                 String [] tabRows = scanner.next().split("/");
@@ -225,7 +244,6 @@ public class BoardMain extends Board implements KeyListener{
         return (int)((width - f.getWidth()) / 2) ;
     }
 
-
     private void changeValue(int[] tab) {
         if (tab[0] + Math.abs(tab[1]) > 255 - Math.abs(tab[1]) || tab[0] + tab[1] < Math.abs(tab[1]))
             tab[1] = -tab[1];
@@ -250,7 +268,7 @@ public class BoardMain extends Board implements KeyListener{
             boardModel.setBallStart(true);
             boardModel.getSound().setFile(0);
             boardModel.getSound().play();
-            boardModel.getSound().stop();
+          //  boardModel.getSound().stop();
         }
     }
 
@@ -275,7 +293,11 @@ public class BoardMain extends Board implements KeyListener{
     }
 
     public void setWidthScreen(double w) {
-        double var = w - (2.0 / 8.0) * w;
+        //double var = w - (2.0 / 8.0) * w;
+        double var = (6. / 8.0) * w;
+        System.out.println(var + " var");
+        System.out.println(w + "width ");
+
         width = var;
         boardModel.setWidthBoard(var);
     }
@@ -292,8 +314,7 @@ public class BoardMain extends Board implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        
+        // TODO Auto-generated method stub  
     }
 
     @Override

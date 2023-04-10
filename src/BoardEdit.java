@@ -14,7 +14,7 @@ public class BoardEdit extends Board {
     private int yMouse;
     private App app;
 
-    public BoardEdit() {
+    public BoardEdit(Dimension dim) {
         editor = new Editor();
 
         List<String> listPath = new ArrayList<String>();

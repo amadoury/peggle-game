@@ -17,12 +17,12 @@ public class Launch extends JFrame{
         this.addComponentListener(new ResizeListener());
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            App app = new App();
-            app.setVisible(true);
-        });
-    }
+    // public static void main(String[] args) {
+    //     EventQueue.invokeLater(() -> {
+    //         App app = new App();
+    //         app.setVisible(true);
+    //     });
+    // }
 
     private class ResizeListener implements ComponentListener {
         public void componentHidden(ComponentEvent e) {

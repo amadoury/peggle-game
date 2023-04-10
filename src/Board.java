@@ -22,6 +22,12 @@ public class Board extends JPanel implements MouseInputListener {
 
         width = imageBoard.getWidth(this);
         height = imageBoard.getHeight(this);
+
+        System.out.println("image " + width + "height " + height);
+
+        // width = dim.getWidth() ;
+        // height = dim.getHeight();
+
         setPreferredSize(new Dimension((int) width, (int) height));
         setLayout(null);
 
@@ -29,14 +35,14 @@ public class Board extends JPanel implements MouseInputListener {
         addMouseMotionListener(this);
     }
 
-    public void setWidthScreen(double w) {
-        double var = w - (2.0 / 8.0) * w;
-        width = var;
-    }
+    // public void setWidthScreen(double w) {
+    //     double var = w - (2.0 / 8.0) * w;
+    //     width = var;
+    // }
 
-    public void setHeightScreen(double w) {
-        height = w;
-    }
+    // public void setHeightScreen(double w) {
+    //     height = w;
+    // }
 
     @Override
     public void mouseClicked(MouseEvent e) {

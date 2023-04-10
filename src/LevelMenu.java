@@ -1,6 +1,5 @@
 
 import javax.swing.* ;
-import javax.swing.border.EmptyBorder;
 
 import java.awt.* ;
 
@@ -11,10 +10,14 @@ class LevelMenu extends JPanel{
     private JButton level1 = new JButton("1") ;
     private JButton level2 = new JButton("2") ;
     private JButton level3 = new JButton("3");
+    public int width, height ;
 
-    public LevelMenu(){
-
-        text.setBorder(new EmptyBorder(new Insets(75, 0, 0, 0)));
+    public LevelMenu(Dimension dim){ 
+        width = (int)dim.getWidth(); 
+        height = (int)dim.getHeight();
+        this.setPreferredSize(new Dimension(dim));
+        System.out.println(dim);
+        //text.setBorder(new EmptyBorder(new Insets(75, 0, 0, 0)));
         text.setFont(new Font("Serif", Font.BOLD, 50));
         header.add(text) ;
 
@@ -31,6 +34,14 @@ class LevelMenu extends JPanel{
         this.add(level) ;
     }
 
+    // public void paintComponent(Graphics g){
+    //     setPreferredSize(new Dimension(width, height));
+    // }
+
+    public void setDim(Dimension dim) {
+        this.width = (int)dim.getWidth();
+        this.height = (int)dim.getHeight();    
+    }
     public JButton getLevel1(){
         return level1 ;
     }
