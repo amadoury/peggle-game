@@ -1,35 +1,42 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.io.IOException;
 
 public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private JPanel left = new JPanel();
+    private BoardLeft left = new BoardLeft(1);
     private JPanel right = new JPanel();
     private BoardMain boardMain;
+    private double width;
+    private double height; 
     private LevelMenu levelMenu ;
     private boolean isEditing = false ;
     
 
-    public App() {
+    public App() throws FontFormatException, IOException {
         initUI();
     }
 
-    private void initUI() {
-        boardMain = new BoardMain(null);
+    private void initUI() throws FontFormatException, IOException {
+        //LoadingScreen loadingScreen = new LoadingScreen();
+        //boardMain = new BoardMain(null);
         BoardEdit boardEdit = new BoardEdit() ;
         levelMenu = new LevelMenu() ;
 
         CardLayout cardLayout = new CardLayout() ;
         JPanel panelBoard = new JPanel() ;
         panelBoard.setLayout(cardLayout) ;
-        panelBoard.add(boardMain, "boardMain") ;
+        //panelBoard.add(boardMain, "boardMain") ;
         panelBoard.add(boardEdit, "boardEdit") ;
         panelBoard.add(levelMenu, "levelMenu") ;
 
+        setLayout(new GridBagLayout());
+
+        // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -46,9 +53,14 @@ public class App extends JFrame {
         c.ipady = 1500;
         c.gridx = 1;
         c.gridy = 0;
+
+        //cardLayout.show(panelBoard, "boardMain"); 
+ 
+        // board = new BoardMain(); 
+        add(panelBoard, c);
     
-        cardLayout.show(panelBoard, "levelMenu");
         //cardLayout.show(panelBoard, "levelMenu");
+        cardLayout.show(panelBoard, "boardEdit");
 
         levelMenu.getLevel1().addActionListener((event) -> {
             BoardMain bd = new BoardMain("src/ressources/level/level1.txt");
@@ -64,9 +76,43 @@ public class App extends JFrame {
             setParams(bd);
         });
 
+        levelMenu.getLevel3().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level3.txt");
+            panelBoard.add(bd, "boardlevel3");
+            cardLayout.show(panelBoard, "boardlevel3");
+            setParams(bd);
+        });
+
+        levelMenu.getLevel4().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level4.txt");
+            panelBoard.add(bd, "boardlevel4");
+            cardLayout.show(panelBoard, "boardlevel4");
+            setParams(bd);
+        });
+
+        levelMenu.getLevel5().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level5.txt");
+            panelBoard.add(bd, "boardlevel5");
+            cardLayout.show(panelBoard, "boardlevel5");
+            setParams(bd);
+        });
+
+        levelMenu.getLevel6().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level6.txt");
+            panelBoard.add(bd, "boardlevel6");
+            cardLayout.show(panelBoard, "boardlevel6");
+            setParams(bd);
+        });
+
+        levelMenu.getLevel7().addActionListener((event) -> {
+            BoardMain bd = new BoardMain("src/ressources/level/level7.txt");
+            panelBoard.add(bd, "boardlevel7");
+            cardLayout.show(panelBoard, "boardlevel7");
+            setParams(bd);
+        });
+
         //add(boardEdit , c); 
         //cardLayout.show(panelBoard, "boardMain");
-        add(panelBoard , c); 
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
@@ -78,40 +124,53 @@ public class App extends JFrame {
 
         // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
 
+
+        dimensionFrame = this.getBounds().getSize();
         boardEdit.setApp(this) ;
-        setParams(boardMain);
+
+        levelMenu.setDim(dimensionFrame);
+
+        //setParams(boardMain);
 
         // boardMain.setDimensionBoard(boardMain.getSize());
 
         // dimensionFrame = this.getBounds().getSize();
 
-        // boardMain.setWidthScreen(dimensionFrame.getWidth());
-        // boardMain.setHeightScreen(dimensionFrame.getHeight());
+        // width = dimensionFrame.getWidth();
+        // height = dimensionFrame.getHeight();
 
+        // boardMain.setWidthScreen(width);
+        // boardMain.setHeightScreen(height);
 
-        // boardEdit.setWidthScreen(dimensionFrame.getWidth());
-        // boardEdit.setHeightScreen(dimensionFrame.getHeight());
-
-        setTitle("App");
+        setTitle("Peggle Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         this.addComponentListener(new ResizeListener());
-
     }
 
-    public void setParams(BoardMain boardMain){
+    public void setParams(BoardMain boardMain){ 
         boardMain.setDimensionBoard(boardMain.getSize());
 
-        dimensionFrame = this.getBounds().getSize();
+        dimensionFrame = this.getBounds().getSize(); 
 
         boardMain.setWidthScreen(dimensionFrame.getWidth());
         boardMain.setHeightScreen(dimensionFrame.getHeight());
+
+        // boardMain.setWidthScreen(width);
+        // boardMain.setHeightScreen(height);
     }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            App app = new App();
-            app.setVisible(true);
+            App app;
+            try {
+                app = new App();
+                app.setVisible(true);
+            } catch (FontFormatException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -126,9 +185,12 @@ public class App extends JFrame {
         }
 
         public void componentResized(ComponentEvent e) {
-            dimensionFrame = e.getComponent().getBounds().getSize();
-            boardMain.setWidthScreen(dimensionFrame.getWidth());
-            boardMain.setHeightScreen(dimensionFrame.getHeight());
+            dimensionFrame = getBounds().getSize();
+            // if (width != dimensionFrame.getWidth())
+            //     boardMain.setWidthScreen(dimensionFrame.getWidth());
+            // if (height != dimensionFrame.getHeight())
+            //     dimensionFrame = e.getComponent().getBounds().getSize();
+            // boardMain.setHeightScreen(dimensionFrame.getHeight());
         }
     }
 }
