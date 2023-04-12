@@ -52,7 +52,7 @@ public class PegGenerator {
                 ++lPosition;
             }
             // pegListe.add(new PegCercle(coordX + i, coordY, radius, c));
-            pegListe.add(new PegRectangle(coordX + i, coordY, longueur, largeur, 0,
+            pegListe.add(new PegRectangle(coordX + i, coordY, longueur, largeur, Math.PI / 5,
                     "bleu"));
             // pegListe.add(new PegRebond(coordX + i, coordY, radius * 3, c));
 
@@ -135,24 +135,37 @@ public class PegGenerator {
 
                 PegRectangle r = (PegRectangle) p;
 
-                double PAx = b.getXt() - r.getOrigineVecteurX();
-                double PAy = b.getYt() - r.getOrigineVecteurY();
+                double rayonAddedX;
+                double rayonAddedY;
 
-                double detWithLongueur = PAx * r.getVecteurLongueurY() -
-                        r.getVecteurLongueurX() * PAy;
-                double detWithLargeur = PAx * r.getVecteurLargeurY() - r.getVecteurLargeurX()
-                        * PAy;
+                double[] PARayons = { 0, b.getRayon(), -b.getRayon() };
+                boolean insideOfRectangle = false;
 
-                // double d = det(PQ, PR);
-                // A position de la balle peg PA vecteur longueur
-                // 0 <= -det(PA, PQ)/d <= 1 && 0 <= det(PA, PR)/d <= 1
-                double n = -detWithLongueur / r.getDeterminant();
-                double m = detWithLargeur / r.getDeterminant();
-                // System.out.println(" n m " + n + " " + m);
-                if (0 <= n && n <= 1
-                        && 0 <= m && m <= 1) {
-                    l.add(p);
+                for (double PAr1 : PARayons) {
+                    for (double PAr2 : PARayons) {
+                        double PAx = b.getXt() - r.getOrigineVecteurX() + PAr1;
+                        double PAy = b.getYt() - r.getOrigineVecteurY() + PAr2;
+                        double detWithLongueur = PAx * r.getVecteurLongueurY() -
+                                r.getVecteurLongueurX() * PAy;
+                        double detWithLargeur = PAx * r.getVecteurLargeurY() - r.getVecteurLargeurX()
+                                * PAy;
+
+                        // double d = det(PQ, PR);
+                        // A position de la balle peg PA vecteur longueur
+                        // 0 <= -det(PA, PQ)/d <= 1 && 0 <= det(PA, PR)/d <= 1
+                        double n = -detWithLongueur / r.getDeterminant();
+                        double m = detWithLargeur / r.getDeterminant();
+
+                        if (0 <= n && n <= 1
+                                && 0 <= m && m <= 1) {
+                            insideOfRectangle = true;
+                        }
+                    }
                 }
+                if (insideOfRectangle)
+                    l.add(p);
+
+                // System.out.println(" n m " + n + " " + m);
 
                 // boolean[] conditions = r.projectionBallOrigineVecteurs(b.getXt(), b.getYt(),
                 // b.getRayon());
@@ -186,6 +199,7 @@ public class PegGenerator {
         // spiralOfPeg(500, 500, 300, 15);
         // pegListe.add(new PegRebond(500, 500, radius * 3, "bleu"));
         // pegListe.add(new PegSoleil(600, 200, radius * 3, "bleu"));
+        // pegListe.add(new PegRectangle(600, 200, longueur, largeur, 0, "bleu"));
 
     }
 

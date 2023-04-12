@@ -38,7 +38,7 @@ public class BoardModel {
         generator = new PegGenerator(resolutionScreen, 20);
         trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
                                                          // largeur
-
+        right.setRayon((int) (20 / resolutionScreen));
     }
 
     public Canon getCanon() {

@@ -31,6 +31,7 @@ public class Ball {
     private int rayon;
     private BoardModel boardModel;
     private int nombreBall;
+    private Peg lastPegTouched;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm) {
         this.x_initial = x_initial;
@@ -154,11 +155,15 @@ public class Ball {
         while (rebond <= nombreRebondPointilee) {
             for (int i = 0; i < nombreUpdatesRepeted; ++i) {
                 updateCoordBall(dtVal / nombreUpdatesRepeted);
-                if ((xt + rayon) >= widthBoard || xt + rayon <= 0)
+                if ((xt + rayon) >= widthBoard || xt + rayon <= 0) {
+                    lastPegTouched = null;
                     ++rebond;
+                }
             }
-            if (yt + rayon >= heightBoard)
+            if (yt + rayon >= heightBoard) {
+                lastPegTouched = null;
                 break;
+            }
             if (boardModel.contact())
                 ++rebond;
             l.add(new Point((int) xt, (int) yt));
@@ -173,10 +178,14 @@ public class Ball {
     // met à jour les coordonnées de la balle à l'instant dt
     public void updateCoordBall(double dt) {
 
-        if ((xt + rayon) >= widthBoard || xt + rayon <= 0)
+        if ((xt + rayon) >= widthBoard || xt + rayon <= 0) {
             vitesseX = -vitesseX;
-        if (yt <= 0)
+            lastPegTouched = null;
+        }
+        if (yt <= 0) {
             vitesseY = -vitesseY;
+            lastPegTouched = null;
+        }
 
         xt = xt(dt);
         yt = yt(dt);
@@ -191,6 +200,7 @@ public class Ball {
             boardModel.retireAllTouched();
             vitesseX = vitesseX_initial;
             vitesseY = vitesseY_initial;
+            lastPegTouched = null;
             if (!c)
                 --nombreBall;
             trajectoire();
@@ -230,6 +240,7 @@ public class Ball {
                 }
 
             }
+            lastPegTouched = p;
             return true;
         }
         if (p instanceof PegRebond) {
@@ -241,6 +252,7 @@ public class Ball {
                 p.pegTouchdown();
 
             }
+            lastPegTouched = p;
             return true;
         }
         if (p instanceof PegCercle) {
@@ -253,6 +265,7 @@ public class Ball {
                 boardModel.scoreTouchPeg(p);
                 p.pegTouchdown();
             }
+            lastPegTouched = p;
             return true;
         }
         if (p instanceof PegRectangle) {
@@ -267,146 +280,92 @@ public class Ball {
             double vectLargeurXNormalise = r.getVecteurLargeurX() / normeVectLargeur;
             double vectLargeurYNormalise = r.getVecteurLargeurY() / normeVectLargeur;
 
-            boolean[] conditions = r.projectionBallOrigineVecteurs(xt, yt, rayon);
+            boolean[] conditions = r.projectionBallOrigineVecteurs(xt, yt, rayon, startBall);
 
             double vecteurX = xt - r.getOrigineVecteurX();
             double vecteurY = yt - r.getOrigineVecteurY();
 
-            double produitScalaireLongueur = r.produitScalaireLongueur(vitesseX, vitesseY);
-            double produitScalaireLargeur = r.produitScalaireLargeur(vitesseX, vitesseY);
+            double produitScalaireLongueurV = r.produitScalaireLongueur(vitesseX, vitesseY);
+            double produitScalaireLargeurV = r.produitScalaireLargeur(vitesseX, vitesseY);
 
-            System.out.println(" produitScla" + produitScalaireLargeur);
+            double produitScalaireLongueur = r.produitScalaireLongueur(vecteurX, vecteurY);
+            double produitScalaireLargeur = r.produitScalaireLargeur(vecteurX, vecteurY);
+
+            if (startBall) {
+                System.out.println(produitScalaireLongueurV * vectLargeurXNormalise + " X Y "
+                        + produitScalaireLongueurV * vectLargeurYNormalise);
+                System.out.println("REBOND " + produitScalaireLargeurV + " " + produitScalaireLongueurV);
+                System.out
+                        .println("CONDITIONS " + conditions[0] + " " + conditions[1] + " " + conditions[2] + " "
+                                + conditions[3]);
+            }
 
             if (conditions[0]) {
-                // if (produitScalaireLargeur < 0) {
-                // produitScalaireLargeur -= produitScalaireLargeur;
-                // }
                 // if (vectLargeurXNormalise > 0) {
                 // vectLargeurXNormalise -= vectLargeurXNormalise;
                 // }
                 if (conditions[1]) {
-                    // rebondCercle(p.getPegX() + r.getLongueur() / 2, p.getPegY() + r.getLargeur()
-                    // / 2);
-                    if (produitScalaireLargeur > 0) {
-                        vitesseX += 2 * produitScalaireLargeur * vectLargeurXNormalise;
-                        vitesseY += 2 * produitScalaireLargeur * vectLargeurYNormalise;
-                    }
+                    rebondCercle(p.getPegX() + r.getVecteurLongueurX() / 2 - r.getVecteurLargeurX() / 2,
+                            p.getPegY() - r.getVecteurLargeurY() / 2 + r.getVecteurLongueurY() / 2);
                 } else if (conditions[3]) {
-                    // rebondCercle(p.getPegX() + r.getLongueur() / 2, p.getPegY() + r.getLargeur()
-                    // / 2);
-                    if (produitScalaireLargeur > 0) {
-                        vitesseX += 2 * produitScalaireLargeur * vectLargeurXNormalise;
-                        vitesseY += 2 * produitScalaireLargeur * vectLargeurYNormalise;
-                    }
+                    rebondCercle(p.getPegX() - r.getVecteurLongueurX() / 2 + r.getVecteurLargeurX() / 2,
+                            p.getPegY() + r.getVecteurLargeurY() / 2 - r.getVecteurLongueurY() / 2);
                 } else {
-                    if (produitScalaireLargeur > 0) {
-                        vitesseX += 2 * produitScalaireLargeur * vectLargeurXNormalise;
-                        vitesseY += 2 * produitScalaireLargeur * vectLargeurYNormalise;
+                    // if (produitScalaireLargeurV>= 0) {
+                    // produitScalaireLargeurV-= produitScalaireLargeur;
+                    // }
+                    if (produitScalaireLargeurV > 0) {
+                        vitesseX -= 2 * produitScalaireLargeurV * vectLargeurXNormalise;
+                        vitesseY -= 2 * produitScalaireLargeurV * vectLargeurYNormalise;
                     }
-                    System.out.println(produitScalaireLongueur * vectLargeurXNormalise + " X Y "
-                            + produitScalaireLongueur * vectLargeurYNormalise);
-                    System.out.println("REBOND " + produitScalaireLargeur);
                 }
-
-                return true;
             }
 
-            if (conditions[2]) {
-                if (produitScalaireLargeur > 0) {
-                    produitScalaireLargeur -= produitScalaireLargeur;
-                }
+            else if (conditions[2]) {
                 // if (vectLargeurXNormalise > 0) {
                 // vectLargeurXNormalise -= vectLargeurXNormalise;
                 // }
                 if (conditions[1]) {
-                    // rebondCercle(p.getPegX() + r.getLongueur() / 2, p.getPegY() + r.getLargeur()
-                    // / 2);
-                    // vitesseX += 2 * produitScalaireLargeur * vectLargeurXNormalise;
-                    // vitesseY += 2 * produitScalaireLargeur * vectLargeurYNormalise;
+                    rebondCercle(p.getPegX() - r.getVecteurLongueurX() / 2 - r.getVecteurLargeurX() / 2,
+                            p.getPegY() - r.getVecteurLargeurY() / 2 - r.getVecteurLongueurY() / 2);
                 } else if (conditions[3]) {
-                    // rebondCercle(p.getPegX() + r.getLongueur() / 2, p.getPegY() + r.getLargeur()
-                    // / 2);
-                    // vitesseX += 2 * produitScalaireLargeur * vectLargeurXNormalise;
-                    // vitesseY += 2 * produitScalaireLargeur * vectLargeurYNormalise;
+                    rebondCercle(p.getPegX() + r.getVecteurLongueurX() / 2 - r.getVecteurLargeurX() / 2,
+                            p.getPegY() - r.getVecteurLargeurY() / 2 + r.getVecteurLongueurY() / 2);
                 } else {
-                    // vitesseX -= 2 * produitScalaireLargeur * vectLargeurXNormalise;
-                    // vitesseY -= 2 * produitScalaireLargeur * vectLargeurYNormalise;
+                    // if (produitScalaireLargeurV<= 0) {
+                    // produitScalaireLargeurV-= produitScalaireLargeur;
+                    // }
+                    if (produitScalaireLargeurV < 0) {
+                        vitesseX -= 2 * produitScalaireLargeurV * vectLargeurXNormalise;
+                        vitesseY -= 2 * produitScalaireLargeurV * vectLargeurYNormalise;
+                    }
                 }
             }
 
-            // if (conditions[2]) {
-            // resetBall(true);
-            // }
+            else if (conditions[1]) {
+                // if (produitScalaireLargeurV > 0) {
+                // xt = xt + produitScalaireLongueur * vectLongueurXNormalise -
+                // r.getVecteurLongueurX();
+                // yt = yt + produitScalaireLongueur * vectLongueurYNormalise -
+                // r.getVecteurLongueurY();
+                vitesseX -= 2 * produitScalaireLongueurV * vectLongueurXNormalise;
+                vitesseY -= 2 * produitScalaireLongueurV * vectLongueurYNormalise;
+            } else if (conditions[3]) {
+                // if (produitScalaireLargeurV >= 0) {
+                // produitScalaireLargeurV -= produitScalaireLargeurV;
+                // }
+                // if (produitScalaireLargeurV < 0) {
+                // xt = xt + produitScalaireLongueur * vectLongueurXNormalise;
+                // yt = yt + produitScalaireLongueur * vectLongueurYNormalise;
+                vitesseX -= 2 * produitScalaireLongueurV * vectLongueurXNormalise;
+                vitesseY -= 2 * produitScalaireLongueurV * vectLongueurYNormalise;
+            }
 
-            // if (xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + rayon) {
-
-            // if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2
-            // && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon
-            // && xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2) {
-            // rebondCercle(p.getPegX() - ((PegRectangle) p).getLongueur() / 2,
-            // p.getPegY() - ((PegRectangle) p).getLargeur() / 2);
-            // }
-
-            // else if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2
-            // && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 - rayon
-            // && xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2) {
-            // rebondCercle(p.getPegX() - ((PegRectangle) p).getLongueur() / 2,
-            // p.getPegY() + ((PegRectangle) p).getLargeur() / 2);
-            // }
-
-            // else if (vitesseX >= 0) {
-            // // vitesseX -= vitesseX;
-            // vitesseX *= -1;
-
-            // }
-            // // xt = p.getPegX() - ((PegRectangle) p).getLongueur() / 2.;
-
-            // vitesseX *= 0.9;
-
-            // }
-            // if (xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - rayon) {
-
-            // if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2
-            // && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon
-            // && xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2) {
-            // rebondCercle(p.getPegX() + ((PegRectangle) p).getLongueur() / 2,
-            // p.getPegY() - ((PegRectangle) p).getLargeur() / 2);
-            // }
-
-            // else if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2
-            // && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 - rayon
-            // && xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2) {
-            // rebondCercle(p.getPegX() + ((PegRectangle) p).getLongueur() / 2,
-            // p.getPegY() + ((PegRectangle) p).getLargeur() / 2);
-            // }
-
-            // else if (vitesseX <= 0) {
-            // // vitesseX -= vitesseX;
-            // vitesseX *= -1;
-            // }
-            // // xt = p.getPegX() + ((PegRectangle) p).getLongueur() / 2.;
-            // vitesseX *= 0.9;
-
-            // }
-            // if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon) {
-            // if (vitesseY >= 0) {
-            // // vitesseY -= vitesseY;
-            // vitesseY *= -1;
-            // }
-            // // yt = p.getPegY() - ((PegRectangle) p).getLargeur() / 2.;
-            // vitesseY *= 0.9;
-
-            // }
-            // if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2 - rayon) {
-            // if (vitesseY <= 0) {
-            // // vitesseY -= vitesseY;
-            // vitesseY *= -1;
-
-            // }
-            // // yt = p.getPegY() + ((PegRectangle) p).getLargeur() / 2.;
-            // vitesseY *= 0.9;
-
-            // }
+            if (lastPegTouched != p) {
+                vitesseX *= 0.9;
+                vitesseY *= 0.9;
+            }
+            lastPegTouched = p;
 
             if (startBall) {
                 boardModel.scoreTouchPeg(p);

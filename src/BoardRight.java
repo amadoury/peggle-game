@@ -1,5 +1,7 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BoardRight extends JPanel {
@@ -8,39 +10,31 @@ public class BoardRight extends JPanel {
     private JLabel labelButton;
     private JButton buttonEdit;
     private JLabel labelImgBall;
-    int rayon = 12;
+    int rayon = 0;
     private double height;
+    private double width;
+
     private ArrayList<JLabel> listLabelBall;
     private JLabel score = new JLabel();
     private int valScore = 0;
+    private Image imageBoardRight;
+    private ImageIcon imageIconBall;
+    private Graphics2D g2d;
+    private int nombreBall;
 
     public BoardRight(int number) {
+        nombreBall = number;
         listLabelBall = new ArrayList<JLabel>();
+
+        try {
+            imageBoardRight = ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFire.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         setLayout(null);
 
-        int x, y;
-        x = 55;
-        y = 55;
-
-        for (int i = 0; i < number; i++) {
-            ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/ball.png"));
-            labelImgBall = new JLabel(imageIcon);
-
-            Image image = imageIcon.getImage(); // transform it
-            Image newimg = image.getScaledInstance(2 * rayon, 2 * rayon, java.awt.Image.SCALE_SMOOTH);
-            imageIcon = new ImageIcon(newimg); // transform it back
-            labelImgBall.setIcon(imageIcon);
-
-            listLabelBall.add(labelImgBall);
-
-            labelImgBall.setBounds(x - rayon, y - rayon, 2 * rayon, 2 * rayon);
-
-            y += 2 * rayon + 5;
-
-            add(labelImgBall);
-            // labelImgBall.setLocation(new Point(50, 50));
-        }
+        imageIconBall = new ImageIcon(this.getClass().getResource("ressources/ball.png"));
 
         score.setBounds(50, 500, 100, 100);
         score.setText("SCORE : " + valScore);
@@ -73,6 +67,14 @@ public class BoardRight extends JPanel {
         // labelImgBall.setLocation(new Point(50, 50));
         // setBackground(Color.WHITE);
         super.paintComponent(g);
+        g2d = (Graphics2D) g;
+
+        imageBoardRight = imageBoardRight.getScaledInstance((int) width, (int) height - 100,
+                java.awt.Image.SCALE_SMOOTH);
+
+        g2d.drawImage(imageBoardRight, 0, 0, (int) width, (int) height - 20,
+                null, null);
+
     }
 
     public void updateLabelBall(int number) {
@@ -90,7 +92,37 @@ public class BoardRight extends JPanel {
     public void setHeight(double height) {
         this.height = height;
         System.out.println(getWidth());
-        setSize(0, (int) height);
+        setSize((int) width, (int) height);
+    }
+
+    public void setWidth(double width) {
+        this.width = width / 8.;
+
+    }
+
+    public void setRayon(int rayon) {
+        this.rayon = rayon;
+        Image image = imageIconBall.getImage(); // transform it
+        Image newimg = image.getScaledInstance(2 * rayon, 2 * rayon, java.awt.Image.SCALE_SMOOTH);
+        imageIconBall = new ImageIcon(newimg); // transform it back
+    }
+
+    public void ballsInitalisation() {
+
+        int y = 0;
+        for (int i = 0; i < nombreBall; i++) {
+            labelImgBall = new JLabel(imageIconBall);
+
+            listLabelBall.add(labelImgBall);
+
+            labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3 - y - rayon), 2 * rayon,
+                    2 * rayon);
+
+            y += 2 * rayon + 5;
+
+            add(labelImgBall);
+            // labelImgBall.setLocation(new Point(50, 50));
+        }
     }
 
     public void ballUsed() {

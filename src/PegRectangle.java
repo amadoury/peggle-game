@@ -46,7 +46,7 @@ public class PegRectangle extends Peg {
         origineVecteurY = pegY - vecteurLongueurY / 2 - vecteurLargeurY / 2;
 
         // System.out.println(" vect " + vecteurLongueurX + " " + vecteurLongueurY);
-        System.out.println(" vect " + vecteurLargeurX + " " + vecteurLargeurY);
+        // System.out.println(" vect " + vecteurLargeurX + " " + vecteurLargeurY);
         // System.out.println(" vectOrigin " + origineVecteurX + " " + origineVecteurY);
 
         BufferedImage image;
@@ -71,8 +71,8 @@ public class PegRectangle extends Peg {
         rotateOp.filter(image, rotatedImage);
         image = rotatedImage;
         Image newimg = image.getScaledInstance(
-                (int) (Math.sin(angle) * largeur / 2 + longueur),
-                (int) (Math.sin(angle) * largeur / 2 + longueur),
+                (int) (Math.abs(Math.sin(angle) * largeur / 2) + longueur),
+                (int) (Math.abs(Math.sin(angle) * largeur / 2) + longueur),
                 java.awt.Image.SCALE_SMOOTH); // scale
 
         imageLabel = image;
@@ -86,10 +86,22 @@ public class PegRectangle extends Peg {
         // imageIcon = new ImageIcon(newimg);
         jlabel = new LabelPeg(imageIcon);
         // jlabel.setSize(rayon * 2, rayon * 2);
-        jlabel.setBounds((int) (pegX - Math.cos(angle) * longueur / 2 - Math.sin(angle) * largeur / 2),
-                (int) (pegY - Math.sin(angle) * largeur / 2 - Math.cos(angle) * longueur / 2),
-                (int) longueur,
-                (int) longueur);
+
+        // jlabel.setBounds(
+        // (int) (pegX - Math.abs(Math.cos(angle) * longueur / 2) -
+        // Math.abs(Math.sin(angle) * largeur / 2)),
+        // (int) (pegY - Math.abs(Math.sin(angle) * largeur / 2) -
+        // Math.abs(Math.cos(angle) * longueur / 2)),
+        // (int) longueur,
+        // (int) longueur);
+        double taille = Math.max(vecteurLongueurX / 2 + vecteurLargeurX / 2,
+                vecteurLongueurY / 2 + vecteurLargeurY / 2);
+        double carreLength = Math.sqrt(longueur * longueur + largeur * largeur);
+        jlabel.setBounds(
+                (int) (pegX - carreLength / 2),
+                (int) (pegY - carreLength / 2),
+                (int) carreLength,
+                (int) carreLength);
     }
 
     public double getLargeur() {
@@ -136,64 +148,53 @@ public class PegRectangle extends Peg {
         return x1 * y1 + x2 * y2;
     }
 
-    public boolean[] projectionBallOrigineVecteurs(double x, double y, double r) {
-        // projection : tab[0] longueurX, tab[1] longueurY,
-        // tab[2] largeurX, tab[3] largeurY
+    public boolean[] projectionBallOrigineVecteurs(double x, double y, double r, boolean started) {
+
         double vecteurX = x - origineVecteurX;
         double vecteurY = y - origineVecteurY;
 
-        double produitScalaireLongueur = vecteurX * vecteurLongueurX + vecteurY * vecteurLongueurY;
-        double produitScalaireLargeur = vecteurX * vecteurLargeurX + vecteurY * vecteurLargeurY;
+        double normeVectLongueur = (Math
+                .sqrt(Math.pow(vecteurLongueurX, 2) + Math.pow(vecteurLongueurY, 2)));
+        double vectLongueurXNormalise = vecteurLongueurX / normeVectLongueur;
+        double vectLongueurYNormalise = vecteurLongueurY / normeVectLongueur;
 
-        double[] tab = new double[4];
+        double normeVectLargeur = (Math
+                .sqrt(Math.pow(vecteurLargeurX, 2) + Math.pow(vecteurLargeurY, 2)));
+        double vectLargeurXNormalise = vecteurLargeurX / normeVectLargeur;
+        double vectLargeurYNormalise = vecteurLargeurY / normeVectLargeur;
 
-        tab[0] = produitScalaireLongueur * vecteurLongueurX / longueur;
-        tab[1] = produitScalaireLongueur * vecteurLongueurY / longueur;
-        tab[2] = produitScalaireLargeur * vecteurLargeurX / largeur;
-        tab[3] = produitScalaireLargeur * vecteurLargeurY / largeur;
-        System.out.println("prdo vect long " + produitScalaireLargeur + " " + vecteurLargeurX + " " + largeur);
+        double produitScalaireLongueur = vecteurX * vectLongueurXNormalise + vecteurY * vectLongueurYNormalise;
+        double produitScalaireLargeur = vecteurX * vectLargeurXNormalise + vecteurY * vectLargeurYNormalise;
+
         boolean[] conditions = new boolean[4];
 
-        boolean insideLongueur = tab[0] >= 0 && tab[0] <= vecteurLongueurX && tab[1] >= 0 && tab[1] <= vecteurLongueurY;
-        boolean insideLargeur = tab[2] >= 0 && tab[2] <= vecteurLargeurX && tab[3] >= 0 && tab[3] <= vecteurLargeurY;
-
-        // conditions[0] = insideLongueur && tab[2] <= 0 && tab[3] <= 0;
-        // conditions[1] = insideLongueur && tab[2] >= vecteurLargeurX && tab[3] >=
-        // vecteurLargeurY;
-        // conditions[2] = insideLargeur && tab[0] <= 0 && tab[1] <= 0;
-        // conditions[3] = insideLargeur && tab[0] >= vecteurLongueurX && tab[1] >=
-        // vecteurLongueurY;
-
-        // conditions[0] = tab[2] + r <= 0 && tab[3] + r <= 0;// en haut
-        // conditions[1] = tab[0] - r >= vecteurLongueurX && tab[1] - r >=
-        // vecteurLongueurY;// a droite
-        // conditions[2] = tab[2] - r >= vecteurLargeurX && tab[3] - r >=
-        // vecteurLargeurY;// en bas
-        // conditions[3] = tab[0] + r <= 0 && tab[1] + r <= 0;// a gauche
-        System.out.println("RAYON " + r);
-        System.out.println("tab[2] " + tab[2]);
-        conditions[0] = (tab[2] <= 0 || tab[2] + r <= 0) && (tab[3] <= 0 || tab[3] + r <= 0);// en haut
-        conditions[1] = (tab[0] >= vecteurLongueurX || tab[0] + r >= vecteurLongueurX)
-                && (tab[1] >= vecteurLongueurY || tab[1] + r >= vecteurLongueurY);// a
-        // droite
-        conditions[2] = (tab[2] >= vecteurLargeurX || tab[2] + r >= vecteurLargeurX)
-                && (tab[3] >= vecteurLargeurY || tab[3] + r >= vecteurLargeurY);// en bas
-        conditions[3] = (tab[0] <= 0 || tab[0] + r <= 0) && (tab[1] <= 0 || tab[1] + r <= 0);// a gauche
+        conditions[0] = (produitScalaireLargeur <= 0 || produitScalaireLargeur + r <= 0);// en haut
+        conditions[1] = (produitScalaireLongueur >= normeVectLongueur
+                || produitScalaireLongueur - r >= normeVectLongueur);// a droite
+        conditions[2] = (produitScalaireLargeur >= normeVectLargeur
+                || produitScalaireLargeur - r >= normeVectLargeur);// en bas
+        conditions[3] = (produitScalaireLongueur <= 0 || produitScalaireLongueur + r <= 0);// a gauche
 
         return conditions;
 
     }
 
     public double produitScalaireLongueur(double x, double y) {
-        double vecteurX = x - origineVecteurX;
-        double vecteurY = y - origineVecteurY;
-        return vecteurX * vecteurLongueurX + vecteurY * vecteurLongueurY;
+        double vecteurX = x;
+        double vecteurY = y;
+
+        double normeVectLongueur = (Math
+                .sqrt(Math.pow(vecteurLongueurX, 2) + Math.pow(vecteurLongueurY, 2)));
+        double vectLongueurXNormalise = vecteurLongueurX / normeVectLongueur;
+        double vectLongueurYNormalise = vecteurLongueurY / normeVectLongueur;
+
+        return vecteurX * vectLongueurXNormalise + vecteurY * vectLongueurYNormalise;
     }
 
     public double produitScalaireLargeur(double x, double y) {
 
-        double vecteurX = x - origineVecteurX;
-        double vecteurY = y - origineVecteurY;
+        double vecteurX = x;
+        double vecteurY = y;
 
         double normeVectPoint = (Math
                 .sqrt(Math.pow(vecteurX, 2) + Math.pow(vecteurY, 2)));
@@ -205,7 +206,17 @@ public class PegRectangle extends Peg {
         // System.out.println("vectX vect Y vectLargX vectLargY " + vecteurX + " " +
         // vecteurY + " " + vecteurLargeurX + " "
         // + vecteurLargeurY);
-        return vecteurX / normeVectPoint * vectLargeurXNormalise + vecteurY / normeVectPoint * vectLargeurYNormalise;
+        // System.out.println("PRODUITSCLAIRELARGEUR " + vecteurX / normeVectPoint *
+        // vectLargeurXNormalise
+        // + vecteurY / normeVectPoint * vectLargeurYNormalise + " fsohu<nsjdvhu");
+
+        // System.out.println(
+        // "VECTX VECTY VECTLARGEUR " + vecteurX + " " + vecteurY + " " +
+        // vectLargeurXNormalise + " "
+        // + vectLargeurYNormalise + " RESULT " + 100. * vecteurX *
+        // vectLargeurXNormalise
+        // + 100. * vecteurY * vectLargeurYNormalise);
+        return vecteurX * vectLargeurXNormalise + vecteurY * vectLargeurYNormalise;
     }
 
     public void rotationPegRectangle(double angle) {

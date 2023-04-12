@@ -68,6 +68,9 @@ public class App extends JFrame {
 
         // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize() ;
 
+        setVisible(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         boardEdit.setApp(this);
 
         boardMain.setDimensionBoard(boardMain.getSize());
@@ -77,10 +80,12 @@ public class App extends JFrame {
         width = dimensionFrame.getWidth();
         height = dimensionFrame.getHeight();
 
-        right.setHeight(height);
-
         boardMain.setWidthScreen(width);
         boardMain.setHeightScreen(height);
+        right.setWidth(width);
+        right.setHeight(height);
+        // if(cardLayout) est en mode boardMain
+        right.ballsInitalisation();
 
         setTitle("Peggle Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +96,7 @@ public class App extends JFrame {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             App app = new App();
-            app.setVisible(true);
+
         });
     }
 
