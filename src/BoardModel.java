@@ -77,8 +77,9 @@ public class BoardModel {
     }
 
     public void setBallStart(boolean b) {
+        boolean wasStarted = ball.isBallStart();
         ball.setStartBall(b);
-        if (b)
+        if (b && !wasStarted)
             right.ballUsed();
     }
 

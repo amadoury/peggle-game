@@ -28,6 +28,8 @@ public class BoardRight extends JPanel {
 
         try {
             imageBoardRight = ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFire.png"));
+            // imageBoardRight =
+            // ImageIO.read(this.getClass().getResource("ressources/peggleBarreScoreWithZero.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,9 +115,9 @@ public class BoardRight extends JPanel {
         for (int i = 0; i < nombreBall; i++) {
             labelImgBall = new JLabel(imageIconBall);
 
-            listLabelBall.add(labelImgBall);
+            listLabelBall.add(0, labelImgBall);
 
-            labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3 - y - rayon), 2 * rayon,
+            labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3 - y), 2 * rayon,
                     2 * rayon);
 
             y += 2 * rayon + 5;
