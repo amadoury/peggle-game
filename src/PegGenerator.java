@@ -139,26 +139,37 @@ public class PegGenerator {
                 double rayonAddedY;
 
                 double[] PARayons = { 0, b.getRayon(), -b.getRayon() };
+                // amelioration distance de contact pour les coins
+                double[] PARayonsPourCoinsRectangle = { b.getRayon() / Math.sqrt(2), -b.getRayon() / Math.sqrt(2) };
                 boolean insideOfRectangle = false;
 
-                for (double PAr1 : PARayons) {
-                    for (double PAr2 : PARayons) {
-                        double PAx = b.getXt() - r.getOrigineVecteurX() + PAr1;
-                        double PAy = b.getYt() - r.getOrigineVecteurY() + PAr2;
-                        double detWithLongueur = PAx * r.getVecteurLongueurY() -
-                                r.getVecteurLongueurX() * PAy;
-                        double detWithLargeur = PAx * r.getVecteurLargeurY() - r.getVecteurLargeurX()
-                                * PAy;
+                double[] RayonsVerif;
 
-                        // double d = det(PQ, PR);
-                        // A position de la balle peg PA vecteur longueur
-                        // 0 <= -det(PA, PQ)/d <= 1 && 0 <= det(PA, PR)/d <= 1
-                        double n = -detWithLongueur / r.getDeterminant();
-                        double m = detWithLargeur / r.getDeterminant();
+                for (int j = 0; j < 2; ++j) {
+                    if (j == 0)
+                        RayonsVerif = PARayons;
+                    else
+                        RayonsVerif = PARayonsPourCoinsRectangle;
+                    for (double PAr1 : RayonsVerif) {
+                        for (double PAr2 : RayonsVerif) {
+                            double PAx = b.getXt() - r.getOrigineVecteurX() + PAr1;
+                            double PAy = b.getYt() - r.getOrigineVecteurY() + PAr2;
+                            double detWithLongueur = PAx * r.getVecteurLongueurY() -
+                                    r.getVecteurLongueurX() * PAy;
+                            double detWithLargeur = PAx * r.getVecteurLargeurY() - r.getVecteurLargeurX()
+                                    * PAy;
 
-                        if (0 <= n && n <= 1
-                                && 0 <= m && m <= 1) {
-                            insideOfRectangle = true;
+                            // double d = det(PQ, PR);
+                            // A position de la balle peg PA vecteur longueur
+                            // 0 <= -det(PA, PQ)/d <= 1 && 0 <= det(PA, PR)/d <= 1
+                            double n = -detWithLongueur / r.getDeterminant();
+                            double m = detWithLargeur / r.getDeterminant();
+
+                            if (0 <= n && n <= 1
+                                    && 0 <= m && m <= 1) {
+                                insideOfRectangle = true;
+                                break;
+                            }
                         }
                     }
                 }
