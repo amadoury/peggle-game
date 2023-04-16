@@ -25,11 +25,11 @@ public class BoardMain extends Board {
 
     private Graphics2D g2d;
 
-    public BoardMain(BoardRight right) {
+    public BoardMain(BoardLeft left, BoardRight right) {
         super();
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel((int) resolutionScreen, this, right);
+        boardModel = new BoardModel((int) resolutionScreen, this, left, right);
 
         initBoard();
     }
@@ -148,6 +148,7 @@ public class BoardMain extends Board {
 
             boardModel.setThetaCanon(theta);
             // boardModel.setAngleChute(theta);
+
             boardModel.getBall().setVitesseX((e.getX() - getBounds().getWidth() / 2) / normeVect);
             boardModel.getBall().setVitesseY(e.getY() / normeVect);
 

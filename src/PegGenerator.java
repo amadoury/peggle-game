@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import javax.xml.crypto.Data;
-
 public class PegGenerator {
 
     private ArrayList<Peg> pegListe = new ArrayList<Peg>();
@@ -134,9 +132,6 @@ public class PegGenerator {
                 // }
 
                 PegRectangle r = (PegRectangle) p;
-
-                double rayonAddedX;
-                double rayonAddedY;
 
                 double[] PARayons = { 0, b.getRayon(), -b.getRayon() };
                 // amelioration distance de contact pour les coins

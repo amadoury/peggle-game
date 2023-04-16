@@ -1,16 +1,20 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class BoardRight extends JPanel {
+public class BoardRight extends JPanel implements MouseInputListener {
     private JLabel labelNumberBall;
     private JLabel labelPeg;
     private JLabel labelButton;
     private JButton buttonEdit;
     private JLabel labelImgBall;
-    int rayon = 0;
+    private int rayon = 0;
     private double height;
     private double width;
 
@@ -21,18 +25,32 @@ public class BoardRight extends JPanel {
     private ImageIcon imageIconBall;
     private Graphics2D g2d;
     private int nombreBall;
+    private JLabel jlabel;
+    // private ImageIcon imageIcon;
+    private int ballY = 0;
+    private int positionCurrentBall = 0;
 
-    public BoardRight(int number) {
-        nombreBall = number;
+    public BoardRight() {
         listLabelBall = new ArrayList<JLabel>();
 
-        try {
-            imageBoardRight = ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFire.png"));
-            // imageBoardRight =
-            // ImageIO.read(this.getClass().getResource("ressources/peggleBarreScoreWithZero.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // try {
+        // // imageBoardRight =
+        // //
+        // ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFire.png"));
+
+        // // imageBoardRight =
+        // //
+        // ImageIO.read(this.getClass().getResource("ressources/peggleBarreScoreWithZero.png"));
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // ImageIcon imageIcon = new
+        // ImageIcon(this.getClass().getResource("ressources/peggleBallsToFire.png"));
+        // Image image = imageIcon.getImage(); // transform it
+        // Image newimg = image.getScaledInstance((int) width, (int) height - 100,
+        // java.awt.Image.SCALE_SMOOTH);
+        // imageIcon = new ImageIcon(newimg); // transform it back
+        // jlabel = new LabelPeg(imageIcon);
 
         setLayout(null);
 
@@ -40,6 +58,7 @@ public class BoardRight extends JPanel {
 
         score.setBounds(50, 500, 100, 100);
         score.setText("SCORE : " + valScore);
+
         add(score);
 
         System.out.println(getHeight());
@@ -59,6 +78,9 @@ public class BoardRight extends JPanel {
         // // y += 2 * rayon + 5 ;
         // }
 
+        // jlabel.addMouseListener(this);
+        // addMouseMotionListener(this);
+
     }
 
     @Override
@@ -71,11 +93,12 @@ public class BoardRight extends JPanel {
         super.paintComponent(g);
         g2d = (Graphics2D) g;
 
-        imageBoardRight = imageBoardRight.getScaledInstance((int) width, (int) height - 100,
-                java.awt.Image.SCALE_SMOOTH);
+        // imageBoardRight = imageBoardRight.getScaledInstance((int) width, (int) height
+        // - 100,
+        // java.awt.Image.SCALE_SMOOTH);
 
-        g2d.drawImage(imageBoardRight, 0, 0, (int) width, (int) height - 20,
-                null, null);
+        // g2d.drawImage(imageBoardRight, 0, 0, (int) width, (int) height - 20,
+        // null, null);
 
     }
 
@@ -95,6 +118,12 @@ public class BoardRight extends JPanel {
         this.height = height;
         System.out.println(getWidth());
         setSize((int) width, (int) height);
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBallsToFire.png"));
+        imageIcon.setImage(
+                imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_SMOOTH));
+        jlabel = new LabelPeg(imageIcon);
+
+        jlabel.setBounds(0, 0, (int) width, (int) height);
     }
 
     public void setWidth(double width) {
@@ -109,29 +138,37 @@ public class BoardRight extends JPanel {
         imageIconBall = new ImageIcon(newimg); // transform it back
     }
 
-    public void ballsInitalisation() {
+    public void setNombreBall(int nombreBall) {
+        this.nombreBall = nombreBall;
+    }
 
-        int y = 0;
+    public void initalisation() {
+
+        ballY = 0;
         for (int i = 0; i < nombreBall; i++) {
             labelImgBall = new JLabel(imageIconBall);
 
             listLabelBall.add(0, labelImgBall);
 
-            labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3 - y), 2 * rayon,
+            labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3 - ballY), 2 * rayon,
                     2 * rayon);
 
-            y += 2 * rayon + 5;
+            ballY += 2 * rayon + 5;
 
             add(labelImgBall);
             // labelImgBall.setLocation(new Point(50, 50));
         }
+        add(jlabel);
     }
 
     public void ballUsed() {
         if (listLabelBall.size() == 0)
             return;
-        remove(listLabelBall.get(0));
-        listLabelBall.remove(0);
+        // remove(listLabelBall.get(0));
+        // listLabelBall.remove(0);
+        listLabelBall.get(positionCurrentBall).setVisible(false);
+        ++positionCurrentBall;
+        ballY -= 2 * rayon + 5;
         repaint();
         // setBackground(Color.WHITE);
 
@@ -142,4 +179,71 @@ public class BoardRight extends JPanel {
         repaint();
         // setBackground(Color.WHITE);
     }
+
+    public void trouFall() {
+        // try {
+        // imageBoardRight =
+        // ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFireFreeBall.gif"));
+        // // imageBoardRight =
+        // //
+        // ImageIO.read(this.getClass().getResource("ressources/peggleBarreScoreWithZero.png"));
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+
+        // labelImgBall = new JLabel(imageIconBall);
+        // listLabelBall.add(0, labelImgBall);
+        // labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3
+        // - ballY), 2 * rayon,
+        // 2 * rayon);
+        --positionCurrentBall;
+        listLabelBall.get(positionCurrentBall).setVisible(true);
+        ballY += 2 * rayon + 5;
+
+        ++nombreBall;
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBallsToFireFreeBall.gif"));
+        imageIcon.setImage(
+                imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_DEFAULT));
+        jlabel.setIcon(imageIcon);
+
+        // jlabel.setBounds(0, 0, (int) width, (int) height);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        System.out.println(e.getY());
+        if (e.getY() > height * 2 / 3 + 50)
+            System.out.println("DESXHDHUSIFEUHFHE");
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
 }

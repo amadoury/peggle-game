@@ -94,8 +94,7 @@ public class PegRectangle extends Peg {
         // Math.abs(Math.cos(angle) * longueur / 2)),
         // (int) longueur,
         // (int) longueur);
-        double taille = Math.max(vecteurLongueurX / 2 + vecteurLargeurX / 2,
-                vecteurLongueurY / 2 + vecteurLargeurY / 2);
+
         double carreLength = Math.sqrt(longueur * longueur + largeur * largeur);
         jlabel.setBounds(
                 (int) (pegX - carreLength / 2),
@@ -142,10 +141,6 @@ public class PegRectangle extends Peg {
 
     public double getOrigineVecteurY() {
         return origineVecteurY;
-    }
-
-    private double produitScalaire(double x1, double x2, double y1, double y2) {
-        return x1 * y1 + x2 * y2;
     }
 
     public boolean[] projectionBallOrigineVecteurs(double x, double y, double r, boolean started) {
@@ -203,19 +198,7 @@ public class PegRectangle extends Peg {
                 .sqrt(Math.pow(vecteurLargeurX, 2) + Math.pow(vecteurLargeurY, 2)));
         double vectLargeurXNormalise = vecteurLargeurX / normeVectLargeur;
         double vectLargeurYNormalise = vecteurLargeurY / normeVectLargeur;
-        // System.out.println("vectX vect Y vectLargX vectLargY " + vecteurX + " " +
-        // vecteurY + " " + vecteurLargeurX + " "
-        // + vecteurLargeurY);
-        // System.out.println("PRODUITSCLAIRELARGEUR " + vecteurX / normeVectPoint *
-        // vectLargeurXNormalise
-        // + vecteurY / normeVectPoint * vectLargeurYNormalise + " fsohu<nsjdvhu");
 
-        // System.out.println(
-        // "VECTX VECTY VECTLARGEUR " + vecteurX + " " + vecteurY + " " +
-        // vectLargeurXNormalise + " "
-        // + vectLargeurYNormalise + " RESULT " + 100. * vecteurX *
-        // vectLargeurXNormalise
-        // + 100. * vecteurY * vectLargeurYNormalise);
         return vecteurX * vectLargeurXNormalise + vecteurY * vectLargeurYNormalise;
     }
 
@@ -237,15 +220,8 @@ public class PegRectangle extends Peg {
         Image newimg = image.getScaledInstance((int) (longueur), (int) (longueur),
                 java.awt.Image.SCALE_SMOOTH); // scale
         ImageIcon imageIcon = new ImageIcon(newimg); // transform it back
-        // jlabel.setIcon(imageIcon);
 
-        // Image image = imageIcon.getImage();
-        // Image newimg = image.getScaledInstance((int) (longueur), (int) (longueur),
-        // java.awt.Image.SCALE_SMOOTH); // scale
-
-        // imageIcon = new ImageIcon(newimg);
         jlabel = new LabelPeg(imageIcon);
-        // jlabel.setSize(rayon * 2, rayon * 2);
         jlabel.setBounds((int) (pegX - Math.cos(angle) * longueur / 2), (int) (pegY - Math.sin(angle) * largeur / 2),
                 (int) longueur,
                 (int) longueur);

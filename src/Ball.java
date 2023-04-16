@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -110,8 +109,9 @@ public class Ball {
         return this.startBall;
     }
 
-    public void setStartBall(boolean start) {
+    public boolean setStartBall(boolean start) {
         startBall = start;
+        return nombreBall != 0;
     }
 
     public void setWidthBoard(double widthBoard) {
@@ -193,6 +193,8 @@ public class Ball {
 
     public void resetBall(boolean needToReset) {
         boolean c = boardModel.getTrou().contactTrou(this);
+        if (c)
+            boardModel.trouFall();
         if (yt + rayon >= heightBoard || c || needToReset) {
             xt = x_initial;
             yt = y_initial;

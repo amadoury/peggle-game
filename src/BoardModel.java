@@ -1,4 +1,4 @@
-import java.rmi.server.RemoteServer;
+
 import java.util.ArrayList;
 
 public class BoardModel {
@@ -18,13 +18,16 @@ public class BoardModel {
     private BoardMain board;
     private double resolutionScreen;
     private Trou trou;
+    private BoardLeft left;
     private BoardRight right;
+    private int nombreBall = 10;
 
     private int score;
 
-    public BoardModel(int resolutionScreen, BoardMain board, BoardRight right) {
+    public BoardModel(int resolutionScreen, BoardMain board, BoardLeft left, BoardRight right) {
         this.resolutionScreen = resolutionScreen / 100.;
         this.board = board;
+        this.left = left;
         this.right = right;
         initBoardModel();
     }
@@ -34,11 +37,12 @@ public class BoardModel {
         canon = new Canon(0, 25, 70 / resolutionScreen);
         xInitBall = canon.getCanonX();
         yInitBall = canon.getCanonY();
-        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), 15, this);
+        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), nombreBall, this);
         generator = new PegGenerator(resolutionScreen, 20);
         trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
                                                          // largeur
         right.setRayon((int) (20 / resolutionScreen));
+        right.setNombreBall(nombreBall);
     }
 
     public Canon getCanon() {
@@ -78,8 +82,8 @@ public class BoardModel {
 
     public void setBallStart(boolean b) {
         boolean wasStarted = ball.isBallStart();
-        ball.setStartBall(b);
-        if (b && !wasStarted)
+
+        if (ball.setStartBall(b) && b && !wasStarted)
             right.ballUsed();
     }
 
@@ -102,11 +106,10 @@ public class BoardModel {
             return;
         if (p.color.equals("bleu")) {
             score += 10;
-            return;
         }
         if (p.color.equals("orange"))
             score += 100;
-        right.upgradeScore(score);
+        left.upgradeScore(score);
     }
 
     public void setWidthBoard(double widthBoard) {
@@ -138,6 +141,11 @@ public class BoardModel {
     public void setHeightBoard(double heightBoard) {
         this.heightBoard = heightBoard;
         trou.setHeightBoard(heightBoard);
+    }
+
+    public void trouFall() {
+        right.trouFall();
+        ++nombreBall;
     }
 
 }

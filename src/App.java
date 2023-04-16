@@ -8,8 +8,8 @@ public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private JPanel left = new JPanel();
-    private BoardRight right = new BoardRight(10);
+    private BoardLeft left = new BoardLeft();
+    private BoardRight right = new BoardRight();
     private BoardMain boardMain;
 
     private double width;
@@ -22,7 +22,7 @@ public class App extends JFrame {
 
     private void initUI() {
 
-        boardMain = new BoardMain(right);
+        boardMain = new BoardMain(left, right);
         BoardEdit boardEdit = new BoardEdit();
 
         CardLayout cardLayout = new CardLayout();
@@ -45,7 +45,7 @@ public class App extends JFrame {
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
-        add(left, c);
+        add(new JPanel(), c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 3;
@@ -62,7 +62,7 @@ public class App extends JFrame {
         c.weightx = 0.5;
         c.gridx = 2;
         c.gridy = 0;
-        add(right, c);
+        add(left, c);
 
         pack();
 
@@ -85,7 +85,9 @@ public class App extends JFrame {
         right.setWidth(width);
         right.setHeight(height);
         // if(cardLayout) est en mode boardMain
-        right.ballsInitalisation();
+        right.initalisation();
+        left.setWidth(width);
+        left.setHeight(height);
 
         setTitle("Peggle Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
