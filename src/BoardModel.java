@@ -22,7 +22,8 @@ public class BoardModel {
     private BoardRight right;
     private int nombreBall = 10;
 
-    private int score;
+    private int score1;
+    private int score2;
 
     public BoardModel(int resolutionScreen, BoardMain board, BoardLeft left, BoardRight right) {
         this.resolutionScreen = resolutionScreen / 100.;
@@ -101,15 +102,21 @@ public class BoardModel {
         generator.retireAllTouched();
     }
 
-    public void scoreTouchPeg(Peg p) {
+    public void scoreTouchPeg(Peg p, boolean b) {
         if (p.touched)
             return;
         if (p.color.equals("bleu")) {
-            score += 10;
+            if (b)
+                score1 += 10;
+            else
+                score2 += 10;
         }
         if (p.color.equals("orange"))
-            score += 100;
-        left.upgradeScore(score);
+            if (b)
+                score1 += 100;
+            else
+                score2 += 100;
+        left.upgradeScore(score1);
     }
 
     public void setWidthBoard(double widthBoard) {

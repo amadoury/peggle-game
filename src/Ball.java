@@ -264,7 +264,7 @@ public class Ball {
             vitesseX *= 0.9;
             vitesseY *= 0.9;
             if (startBall) {
-                boardModel.scoreTouchPeg(p);
+                boardModel.scoreTouchPeg(p, true);
                 p.pegTouchdown();
             }
             lastPegTouched = p;
@@ -370,7 +370,7 @@ public class Ball {
             lastPegTouched = p;
 
             if (startBall) {
-                boardModel.scoreTouchPeg(p);
+                boardModel.scoreTouchPeg(p, true);
                 p.pegTouchdown();
             }
 

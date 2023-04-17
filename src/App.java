@@ -62,7 +62,7 @@ public class App extends JFrame {
         c.weightx = 0.5;
         c.gridx = 2;
         c.gridy = 0;
-        add(left, c);
+        add(right, c);
 
         pack();
 
