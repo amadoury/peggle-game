@@ -1,21 +1,22 @@
-import java.lang.Math ;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.* ;
 import java.awt.* ;
 import java.awt.event.MouseEvent;
 
 public class BoardIA extends BoardMain {
-    private Player player1;
-    private Player player2;
+    private Player player1 = new Player();
+    private Player player2 = new Player();
     private boolean currentPlayer; //true si c'est le tour du player1 sinon false
     private Graphics2D g2d ;
     private String playerTurn;
     private boolean showText = true ;
 
-    public BoardIA(String path, BoardRight right){
-        super(path, right);
+    public BoardIA(String path, BoardRight right, BoardLeft left){
+        super(path, right, left);
+        //boardModel = new BoardModelIA((int)resolutionScreen, this , right, left);
         int n  = ThreadLocalRandom.current().nextInt(0, 2);
         currentPlayer = n == 0 ? true : false ;
+        boardModel.getBall().setBoardIA(this);
     }
 
     public void printPlayerTurnOnScreen(){
@@ -26,34 +27,33 @@ public class BoardIA extends BoardMain {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g2d = (Graphics2D)g ;
-
-        renderPlayerTurn();
-
-        runPlayerTurnLogic();
-    }
-
-    public void runPlayerTurnLogic() {
-        Timer timer = new Timer(3000, (action) -> {
-            showText = false;
-        });
-        timer.setRepeats(false);
-        timer.start();
-        //t.stop();
-    }
-    
-    public void renderPlayerTurn() {
-        if (showText) {
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Arial", Font.BOLD, 50));
-            printPlayerTurnOnScreen();
+        g2d = (Graphics2D)g ;  
+        
+        if (!boardModel.getBall().isBallStart()){
+            renderPlayerTurn();
         }
+
+        left.updateScore(player1.getScore(), player2.getScore());
+    
+        System.out.println("p 1 :" + player1.getScore());
+        System.out.println("p 2 :" + player2.getScore());
+    }
+
+
+
+    public void renderPlayerTurn(){
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        printPlayerTurnOnScreen();
     }
 
     @Override
     public void mousePressed(MouseEvent e){
         super.mousePressed(e);
-        showText  = true ;
-        repaint();
+        currentPlayer = !currentPlayer ;
+    }
+
+    public boolean getCurrentPlayer(){
+        return currentPlayer;
     }
 }

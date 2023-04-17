@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import java.util.Scanner;
 import java.util.Timer;
+
+import javax.swing.* ;
 
 public class BoardMain extends Board implements KeyListener{
 
@@ -30,15 +34,18 @@ public class BoardMain extends Board implements KeyListener{
     /* BoardModel */
     BoardModel boardModel;
 
-    private BoardRight right;
+    public BoardRight right;
+    public BoardLeft left ;
 
     // private double time = 0.015;
 
-    public BoardMain(String filePath, BoardRight right) {
+    public BoardMain(String filePath,BoardRight right, BoardLeft left) {
         //super(dim);
-        initBoard(filePath); 
         //System.out.println(Toolkit.getDefaultToolkit());
         this.right = right ;
+        this.left = left ;
+
+        initBoard(filePath); 
 
         // width = dim.getWidth();
         // height = dim.getHeight() ;
@@ -50,7 +57,7 @@ public class BoardMain extends Board implements KeyListener{
     private void initBoard(String filePath) {
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel((int) resolutionScreen, this, right); 
+        boardModel = new BoardModel((int) resolutionScreen, this, right, left); 
 
         if (filePath == null){
             loadPegOnBoard(boardModel.getGenerator());
@@ -162,10 +169,13 @@ public class BoardMain extends Board implements KeyListener{
             }
         }
 
+        showFireWorksOnScreen();
+
         if(!boardModel.getGenerator().hasOrangePeg()){
             boardModel.setGameOver(true);
             //drawGameOverScreen();
 
+        
             int len = boardModel.getGenerator().getPegListe().size() ;
 
             if(len >= 1){
@@ -179,6 +189,29 @@ public class BoardMain extends Board implements KeyListener{
         }
     } 
 
+
+    public void showFireWorksOnScreen(){
+        ImageIcon imgFireWorks = new ImageIcon(this.getClass().getResource("ressources/fireworks.gif")) ;
+        
+        // Image img = imgFireWorks.getImage() ;
+        // Image newimg = img.getScaledInstance(1000,1000, java.awt.Image.SCALE_DEFAULT);
+
+        // imgFireWorks = new ImageIcon(newimg) ;
+
+        JLabel fireFireWorksLabel = new JLabel(imgFireWorks) ;
+
+        boolean show = false ;
+
+
+        javax.swing.Timer  timer = new javax.swing.Timer(3000, (action) -> {
+            //show = true ;
+        });
+
+
+        timer.setRepeats(false);
+        timer.start();
+
+    }
 
     public void drawEndGameScreen(String state){
         g2d.setColor(new Color(0,0,0, 150));
@@ -268,7 +301,6 @@ public class BoardMain extends Board implements KeyListener{
             boardModel.setBallStart(true);
             boardModel.getSound().setFile(0);
             boardModel.getSound().play();
-          //  boardModel.getSound().stop();
         }
     }
 
@@ -321,7 +353,7 @@ public class BoardMain extends Board implements KeyListener{
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode() ;
 
-        System.out.println("key pressed ");
+        //System.out.println("key pressed ");
 
         if(key == KeyEvent.VK_UP){
             if (commandKey <= 0){

@@ -26,6 +26,7 @@ public class Ball {
     // private int widthBall = 45;
     // private int radiusBall = widthBall / 2;
     private BoardMain board;
+    private BoardIA boardIA ;
     private boolean startBall = false;
     private int rayon;
     private BoardModel boardModel;
@@ -229,11 +230,14 @@ public class Ball {
             vitesseX *= 0.9;
             vitesseY *= 0.9;
             if (startBall){
+                boardModel.scoreTouchPegIA(p);
                 p.pegTouchdown();
                 sound.setFile(1);
                 sound.play();
             }
             
+
+
             return true;
         }
         if (p instanceof PegRectangle) {
@@ -339,5 +343,9 @@ public class Ball {
 
     public void setSound(Sound sound) {
         this.sound = sound;
+    }
+
+    public void setBoardIA(BoardIA bia){
+        this.boardIA = bia;
     }
 }

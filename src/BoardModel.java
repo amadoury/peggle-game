@@ -7,27 +7,31 @@ public class BoardModel {
     private double thetaCanon;
 
     /* for Ball */
-    private Ball ball;
+    public Ball ball;
     private double xInitBall = 0;
     private double yInitBall = 0;
     private double angleChute = -60;
     PegGenerator generator;
-    private BoardMain board;
+    protected BoardMain board;
     private double resolutionScreen;
-    private Trou trou;
+    public Trou trou;
     private double widthBoard ;
     private double heightBoard ;
     private boolean gameOver = false;
-    private BoardRight right ;
+    protected BoardLeft left;
+    int score1 = 0;
+    int score2 = 0;
     
-    private int score ;
+    private Sound sound ; 
+    protected BoardRight right;
 
-    private Sound sound ;
+    private int score; 
 
-    public BoardModel(int resolutionScreen, BoardMain board, BoardRight right) {
+    public BoardModel(int resolutionScreen, BoardMain board, BoardRight right, BoardLeft left) {
         this.resolutionScreen = resolutionScreen / 100.;
         this.board = board;
         this.right = right;
+        this.left = left;
         initBoardModel();
     }
 
@@ -38,7 +42,8 @@ public class BoardModel {
         yInitBall = canon.getCanonY();
         ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), 15, this);
         generator = new PegGenerator(resolutionScreen, 20);
-        trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x                                            // largeur
+        trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
+                                                         // largeur
 
         board.add(trou.getJlabel());
         ArrayList<String> paths = new ArrayList<String>() ;
@@ -94,7 +99,6 @@ public class BoardModel {
         ball.setStartBall(b);
         if (b)
             right.ballUsed();
-
     }
 
     public boolean contact() {
@@ -117,13 +121,21 @@ public class BoardModel {
             return;
         if (p.color.equals("bleu")) {
             score += 10;
-            return;
         }
         if (p.color.equals("orange"))
             score += 100;
         right.upgradeScore(score);
     }
 
+    public void scoreTouchPegIA(Peg p){
+        if (p.touched)
+            return;
+        if (p.color.equals("orange") && ((BoardIA)board).getCurrentPlayer())
+            score1++;
+        if (p.color.equals("orange") && !((BoardIA)board).getCurrentPlayer())
+            score2++;
+        left.updateScore(score1, score2);
+    }
 
     public void setWidthBoard(double widthBoard) {
         this.widthBoard = widthBoard;
@@ -156,7 +168,5 @@ public class BoardModel {
 
     public Sound getSound(){
         return sound ;
-    }
-
-    
+       }
 }

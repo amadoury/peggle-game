@@ -61,10 +61,11 @@ public class LoadingScreen extends JFrame {
 
         System.out.println("dim avant de creer app "+ this.getBounds().getSize());
 
-        App app = new App(new Dimension((int)((6. / 8.)*getBounds().getSize().getWidth()), (int)getBounds().getSize().getHeight())) ;
 
         this.loop();
         System.out.println(" last " + this.getBounds().getSize());
+        App app = new App(getBounds().getSize()) ;
+
 
         app.setVisible(true);
         //dispose();

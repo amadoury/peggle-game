@@ -75,8 +75,7 @@ public class Trou {
     }
 
     public void setHeightBoard(double heightBoard) {
-        // this.heightBoard = heightBoard;
-        y = (int) heightBoard - 96 * resolutionScreen;
+        y = (int) heightBoard - 96 * resolutionScreen - 30; //+ 25 ;
     }
 
     public void setWidthBoard(double widthBoard) {

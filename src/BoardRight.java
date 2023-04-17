@@ -39,13 +39,11 @@ public class BoardRight extends JPanel {
             y += 2 * rayon + 5;
 
             add(labelImgBall);
-            // labelImgBall.setLocation(new Point(50, 50));
         }
 
         score.setBounds(50, 500, 100, 100);
         score.setText("SCORE : " + valScore);
         add(score);
-
     }
 
     @Override

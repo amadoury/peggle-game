@@ -6,11 +6,16 @@ public abstract class Peg {
     protected boolean touched;
     protected boolean destructed;
     protected LabelPeg jlabel;
+    protected String player = "";
 
     Peg(int x, int y, String c) {
         pegX = x;
         pegY = y;
         color = c; 
+    }
+
+    public String toString(){
+        return "pegX = "+pegX + "; pegY = "+pegY + "; color = "+color + "; touched = "+touched + "; destructed = "+destructed;
     }
 
     public double getPegX() {

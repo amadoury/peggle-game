@@ -6,8 +6,11 @@ public class App extends JFrame {
 
     private Dimension dimensionFrame;
 
-    private BoardLeft left = new BoardLeft(1);
     private BoardRight right = new BoardRight(10) ;
+    private BoardLeft left = new BoardLeft() ;
+
+    //private JPanel right = new JPanel() ;
+
     private JPanel panelBoard ;
     private BoardMain boardMain;
     private double width;
@@ -24,12 +27,12 @@ public class App extends JFrame {
     }
 
     private void initUI(){
-       
-        boardMain = new BoardMain(null, right);
+
+        boardMain = new BoardMain(null, right,left);
         BoardEdit boardEdit = new BoardEdit(Toolkit.getDefaultToolkit().getScreenSize()) ;
         levelMenu = new LevelMenu(dim) ;
         Intro intro = new Intro(dim) ;
-        BoardIA boardIA = new BoardIA("src/ressources/level/level2.txt", right) ;
+        BoardIA boardIA = new BoardIA("src/ressources/level/level2.txt", right, left) ;
 
         cardLayout = new CardLayout() ;
         panelBoard = new JPanel() ;
@@ -39,51 +42,35 @@ public class App extends JFrame {
 
         panelBoard.add(boardMain, "boardMain") ;
         panelBoard.add(boardEdit, "boardEdit") ;
-        //panelBoard.add(intro, "intro") ;
-        //panelBoard.add(boardIA, "boardIA") ;
-
+        panelBoard.add(intro, "intro") ;
+        panelBoard.add(boardIA, "boardIA") ;
         
         
         //boardMain.setDim(Toolkit.getDefaultToolkit().getScreenSize());
-        //cardLayout.show(panelBoard, "boardMain");
-        //cardLayout.show(panelBoard, "boardIA");
+        //cardLayout.show(panelBoard, "intro");
+        cardLayout.show(panelBoard, "boardIA");
 
 
-        setLayout(new GridBagLayout());
+        width = (6. / 8.) * dim.getWidth() ;
+        height = dim.getHeight() - 100 ;
+        double xStart = (1. / 8.) * dim.getWidth() ;
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setLayout(null);
+        this.add(panelBoard) ;
+        this.add(right) ;
+        this.add(left) ;
 
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLayout(new GridBagLayout());
+        panelBoard.setBounds((int)xStart, 0, (int)width, (int)height);
+        right.setBounds((int)(xStart + width), 0, (int)xStart, (int)height);
+        left.setBounds(0, 0, (int)xStart, (int)height);
 
-        GridBagConstraints c = new GridBagConstraints();
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = 0;
-        add(left, c);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 3;
-        c.ipady = 1500;
-        c.gridx = 1;
-        c.gridy = 0;
-
-        add(panelBoard, c);
-
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 2;
-        c.gridy = 0;
-        add(right, c);
 
         intro.listPage.get(2).launch.addActionListener((event) ->{
             cardLayout.show(panelBoard, "levelMenu");
         });
 
         levelMenu.getLevel1().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level1.txt", right);
+            BoardMain bd = new BoardMain("src/ressources/level/level1.txt", right, left);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel1");
             cardLayout.show(panelBoard, "boardlevel1");
@@ -91,7 +78,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel2().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level2.txt", right);
+            BoardMain bd = new BoardMain("src/ressources/level/level2.txt", right, left);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel2");
             cardLayout.show(panelBoard, "boardlevel2");
@@ -100,7 +87,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel3().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level3.txt", right);
+            BoardMain bd = new BoardMain("src/ressources/level/level3.txt", right, left);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel3");
             cardLayout.show(panelBoard, "boardlevel3");
@@ -110,16 +97,16 @@ public class App extends JFrame {
 
         pack();
 
-        dimensionFrame = this.getBounds().getSize(); 
+        //dimensionFrame = this.getBounds().getSize(); 
 
         boardEdit.setApp(this) ;
-        levelMenu.setDim(dimensionFrame);
-        intro.setDim(dimensionFrame);
+        levelMenu.setDim(dim);
+        intro.setDim(dim);
   
-        //setParams(boardIA);
+        setParams(boardIA);
 
-        boardIA.setWidthScreen(dimensionFrame.getWidth());
-        boardIA.setHeightScreen(dimensionFrame.getHeight());
+        //boardIA.setWidthScreen(dimensionFrame.getWidth());
+        //boardIA.setHeightScreen(dimensionFrame.getHeight());
 
         setParams(boardMain);
 
@@ -130,9 +117,12 @@ public class App extends JFrame {
     }
 
     public void setParams(BoardMain boardMain){ 
-        dimensionFrame = this.getBounds().getSize(); 
-        boardMain.setWidthScreen(dimensionFrame.getWidth());
-        boardMain.setHeightScreen(dimensionFrame.getHeight());
+        //dimensionFrame = this.getBounds().getSize(); 
+        // boardMain.setWidthScreen(dimensionFrame.getWidth());
+        // boardMain.setHeightScreen(dimensionFrame.getHeight());
+
+        boardMain.setWidthScreen(dim.getWidth());
+        boardMain.setHeightScreen(dim.getHeight());
     }
 
     public JPanel getPanelBoard(){
