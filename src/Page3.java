@@ -11,38 +11,46 @@ public class Page3 extends JFrame implements ActionListener {
         this.previousPage = previousPage;
         setTitle("World 3");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 600);
+        setSize(1300, 1000);
         setLocationRelativeTo(null);
 
-        // Charger l'image à partir du fichier "image.img"
-        URL imageUrl = getClass().getResource("trois.png");
+        // Load the image from file "trois.png"
+        URL imageUrl = getClass().getResource("trois1.png");
         ImageIcon icon = new ImageIcon(imageUrl);
         Image image = icon.getImage();
 
-        // Créer un JLabel avec l'image en arrière-plan
+        // Create a JLabel with the image as background
         JLabel backgroundLabel = new JLabel(new ImageIcon(image));
         backgroundLabel.setBounds(0, 0, getWidth(), getHeight());
         getContentPane().add(backgroundLabel);
 
-        // Créer un panel pour les autres composants
+        // Create a panel for the other components
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setOpaque(false); // Rendre le panel transparent
+        panel.setOpaque(false); // Make the panel transparent
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 20, 20, 20); // Marge autour des boutons
+        gbc.insets = new Insets(5, 20, 5, 20); // Margin around the buttons
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTH; // Aligner les boutons en haut au centre
-        gbc.weightx = 1; // Faire en sorte que le bouton soit centré horizontalement
+        gbc.anchor = GridBagConstraints.NORTH; // Align the buttons to the top center
+        gbc.weightx = 1; // Center the button horizontally
+        gbc.ipady = 10; // Reduce the height of the buttons
 
         previousPageButton = new JButton("Previous World");
         previousPageButton.addActionListener(this);
         panel.add(previousPageButton, gbc);
 
         gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE; // Ne pas étirer le bouton
-        gbc.anchor = GridBagConstraints.CENTER; // Aligner le bouton au centre
-        gbc.weighty = 1; // Ajouter de l'espace vide au-dessus du bouton
+        JButton level1Button = new JButton("Level 1");
+        level1Button.addActionListener(this);
+        panel.add(level1Button, gbc);
+
+        gbc.gridy++;
+        JButton level2Button = new JButton("Level 2");
+        level2Button.addActionListener(this);
+        panel.add(level2Button, gbc);
+
+        gbc.gridy++;
         JButton level3Button = new JButton("Level 3");
         level3Button.addActionListener(this);
         panel.add(level3Button, gbc);
@@ -56,6 +64,12 @@ public class Page3 extends JFrame implements ActionListener {
         if (e.getSource() == previousPageButton) {
             dispose();
             previousPage.setVisible(true);
+        } else if (e.getActionCommand().equals("Level 1")) {
+            // handle Level 1 button click here
+        } else if (e.getActionCommand().equals("Level 2")) {
+            // handle Level 2 button click here
+        } else if (e.getActionCommand().equals("Level 3")) {
+            // handle Level 3 button click here
         }
     }
 

@@ -6,38 +6,40 @@ import java.net.URL;
 public class Page1 extends JFrame implements ActionListener {
     private JButton nextPageButton;
     private JButton level1Button;
+    private JButton level2Button; // new button
+    private JButton level3Button; // new button
     private JButton mainMenuButton;
 
     public Page1() {
         setTitle("world 1");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 600);
+        setSize(1300, 1000);
         setLocationRelativeTo(null);
 
-        // Charger l'image à partir du fichier "image.img"
-        URL imageUrl = getClass().getResource("final.png");
+        // Load the image from file "final1.png"
+        URL imageUrl = getClass().getResource("final1.png");
         ImageIcon icon = new ImageIcon(imageUrl);
         Image image = icon.getImage();
 
-        // Créer un JLabel avec l'image en arrière-plan
+        // Create a JLabel with the image as background
         JLabel backgroundLabel = new JLabel(new ImageIcon(image));
         backgroundLabel.setBounds(0, 0, getWidth(), getHeight());
         getContentPane().add(backgroundLabel);
 
-        // Créer un panel pour les autres composants
+        // Create a panel for the other components
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setOpaque(false); // Rendre le panel transparent
+        panel.setOpaque(false); // Make the panel transparent
         getContentPane().add(panel);
 
-        // Créer un panel pour le bouton Next World
+        // Create a panel for the Next World button
         JPanel nextPagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         nextPagePanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(20, 20, 20, 20); // Marge autour des boutons
-        gbc.anchor = GridBagConstraints.NORTH; // Aligner le bouton en haut au centre
-        gbc.weightx = 1; // Faire en sorte que le bouton soit centré horizontalement
+        gbc.insets = new Insets(20, 20, 20, 20); // Margin around the buttons
+        gbc.anchor = GridBagConstraints.NORTH; // Align the button at the top center
+        gbc.weightx = 1; // Center the button horizontally
         panel.add(nextPagePanel, gbc);
 
         nextPageButton = new JButton("Next world");
@@ -45,13 +47,13 @@ public class Page1 extends JFrame implements ActionListener {
         nextPageButton.setPreferredSize(new Dimension(100, 25));
         nextPagePanel.add(nextPageButton);
 
-        // Créer un panel pour le bouton Level 1
+        // Create a panel for the Level 1 button
         JPanel level1Panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        level1Panel.setOpaque(false);
+        level1Panel.setOpaque(true);
         gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE; // Ne pas étirer le bouton
-        gbc.anchor = GridBagConstraints.CENTER; // Aligner le bouton au centre
-        gbc.weighty = 1; // Ajouter de l'espace vide au-dessus du bouton
+        gbc.fill = GridBagConstraints.NONE; // Don't stretch the button
+        gbc.anchor = GridBagConstraints.CENTER; // Align the button at center
+        gbc.weighty = 1; // Add some empty space above the button
         panel.add(level1Panel, gbc);
 
         level1Button = new JButton("Level 1");
@@ -59,13 +61,41 @@ public class Page1 extends JFrame implements ActionListener {
         level1Button.setPreferredSize(new Dimension(100, 25));
         level1Panel.add(level1Button);
 
-        // Créer un panel pour le bouton Main Menu
+        // Create a panel for the Level 2 button
+        JPanel level2Panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        level2Panel.setOpaque(true);
+        gbc.gridy++;
+        gbc.fill = GridBagConstraints.NONE; // Don't stretch the button
+        gbc.anchor = GridBagConstraints.CENTER; // Align the button at center
+        gbc.weighty = 1; // Add some empty space above the button
+        panel.add(level2Panel, gbc);
+
+        level2Button = new JButton("Level 2");
+        level2Button.addActionListener(this);
+        level2Button.setPreferredSize(new Dimension(100, 25));
+        level2Panel.add(level2Button);
+
+        // Create a panel for the Level 3 button
+        JPanel level3Panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        level3Panel.setOpaque(true);
+        gbc.gridy++;
+        gbc.fill = GridBagConstraints.NONE; // Don't stretch the button
+        gbc.anchor = GridBagConstraints.CENTER; // Align the button at center
+        gbc.weighty = 1; // Add some empty space above the button
+        panel.add(level3Panel, gbc);
+
+        level3Button = new JButton("Level 3");
+        level3Button.addActionListener(this);
+        level3Button.setPreferredSize(new Dimension(100, 25));
+        level3Panel.add(level3Button);
+        
+        // Create a panel for the Main Menu button
         JPanel mainMenuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         mainMenuPanel.setOpaque(false);
         gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE; // Ne pas étirer le bouton
-        gbc.anchor = GridBagConstraints.SOUTHWEST; // Aligner le bouton en bas à gauche
-        gbc.weighty = 1; // Ajouter de l'espace vide au-dessus du bouton
+        gbc.fill = GridBagConstraints.NONE; // Don't stretch the button
+        gbc.anchor = GridBagConstraints.SOUTHWEST; // Align the button at bottom left
+        gbc.weighty = 1; // Add some empty space above the button
         panel.add(mainMenuPanel, gbc);
 
         mainMenuButton = new JButton("Main Menu");
@@ -78,10 +108,14 @@ public class Page1 extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         dispose();
-        new Page2(this);
+        if (e.getSource() == nextPageButton) {
+            new Page2(this);
+        }
+        // add else if statements for other buttons if needed
     }
 
     public static void main(String[] args) {
+
         new Page1();
     }
 }
