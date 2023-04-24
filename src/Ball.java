@@ -37,8 +37,9 @@ public class Ball {
     private Sound sound;
     private Peg lastPegTouched;
     BufferedImage imageCurrent;
+    private boolean multiPlayer;
 
-    public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm) {
+    public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm, boolean multiPlayer) {
         this.x_initial = x_initial;
         this.y_initial = y_initial;
         xt = x_initial;
@@ -46,6 +47,7 @@ public class Ball {
         rayon = r;
         boardModel = bm;
         nombreBall = nb;
+        this.multiPlayer = multiPlayer;
         // this.thetha = Math.toRadians(thetha) ;
         try {
             imageCurrent = ImageIO.read(this.getClass().getResource("ressources/ball.png"));
@@ -301,6 +303,7 @@ public class Ball {
                 sound.setFile(1);
                 sound.play();
             }
+        
             lastPegTouched = p;
             return true;
         }

@@ -12,7 +12,7 @@ public class BoardIA extends BoardMain {
     private boolean showText = true ;
 
     public BoardIA(String path, BoardRight right, BoardLeft left){
-        super(path, right, left);
+        super(path, right, left, true);
         //boardModel = new BoardModelIA((int)resolutionScreen, this , right, left);
         int n  = ThreadLocalRandom.current().nextInt(0, 2);
         currentPlayer = n == 0 ? true : false ;
@@ -33,7 +33,7 @@ public class BoardIA extends BoardMain {
             renderPlayerTurn();
         }
 
-        left.updateScore(player1.getScore(), player2.getScore());
+        //left.updateScore(player1.getScore(), player2.getScore());
     
         System.out.println("p 1 :" + player1.getScore());
         System.out.println("p 2 :" + player2.getScore());

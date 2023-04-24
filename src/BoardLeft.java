@@ -35,6 +35,7 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         add(score);
 
         System.out.println(getHeight());
+    }
 
     // public BoardLeft() {
     //     this.setLayout(null);

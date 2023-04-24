@@ -22,28 +22,28 @@ public class BoardMain extends Board implements KeyListener {
     private Timer timer;
     private Dimension dimensionBoard;
     private Dimension DimensionFrame;
-
-    private ArrayList<Point> listeTrajectoire = new ArrayList<Point>();
+    protected ArrayList<Point> listeTrajectoire = new ArrayList<Point>();
 
     private App app;
 
     protected int commandKey = 0;
 
     /* BoardModel */
-    private BoardModel boardModel;
+    protected BoardModel boardModel;
 
     public BoardRight right;
     public BoardLeft left;
 
     // private double time = 0.015;
+    private boolean multiPlayer ;
 
-    public BoardMain(String filePath, BoardRight right, BoardLeft left) {
-        // super(dim);
-        // System.out.println(Toolkit.getDefaultToolkit());
-        this.right = right;
-        this.left = left;
-
-        initBoard(filePath);
+    public BoardMain(String filePath,BoardRight right, BoardLeft left, boolean multiPlayer) {
+        //super(dim);
+        //System.out.println(Toolkit.getDefaultToolkit());
+        this.right = right ;
+        this.left = left ;
+        this.multiPlayer = multiPlayer;
+        initBoard(filePath); 
 
         // width = dim.getWidth();
         // height = dim.getHeight() ;
@@ -55,7 +55,7 @@ public class BoardMain extends Board implements KeyListener {
     private void initBoard(String filePath) {
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel((int) resolutionScreen, this, right, left);
+        boardModel = new BoardModel((int) resolutionScreen, this, right, left, multiPlayer); 
 
         if (filePath == null) {
             loadPegOnBoard(boardModel.getGenerator());
@@ -113,6 +113,7 @@ public class BoardMain extends Board implements KeyListener {
     }
 
     public void loadPegOnBoard(PegGenerator pegGen) {
+        add(boardModel.getBall().getLabelImgBall());
         add(boardModel.getCanon().getJlabel());
         for (int i = 0; i < pegGen.getPegListe().size(); ++i) {
             add(pegGen.getPegListe().get(i).getLabelPeg());
@@ -183,9 +184,11 @@ public class BoardMain extends Board implements KeyListener {
             }
 
             boardModel.getTrou().setMove(false);
-            drawGameWiningScreen();
-        }
-    }
+            if (!multiPlayer)
+                drawGameWiningScreen("YOU WON");
+            }
+        
+    } 
 
     public void showFireWorksOnScreen() {
         ImageIcon imgFireWorks = new ImageIcon(this.getClass().getResource("ressources/fireworks.gif"));
@@ -259,8 +262,8 @@ public class BoardMain extends Board implements KeyListener {
         }
     }
 
-    public void drawGameWiningScreen() {
-        drawEndGameScreen("You Won");
+    public void drawGameWiningScreen(String st){
+        drawEndGameScreen(st);
     }
 
     public void drawGameOverScreen() {
@@ -273,7 +276,7 @@ public class BoardMain extends Board implements KeyListener {
         return (int) ((width - f.getWidth()) / 2);
     }
 
-    private void changeValue(int[] tab) {
+    public void changeValue(int[] tab) {
         if (tab[0] + Math.abs(tab[1]) > 255 - Math.abs(tab[1]) || tab[0] + tab[1] < Math.abs(tab[1]))
             tab[1] = -tab[1];
         tab[0] += tab[1];
@@ -303,10 +306,8 @@ public class BoardMain extends Board implements KeyListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         if (!boardModel.getBall().isBallStart() && !boardModel.isGameOver()) {
-            double normeVect = (Math
-                    .sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)));
-            double angle = Math.acos(Math.abs(e.getY() - 50)
-                    / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
+            double normeVect = (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2)));
+            double angle = Math.acos(Math.abs(e.getY() - 50) / (Math.sqrt(Math.pow(e.getX() - getBounds().getWidth() / 2, 2) + Math.pow(e.getY() - 50, 2))));
             if (e.getX() < getBounds().getWidth() / 2)
                 angle = -angle;
             double theta = angle - Math.PI / 2;

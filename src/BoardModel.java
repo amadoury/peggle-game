@@ -29,7 +29,7 @@ public class BoardModel {
 
     private int score;
 
-    public BoardModel(int resolutionScreen, BoardMain board, BoardRight right, BoardLeft left) {
+    public BoardModel(int resolutionScreen, BoardMain board, BoardRight right, BoardLeft left, boolean multiPlayer) {
         this.resolutionScreen = resolutionScreen / 100.;
         this.board = board;
         this.right = right;
@@ -42,7 +42,7 @@ public class BoardModel {
         canon = new Canon(0, 25, 70 / resolutionScreen);
         xInitBall = canon.getCanonX();
         yInitBall = canon.getCanonY();
-        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), nombreBall, this);
+        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), nombreBall, this, false);
         generator = new PegGenerator(resolutionScreen, 20);
         trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
                                                          // largeur

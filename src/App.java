@@ -29,7 +29,7 @@ public class App extends JFrame {
 
     private void initUI() {
 
-        boardMain = new BoardMain(null, right, left);
+        boardMain = new BoardMain(null, right, left, false);
         BoardEdit boardEdit = new BoardEdit(Toolkit.getDefaultToolkit().getScreenSize());
         levelMenu = new LevelMenu(dim);
         Intro intro = new Intro(dim);
@@ -68,7 +68,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel1().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level1.txt", right, left);
+            BoardMain bd = new BoardMain("src/ressources/level/level1.txt", right, left, false);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel1");
             cardLayout.show(panelBoard, "boardlevel1");
@@ -76,7 +76,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel2().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level2.txt", right, left);
+            BoardMain bd = new BoardMain("src/ressources/level/level2.txt", right, left, false);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel2");
             cardLayout.show(panelBoard, "boardlevel2");
@@ -85,7 +85,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel3().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level3.txt", right, left);
+            BoardMain bd = new BoardMain("src/ressources/level/level3.txt", right, left, false);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel3");
             cardLayout.show(panelBoard, "boardlevel3");
