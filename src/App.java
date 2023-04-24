@@ -33,7 +33,8 @@ public class App extends JFrame {
         BoardEdit boardEdit = new BoardEdit(Toolkit.getDefaultToolkit().getScreenSize());
         levelMenu = new LevelMenu(dim);
         Intro intro = new Intro(dim);
-        BoardIA boardIA = new BoardIA("src/ressources/level/level2.txt", right, left);
+        // BoardIA boardIA = new BoardIA("src/ressources/level/level2.txt", right,
+        // left);
 
         cardLayout = new CardLayout();
         panelBoard = new JPanel();
@@ -44,7 +45,7 @@ public class App extends JFrame {
         panelBoard.add(boardMain, "boardMain");
         panelBoard.add(boardEdit, "boardEdit");
         panelBoard.add(intro, "intro");
-        panelBoard.add(boardIA, "boardIA");
+        // panelBoard.add(boardIA, "boardIA");
 
         // boardMain.setDim(Toolkit.getDefaultToolkit().getScreenSize());
         // cardLayout.show(panelBoard, "intro");
@@ -68,7 +69,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel1().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level1.txt", right, left);
+            BoardMain bd = new BoardMain("ressources/level/level1.txt", right, left);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel1");
             cardLayout.show(panelBoard, "boardlevel1");
@@ -85,7 +86,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel3().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("ressources/level/level4.txt", right, left);
+            BoardMain bd = new BoardMain("ressources/level/level3.txt", right, left);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel3");
             cardLayout.show(panelBoard, "boardlevel3");
@@ -100,7 +101,8 @@ public class App extends JFrame {
         levelMenu.setDim(dim);
         intro.setDim(dim);
 
-        setParams(boardIA);
+        // setParams(boardIA);
+
         // -----------------------------------------------------------------------------------------------
         // setVisible(true);
         // setExtendedState(JFrame.MAXIMIZED_BOTH);

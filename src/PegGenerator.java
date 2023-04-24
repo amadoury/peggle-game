@@ -222,7 +222,7 @@ public class PegGenerator {
         widthBoard = w;
         adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 400, 90 + 2 *
                 radius, 60, 30);
-        multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
+        // multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
         // spiralOfPeg(500, 500, 300, 15);
     }
 

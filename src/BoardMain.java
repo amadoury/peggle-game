@@ -99,7 +99,7 @@ public class BoardMain extends Board implements KeyListener {
             while (scanner.hasNext()) {
                 String[] tabRows = scanner.next().split("/");
                 listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]),
-                        boardModel.getGenerator().getRadius(), tabRows[2]));
+                        boardModel.getGenerator().getRadius(), "orange"));
             }
 
             scanner.close();
@@ -113,6 +113,7 @@ public class BoardMain extends Board implements KeyListener {
     }
 
     public void loadPegOnBoard(PegGenerator pegGen) {
+        add(boardModel.getBall().getLabelImgBall());
         add(boardModel.getCanon().getJlabel());
         for (int i = 0; i < pegGen.getPegListe().size(); ++i) {
             add(pegGen.getPegListe().get(i).getLabelPeg());
