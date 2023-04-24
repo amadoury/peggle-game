@@ -35,7 +35,7 @@ public class BoardMain extends Board {
     }
 
     private void initBoard() {
-
+        add(boardModel.getBall().getLabelImgBall());
         add(boardModel.getCanon().getJlabel());
 
         // timer : animation
@@ -65,7 +65,7 @@ public class BoardMain extends Board {
 
         /* updating the ball's image */
         boardModel.getBall().updateImgBall();
-        add(boardModel.getBall().getLabelImgBall());
+
         // boardModel.contact();
 
         if (listeTrajectoire == null || listeTrajectoire.size() == 0) {

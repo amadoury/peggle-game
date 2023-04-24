@@ -1,6 +1,9 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Ball {
@@ -31,6 +34,7 @@ public class Ball {
     private BoardModel boardModel;
     private int nombreBall;
     private Peg lastPegTouched;
+    BufferedImage imageCurrent;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm) {
         this.x_initial = x_initial;
@@ -41,7 +45,12 @@ public class Ball {
         boardModel = bm;
         nombreBall = nb;
         // this.thetha = Math.toRadians(thetha) ;
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource(path));
+        try {
+            imageCurrent = ImageIO.read(this.getClass().getResource("ressources/ball.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ImageIcon imageIcon = new ImageIcon(imageCurrent);
         labelImgBall = new JLabel(imageIcon);
         labelImgBall.setBounds((int) (x_initial) - rayon, (int) y_initial - rayon, 2 * rayon, 2 *
                 rayon);
@@ -58,6 +67,25 @@ public class Ball {
     }
 
     public void updateImgBall() {
+        // double spaceWithTrou = boardModel.getTrou().getY() -
+        // boardModel.getTrou().getLargeur() / 2 - yt + rayon;
+        // if (spaceWithTrou < 2 * rayon) {
+        // BufferedImage newImg = imageCurrent.getSubimage(0, 0,
+        // labelImgBall.getWidth(), (int) spaceWithTrou);
+        // ImageIcon subImageIcon = new ImageIcon(newImg);
+        // labelImgBall = new JLabel(subImageIcon);
+        // labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, (int)
+        // spaceWithTrou);
+
+        // Image image = subImageIcon.getImage(); // transform it
+        // Image newimg = image.getScaledInstance(2 * rayon, 2 * rayon,
+        // java.awt.Image.SCALE_SMOOTH); // scale it the
+        // // smooth way
+        // subImageIcon = new ImageIcon(newimg); // transform it back
+        // labelImgBall.setIcon(subImageIcon);
+        // System.out.println("sjfjrkjgkr");
+
+        // } else
         labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, 2 * rayon);
     }
 
@@ -193,8 +221,9 @@ public class Ball {
 
     public void resetBall(boolean needToReset) {
         boolean c = boardModel.getTrou().contactTrou(this);
-        if (c)
+        if (c) {
             boardModel.trouFall();
+        }
         if (yt + rayon >= heightBoard || c || needToReset) {
             xt = x_initial;
             yt = y_initial;
@@ -205,7 +234,7 @@ public class Ball {
             lastPegTouched = null;
             if (!c)
                 --nombreBall;
-            trajectoire();
+            boardModel.ballRestart();
         }
     }
 

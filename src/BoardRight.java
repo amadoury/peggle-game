@@ -19,9 +19,7 @@ public class BoardRight extends JPanel implements MouseInputListener {
     private double width;
 
     private ArrayList<JLabel> listLabelBall;
-    private JLabel score = new JLabel();
     private int valScore = 0;
-    private Image imageBoardRight;
     private ImageIcon imageIconBall;
     private Graphics2D g2d;
     private int nombreBall;
@@ -29,54 +27,14 @@ public class BoardRight extends JPanel implements MouseInputListener {
     // private ImageIcon imageIcon;
     private int ballY = 0;
     private int positionCurrentBall = 0;
+    private int pegTouchedNumber;
 
     public BoardRight() {
         listLabelBall = new ArrayList<JLabel>();
 
-        // try {
-        // // imageBoardRight =
-        // //
-        // ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFire.png"));
-
-        // // imageBoardRight =
-        // //
-        // ImageIO.read(this.getClass().getResource("ressources/peggleBarreScoreWithZero.png"));
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // ImageIcon imageIcon = new
-        // ImageIcon(this.getClass().getResource("ressources/peggleBallsToFire.png"));
-        // Image image = imageIcon.getImage(); // transform it
-        // Image newimg = image.getScaledInstance((int) width, (int) height - 100,
-        // java.awt.Image.SCALE_SMOOTH);
-        // imageIcon = new ImageIcon(newimg); // transform it back
-        // jlabel = new LabelPeg(imageIcon);
-
         setLayout(null);
 
         imageIconBall = new ImageIcon(this.getClass().getResource("ressources/ball.png"));
-
-        score.setBounds(50, 500, 100, 100);
-        score.setText("SCORE : " + valScore);
-
-        add(score);
-
-        System.out.println(getHeight());
-
-        // add(new JLabel("BoardModelC"), BorderLayout.CENTER);
-        // add(new JLabel("BoardModelN"), BorderLayout.NORTH);
-        // add(new JLabel("BoardModelS"), BorderLayout.SOUTH);
-        // add(new JLabel("BoardModelW"), BorderLayout.WEST);
-        // add(new JLabel("BoardModelE"), BorderLayout.EAST);
-
-        // int x = 0 ;
-        // int y = 0 ;
-
-        // for(int i = 0; i < number; i++){
-        // //listLabelBall.get(i).setBounds(x - rayon, y - rayon, 2 * rayon, 2 * rayon);
-        // listLabelBall.get(i).setLocation(x, y);
-        // // y += 2 * rayon + 5 ;
-        // }
 
         // jlabel.addMouseListener(this);
         // addMouseMotionListener(this);
@@ -175,7 +133,7 @@ public class BoardRight extends JPanel implements MouseInputListener {
     }
 
     public void upgradeScore(int n) {
-        score.setText("SCORE : " + n);
+        valScore = n;
         repaint();
         // setBackground(Color.WHITE);
     }
@@ -207,6 +165,24 @@ public class BoardRight extends JPanel implements MouseInputListener {
         jlabel.setIcon(imageIcon);
 
         // jlabel.setBounds(0, 0, (int) width, (int) height);
+    }
+
+    public void pegTouched() {
+        if (pegTouchedNumber == 8)
+            return;
+        pegTouchedNumber = (pegTouchedNumber + 1);
+        ImageIcon imageIcon = new ImageIcon(
+                this.getClass().getResource("ressources/peggleBallsToFire-" + pegTouchedNumber + ".png"));
+        imageIcon.setImage(
+                imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_DEFAULT));
+        jlabel.setIcon(imageIcon);
+        if (pegTouchedNumber == 8)
+            trouFall();
+    }
+
+    public void ballRestart() {
+        pegTouchedNumber = -1;
+        pegTouched();
     }
 
     @Override

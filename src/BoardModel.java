@@ -20,7 +20,7 @@ public class BoardModel {
     private Trou trou;
     private BoardLeft left;
     private BoardRight right;
-    private int nombreBall = 10;
+    private int nombreBall = 9;
 
     private int score1;
     private int score2;
@@ -102,9 +102,14 @@ public class BoardModel {
         generator.retireAllTouched();
     }
 
+    public void ballRestart() {
+        right.ballRestart();
+    }
+
     public void scoreTouchPeg(Peg p, boolean b) {
         if (p.touched)
             return;
+        right.pegTouched();
         if (p.color.equals("bleu")) {
             if (b)
                 score1 += 10;
