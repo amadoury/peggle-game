@@ -36,12 +36,12 @@ public class Board extends JPanel implements MouseInputListener {
     }
 
     // public void setWidthScreen(double w) {
-    //     double var = w - (2.0 / 8.0) * w;
-    //     width = var;
+    // double var = w - (2.0 / 8.0) * w;
+    // width = var;
     // }
 
     // public void setHeightScreen(double w) {
-    //     height = w;
+    // height = w;
     // }
 
     @Override

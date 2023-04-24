@@ -35,15 +35,16 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         add(score);
 
         System.out.println(getHeight());
+    }
 
     // public BoardLeft() {
-    //     this.setLayout(null);
-    //     labelScorePlayer1.setText("Player 1 : 0");
-    //     labelScorePlayer2.setText("Player 2 : 0");
-    //     this.add(labelScorePlayer1);
-    //     this.add(labelScorePlayer2) ;
-    //     labelScorePlayer1.setBounds(10, 100, 200, 50);
-    //     labelScorePlayer2.setBounds(10, 250, 200, 50);
+    // this.setLayout(null);
+    // labelScorePlayer1.setText("Player 1 : 0");
+    // labelScorePlayer2.setText("Player 2 : 0");
+    // this.add(labelScorePlayer1);
+    // this.add(labelScorePlayer2) ;
+    // labelScorePlayer1.setBounds(10, 100, 200, 50);
+    // labelScorePlayer2.setBounds(10, 250, 200, 50);
     // }
 
     @Override

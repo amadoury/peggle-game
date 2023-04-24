@@ -48,7 +48,7 @@ public class App extends JFrame {
 
         // boardMain.setDim(Toolkit.getDefaultToolkit().getScreenSize());
         // cardLayout.show(panelBoard, "intro");
-        cardLayout.show(panelBoard, "boardIA");
+        cardLayout.show(panelBoard, "");
 
         width = (6. / 8.) * dim.getWidth();
         height = dim.getHeight() - 100;
@@ -76,7 +76,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel2().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level2.txt", right, left);
+            BoardMain bd = new BoardMain("ressources/level/level2.txt", right, left);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel2");
             cardLayout.show(panelBoard, "boardlevel2");
@@ -85,7 +85,7 @@ public class App extends JFrame {
         });
 
         levelMenu.getLevel3().addActionListener((event) -> {
-            BoardMain bd = new BoardMain("src/ressources/level/level3.txt", right, left);
+            BoardMain bd = new BoardMain("ressources/level/level4.txt", right, left);
             bd.setApp(this);
             panelBoard.add(bd, "boardlevel3");
             cardLayout.show(panelBoard, "boardlevel3");

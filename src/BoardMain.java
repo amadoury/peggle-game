@@ -30,7 +30,7 @@ public class BoardMain extends Board implements KeyListener {
     protected int commandKey = 0;
 
     /* BoardModel */
-    private BoardModel boardModel;
+    protected BoardModel boardModel;
 
     public BoardRight right;
     public BoardLeft left;

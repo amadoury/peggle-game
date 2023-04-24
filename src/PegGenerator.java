@@ -101,6 +101,23 @@ public class PegGenerator {
         return pegListe;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setPegListe(ArrayList<Peg> pegListe) {
+        this.pegListe = pegListe;
+    }
+
+    public boolean hasOrangePeg() {
+        for (int i = 0; i < pegListe.size(); i++) {
+            if (pegListe.get(i).getColor().equals("orange") && !pegListe.get(i).isDestructed()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private List<Integer> melangeNumbers(int n, int len) {
         List<Integer> l = new ArrayList<Integer>();
         for (int i = 0; i < n; ++i) {
