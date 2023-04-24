@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener ;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.TimerTask;
 import java.util.ArrayList;
@@ -15,54 +15,52 @@ import javax.swing.SwingUtilities;
 import java.util.Scanner;
 import java.util.Timer;
 
-import javax.swing.* ;
+import javax.swing.*;
 
-public class BoardMain extends Board implements KeyListener{
+public class BoardMain extends Board implements KeyListener {
 
-    private Timer timer;    
+    private Timer timer;
     private Dimension dimensionBoard;
     private Dimension DimensionFrame;
 
     private ArrayList<Point> listeTrajectoire = new ArrayList<Point>();
 
-    private Graphics2D g2d  ;
+    private App app;
 
-    private App app ;
-
-    protected int commandKey = 0 ;
+    protected int commandKey = 0;
 
     /* BoardModel */
-    BoardModel boardModel;
+    private BoardModel boardModel;
 
     public BoardRight right;
-    public BoardLeft left ;
+    public BoardLeft left;
 
     // private double time = 0.015;
 
-    public BoardMain(String filePath,BoardRight right, BoardLeft left) {
-        //super(dim);
-        //System.out.println(Toolkit.getDefaultToolkit());
-        this.right = right ;
-        this.left = left ;
+    public BoardMain(String filePath, BoardRight right, BoardLeft left) {
+        // super(dim);
+        // System.out.println(Toolkit.getDefaultToolkit());
+        this.right = right;
+        this.left = left;
 
-        initBoard(filePath); 
+        initBoard(filePath);
 
         // width = dim.getWidth();
         // height = dim.getHeight() ;
 
-        this.addKeyListener(this) ;
+        this.addKeyListener(this);
         this.setFocusable(true);
     }
 
     private void initBoard(String filePath) {
 
         /* Initialisation of boardModel */
-        boardModel = new BoardModel((int) resolutionScreen, this, right, left); 
+        boardModel = new BoardModel((int) resolutionScreen, this, right, left);
 
-        if (filePath == null){
+        if (filePath == null) {
             loadPegOnBoard(boardModel.getGenerator());
-        }else{
-            loadPegOnBoardWithFile(filePath) ;
+        } else {
+            loadPegOnBoardWithFile(filePath);
         }
 
         // timer : animation
@@ -71,35 +69,37 @@ public class BoardMain extends Board implements KeyListener{
         timer = new Timer();
         timer.scheduleAtFixedRate(new ScheduleTask(), INITIAL_DELAY, PERIOD_INTERVAL);
 
-        boardModel.getBall().trajectoire(); 
+        boardModel.getBall().trajectoire();
         listeTrajectoire = boardModel.getBall().trajectoire();
     }
 
-
-    public void loadPegOnBoardWithFile(String path){
-        try{
-            ArrayList<Peg> listPeg = new ArrayList<Peg>() ;
+    public void loadPegOnBoardWithFile(String path) {
+        try {
+            ArrayList<Peg> listPeg = new ArrayList<Peg>();
             File file = new File(path);
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("\n");
 
-
             // while(scanner.hasNext()){
-            //     String [] tabRows = scanner.next().split("/");
-            //     System.out.println(tabRows[0]);
-            //     switch(tabRows[3]){
-            //         case "PegCercle" : 
-            //             listPeg.add(new PegCercle((int)(Double.parseDouble(tabRows[0]) * width) , (int)(Double.parseDouble(tabRows[1]) * height), boardModel.getGenerator().getRadius(), tabRows[2])) ;
-            //             break;
-            //         case "PegRectangle" :
-            //             listPeg.add(new PegRectangle((int)(Double.parseDouble(tabRows[0]) * width) , (int)(Double.parseDouble(tabRows[1]) * height), 60, 30, tabRows[2])) ;
-            //             break;                        
-            //     }
-            // } 
+            // String [] tabRows = scanner.next().split("/");
+            // System.out.println(tabRows[0]);
+            // switch(tabRows[3]){
+            // case "PegCercle" :
+            // listPeg.add(new PegCercle((int)(Double.parseDouble(tabRows[0]) * width) ,
+            // (int)(Double.parseDouble(tabRows[1]) * height),
+            // boardModel.getGenerator().getRadius(), tabRows[2])) ;
+            // break;
+            // case "PegRectangle" :
+            // listPeg.add(new PegRectangle((int)(Double.parseDouble(tabRows[0]) * width) ,
+            // (int)(Double.parseDouble(tabRows[1]) * height), 60, 30, tabRows[2])) ;
+            // break;
+            // }
+            // }
 
-            while(scanner.hasNext()){
-                String [] tabRows = scanner.next().split("/");
-                listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]), boardModel.getGenerator().getRadius(), tabRows[2])) ;
+            while (scanner.hasNext()) {
+                String[] tabRows = scanner.next().split("/");
+                listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]),
+                        boardModel.getGenerator().getRadius(), tabRows[2]));
             }
 
             scanner.close();
@@ -107,13 +107,12 @@ public class BoardMain extends Board implements KeyListener{
             boardModel.getGenerator().setPegListe(listPeg);
 
             loadPegOnBoard(boardModel.getGenerator());
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void loadPegOnBoard(PegGenerator pegGen){
+    public void loadPegOnBoard(PegGenerator pegGen) {
         add(boardModel.getCanon().getJlabel());
         for (int i = 0; i < pegGen.getPegListe().size(); ++i) {
             add(pegGen.getPegListe().get(i).getLabelPeg());
@@ -123,7 +122,7 @@ public class BoardMain extends Board implements KeyListener{
     @Override
     public void paintComponent(Graphics g) {
 
-        g2d = (Graphics2D)g ;
+        g2d = (Graphics2D) g;
 
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height,
                 null, null);
@@ -136,7 +135,7 @@ public class BoardMain extends Board implements KeyListener{
 
         /* updating the ball's image */
         boardModel.getBall().updateImgBall();
-        add(boardModel.getBall().getLabelImgBall());
+
         // boardModel.contact();
 
         if (listeTrajectoire == null || listeTrajectoire.size() == 0) {
@@ -171,110 +170,107 @@ public class BoardMain extends Board implements KeyListener{
 
         showFireWorksOnScreen();
 
-        if(!boardModel.getGenerator().hasOrangePeg()){
+        if (!boardModel.getGenerator().hasOrangePeg()) {
             boardModel.setGameOver(true);
-            //drawGameOverScreen();
+            // drawGameOverScreen();
 
-        
-            int len = boardModel.getGenerator().getPegListe().size() ;
+            int len = boardModel.getGenerator().getPegListe().size();
 
-            if(len >= 1){
-                for(int i = 0; i < len; i++){
-                    remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg()) ;
+            if (len >= 1) {
+                for (int i = 0; i < len; i++) {
+                    remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg());
                 }
             }
 
             boardModel.getTrou().setMove(false);
             drawGameWiningScreen();
         }
-    } 
+    }
 
+    public void showFireWorksOnScreen() {
+        ImageIcon imgFireWorks = new ImageIcon(this.getClass().getResource("ressources/fireworks.gif"));
 
-    public void showFireWorksOnScreen(){
-        ImageIcon imgFireWorks = new ImageIcon(this.getClass().getResource("ressources/fireworks.gif")) ;
-        
         // Image img = imgFireWorks.getImage() ;
-        // Image newimg = img.getScaledInstance(1000,1000, java.awt.Image.SCALE_DEFAULT);
+        // Image newimg = img.getScaledInstance(1000,1000,
+        // java.awt.Image.SCALE_DEFAULT);
 
         // imgFireWorks = new ImageIcon(newimg) ;
 
-        JLabel fireFireWorksLabel = new JLabel(imgFireWorks) ;
+        JLabel fireFireWorksLabel = new JLabel(imgFireWorks);
 
-        boolean show = false ;
+        boolean show = false;
 
-
-        javax.swing.Timer  timer = new javax.swing.Timer(3000, (action) -> {
-            //show = true ;
+        javax.swing.Timer timer = new javax.swing.Timer(3000, (action) -> {
+            // show = true ;
         });
-
 
         timer.setRepeats(false);
         timer.start();
 
     }
 
-    public void drawEndGameScreen(String state){
-        g2d.setColor(new Color(0,0,0, 150));
-        g2d.fillRect(0,0, (int)width, (int)height) ;
+    public void drawEndGameScreen(String state) {
+        g2d.setColor(new Color(0, 0, 0, 150));
+        g2d.fillRect(0, 0, (int) width, (int) height);
 
         /* gameOver */
-        String text = state ;
-        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 110f)) ;
-        int x = getXforCenteredText(text); 
-        int y = 210 ;
+        String text = state;
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 110f));
+        int x = getXforCenteredText(text);
+        int y = 210;
         /* shadow */
         g2d.setColor(Color.black);
-        g2d.drawString(text, x, y) ;
+        g2d.drawString(text, x, y);
         /* main color */
-        g2d.setColor(Color.white) ;
-        g2d.drawString(text, x-4, y-4) ;
+        g2d.setColor(Color.white);
+        g2d.drawString(text, x - 4, y - 4);
 
         /* rety */
 
-        g2d.setFont(g2d.getFont().deriveFont(50f)) ;
+        g2d.setFont(g2d.getFont().deriveFont(50f));
         text = "Retry";
         x = getXforCenteredText(text);
-        y += 2 * y ;
+        y += 2 * y;
         g2d.drawString(text, x, y);
-        if (commandKey == 0){
-            g2d.drawString(">", x - 50, y) ;
+        if (commandKey == 0) {
+            g2d.drawString(">", x - 50, y);
         }
 
         /* back */
         text = "Quit";
-        x= getXforCenteredText(text);
-        y += 55 ;
+        x = getXforCenteredText(text);
+        y += 55;
 
         g2d.drawString(text, x, y);
 
-        if (commandKey == 1){
-            g2d.drawString(">", x - 50, y) ;
+        if (commandKey == 1) {
+            g2d.drawString(">", x - 50, y);
         }
 
         /* go to menuLevel */
         text = "Levels";
-        x= getXforCenteredText(text);
-        y += 55 ;
+        x = getXforCenteredText(text);
+        y += 55;
 
         g2d.drawString(text, x, y);
 
-        if (commandKey == 2){
-            g2d.drawString(">", x - 50, y) ;
+        if (commandKey == 2) {
+            g2d.drawString(">", x - 50, y);
         }
     }
 
-    public void drawGameWiningScreen(){
+    public void drawGameWiningScreen() {
         drawEndGameScreen("You Won");
     }
 
-    public void drawGameOverScreen(){
+    public void drawGameOverScreen() {
         drawEndGameScreen("Game Over");
     }
 
-    public int getXforCenteredText(String text){
-        Font font = g2d.getFont() ;
+    public int getXforCenteredText(String text) {
+        Font font = g2d.getFont();
         Rectangle2D f = font.getStringBounds(text, g2d.getFontRenderContext());
-        return (int)((width - f.getWidth()) / 2) ;
+        return (int) ((width - f.getWidth()) / 2);
     }
 
     private void changeValue(int[] tab) {
@@ -297,7 +293,7 @@ public class BoardMain extends Board implements KeyListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!boardModel.isGameOver()){
+        if (!boardModel.isGameOver()) {
             boardModel.setBallStart(true);
             boardModel.getSound().setFile(0);
             boardModel.getSound().play();
@@ -317,6 +313,7 @@ public class BoardMain extends Board implements KeyListener{
 
             boardModel.setThetaCanon(theta);
             // boardModel.setAngleChute(theta);
+
             boardModel.getBall().setVitesseX((e.getX() - getBounds().getWidth() / 2) / normeVect);
             boardModel.getBall().setVitesseY(e.getY() / normeVect);
 
@@ -325,7 +322,7 @@ public class BoardMain extends Board implements KeyListener{
     }
 
     public void setWidthScreen(double w) {
-        //double var = w - (2.0 / 8.0) * w;
+        // double var = w - (2.0 / 8.0) * w;
         double var = (6. / 8.0) * w;
         System.out.println(var + " var");
         System.out.println(w + "width ");
@@ -338,7 +335,7 @@ public class BoardMain extends Board implements KeyListener{
         boardModel.getBall().setHeightBoard(w);
         height = w;
         boardModel.setHeightBoard(w);
-    } 
+    }
 
     public void setDimensionFrame(Dimension w) {
         DimensionFrame = w;
@@ -346,52 +343,50 @@ public class BoardMain extends Board implements KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub  
+        // TODO Auto-generated method stub
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode() ;
+        int key = e.getKeyCode();
 
-        //System.out.println("key pressed ");
+        // System.out.println("key pressed ");
 
-        if(key == KeyEvent.VK_UP){
-            if (commandKey <= 0){
+        if (key == KeyEvent.VK_UP) {
+            if (commandKey <= 0) {
                 commandKey = 0;
-            }
-            else{
-                commandKey-- ;
-            }
-        }
-
-        if (key ==  KeyEvent.VK_DOWN){
-            if (commandKey >= 2){
-                commandKey = 2 ;
-            }
-            else{
-                commandKey++ ;
+            } else {
+                commandKey--;
             }
         }
 
-        if (key == KeyEvent.VK_ENTER){
-            if(commandKey == 0 ){
+        if (key == KeyEvent.VK_DOWN) {
+            if (commandKey >= 2) {
+                commandKey = 2;
+            } else {
+                commandKey++;
+            }
+        }
+
+        if (key == KeyEvent.VK_ENTER) {
+            if (commandKey == 0) {
                 System.out.println("Retry");
 
-                for(int i = 0; i < boardModel.getGenerator().getPegListe().size() ; i++){
-                    this.remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg()) ;
+                for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); i++) {
+                    this.remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg());
                 }
 
                 boardModel.setPegGenerator(new PegGenerator(Toolkit.getDefaultToolkit().getScreenResolution(), 20));
                 loadPegOnBoard(boardModel.getGenerator());
                 boardModel.setGameOver(false);
             }
-            if (commandKey == 1 ){
-                JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(this);
+            if (commandKey == 1) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
                 frame.dispose();
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE) ;
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             }
 
-            if (commandKey == 2){
+            if (commandKey == 2) {
                 app.getCardLayout().show(app.getPanelBoard(), "levelMenu");
                 System.out.println("cardLayout");
             }
@@ -400,15 +395,15 @@ public class BoardMain extends Board implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub    
+        // TODO Auto-generated method stub
     }
 
-    public BoardModel getBoardModel(){
+    public BoardModel getBoardModel() {
         return boardModel;
     }
 
-    public void setApp(App app){
-        this.app = app ;
+    public void setApp(App app) {
+        this.app = app;
     }
 
- }
+}

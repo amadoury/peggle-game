@@ -67,7 +67,7 @@ public class BoardEdit extends Board {
             } else if (listPath.get(i).endsWith("bleu-rectangle.png")) {
                 popUp.getListMenuItem().get(i).addActionListener((event) -> {
                     PegRectangle pegRectangle = new PegRectangle(xMouse, yMouse, (int) (50 * (resolutionScreen / 100)),
-                            (int) (25 * (resolutionScreen / 100)), "bleu");
+                            (int) (25 * (resolutionScreen / 100)), 0, "bleu");
 
                     /* add peg to editor */
                     editor.addPeg(pegRectangle);

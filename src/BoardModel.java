@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class BoardModel {
@@ -15,17 +16,18 @@ public class BoardModel {
     protected BoardMain board;
     private double resolutionScreen;
     public Trou trou;
-    private double widthBoard ;
-    private double heightBoard ;
+    private double widthBoard;
+    private double heightBoard;
     private boolean gameOver = false;
     protected BoardLeft left;
     int score1 = 0;
     int score2 = 0;
-    
-    private Sound sound ; 
+    private int nombreBall = 9;
+
+    private Sound sound;
     protected BoardRight right;
 
-    private int score; 
+    private int score;
 
     public BoardModel(int resolutionScreen, BoardMain board, BoardRight right, BoardLeft left) {
         this.resolutionScreen = resolutionScreen / 100.;
@@ -40,16 +42,18 @@ public class BoardModel {
         canon = new Canon(0, 25, 70 / resolutionScreen);
         xInitBall = canon.getCanonX();
         yInitBall = canon.getCanonY();
-        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), 15, this);
+        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), nombreBall, this);
         generator = new PegGenerator(resolutionScreen, 20);
         trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
                                                          // largeur
 
         board.add(trou.getJlabel());
-        ArrayList<String> paths = new ArrayList<String>() ;
-        paths.add("ressources/audio/shot.wav") ;
-        paths.add("ressources/audio/rebond.wav") ;
-        sound = new Sound(paths) ;
+        ArrayList<String> paths = new ArrayList<String>();
+        paths.add("ressources/audio/shot.wav");
+        paths.add("ressources/audio/rebond.wav");
+        sound = new Sound(paths);
+        right.setRayon((int) (20 / resolutionScreen));
+        right.setNombreBall(nombreBall);
     }
 
     public Canon getCanon() {
@@ -73,14 +77,14 @@ public class BoardModel {
         return thetaCanon;
     }
 
-    public boolean isGameOver(){
+    public boolean isGameOver() {
         return gameOver;
     }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
-    
+
     public PegGenerator getGenerator() {
         return generator;
     }
@@ -96,8 +100,9 @@ public class BoardModel {
     }
 
     public void setBallStart(boolean b) {
-        ball.setStartBall(b);
-        if (b)
+        boolean wasStarted = ball.isBallStart();
+
+        if (ball.setStartBall(b) && b && !wasStarted)
             right.ballUsed();
     }
 
@@ -116,25 +121,47 @@ public class BoardModel {
         generator.retireAllTouched();
     }
 
-    public void scoreTouchPeg(Peg p) {
+    // public void scoreTouchPeg(Peg p) {
+    // if (p.touched)
+    // return;
+    // if (p.color.equals("bleu")) {
+    // score += 10;
+    // }
+    // if (p.color.equals("orange"))
+    // score += 100;
+    // right.upgradeScore(score);
+    // }
+
+    public void scoreTouchPegIA(Peg p) {
         if (p.touched)
             return;
-        if (p.color.equals("bleu")) {
-            score += 10;
-        }
-        if (p.color.equals("orange"))
-            score += 100;
-        right.upgradeScore(score);
+        if (p.color.equals("orange") && ((BoardIA) board).getCurrentPlayer())
+            score1++;
+        if (p.color.equals("orange") && !((BoardIA) board).getCurrentPlayer())
+            score2++;
+        // left.updateScore(score1, score2);
     }
 
-    public void scoreTouchPegIA(Peg p){
+    public void ballRestart() {
+        right.ballRestart();
+    }
+
+    public void scoreTouchPeg(Peg p, boolean b) {
         if (p.touched)
             return;
-        if (p.color.equals("orange") && ((BoardIA)board).getCurrentPlayer())
-            score1++;
-        if (p.color.equals("orange") && !((BoardIA)board).getCurrentPlayer())
-            score2++;
-        left.updateScore(score1, score2);
+        right.pegTouched();
+        if (p.color.equals("bleu")) {
+            if (b)
+                score1 += 10;
+            else
+                score2 += 10;
+        }
+        if (p.color.equals("orange"))
+            if (b)
+                score1 += 100;
+            else
+                score2 += 100;
+        left.upgradeScore(score1);
     }
 
     public void setWidthBoard(double widthBoard) {
@@ -146,13 +173,18 @@ public class BoardModel {
         trou.setHeightBoard(heightBoard);
 
         // for (int i = 0; i < generator.getPegListe().size(); ++i) {
-        //     board.remove(generator.getPegListe().get(i).getLabelPeg());
+        // board.remove(generator.getPegListe().get(i).getLabelPeg());
         // }
 
-        // generator.setWidthBoard(widthBoard);
+        for (int i = 0; i < board.getComponentCount(); ++i) {
+            if (((Object) board.getComponent(i)).getClass() == Peg.class)
+                board.remove(i);
+        }
+
+        generator.setWidthBoard(widthBoard);
 
         // for (int i = 0; i < generator.getPegListe().size(); ++i) {
-        //     board.add(generator.getPegListe().get(i).getLabelPeg());
+        // board.add(generator.getPegListe().get(i).getLabelPeg());
         // }
 
     }
@@ -162,11 +194,16 @@ public class BoardModel {
         trou.setHeightBoard(heightBoard);
     }
 
-    public void setPegGenerator(PegGenerator pegGen){
+    public void setPegGenerator(PegGenerator pegGen) {
         this.generator = pegGen;
     }
 
-    public Sound getSound(){
-        return sound ;
-       }
+    public Sound getSound() {
+        return sound;
+    }
+
+    public void trouFall() {
+        right.trouFall();
+        ++nombreBall;
+    }
 }

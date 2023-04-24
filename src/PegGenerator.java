@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-
 public class PegGenerator {
 
     private ArrayList<Peg> pegListe = new ArrayList<Peg>();
@@ -24,13 +23,13 @@ public class PegGenerator {
         this.resolutionScreen = resolutionScreen;
         radius = r;
         adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 90 + 2 *
-        radius, 60, 30);
-        //     // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
-        //     // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
+                radius, 60, 30);
+        // // multipleLinesOfPeg((int) (12 / (0.96)) , (int) (100 / (0.96)), (int)(250
+        // // /(0.96)) , (int)(900 /(0.96)), (int)(80 /(0.96)), 7);
 
         // PegGenerator(double resolutionScreen) {
-        //this.resolutionScreen = resolutionScreen / 100;
-        //adaptResolutionPeg(12, 100 , 250, (int)widthBoard - 50, 80 , 1);
+        // this.resolutionScreen = resolutionScreen / 100;
+        // adaptResolutionPeg(12, 100 , 250, (int)widthBoard - 50, 80 , 1);
     }
 
     void circleOfPeg(double radius, int pegSpacing, int coordX, int coordY) {
@@ -56,7 +55,10 @@ public class PegGenerator {
                 ++lPosition;
             }
             // pegListe.add(new PegCercle(coordX + i, coordY, radius, c));
-            pegListe.add(new PegRectangle(coordX + i, coordY, longueur, largeur, "bleu"));
+            pegListe.add(new PegRectangle(coordX + i, coordY, longueur, largeur, Math.PI / 5,
+                    "bleu"));
+            // pegListe.add(new PegRebond(coordX + i, coordY, radius * 3, c));
+
             c = "bleu";
         }
     }
@@ -122,12 +124,70 @@ public class PegGenerator {
                 }
             }
             if (p instanceof PegRectangle && !p.isDestructed()) {
-                if (b.getXt() + b.getRayon() > p.getPegX() - ((PegRectangle) p).getLongueur() / 2.
-                        && b.getXt() - b.getRayon() < p.getPegX() + ((PegRectangle) p).getLongueur() / 2.
-                        && b.getYt() + b.getRayon() > p.getPegY() - (((PegRectangle) p).getLargeur() / 2.)
-                        && b.getYt() - b.getRayon() < p.getPegY() + ((PegRectangle) p).getLargeur() / 2.) {
-                    l.add(p);
+                // if (b.getXt() + b.getRayon() > p.getPegX() - ((PegRectangle) p).getLongueur()
+                // / 2.
+                // && b.getXt() - b.getRayon() < p.getPegX() + ((PegRectangle) p).getLongueur()
+                // / 2.
+                // && b.getYt() + b.getRayon() > p.getPegY() - (((PegRectangle) p).getLargeur()
+                // / 2.)
+                // && b.getYt() - b.getRayon() < p.getPegY() + ((PegRectangle) p).getLargeur() /
+                // 2.) {
+                // l.add(p);
+                // }
+
+                PegRectangle r = (PegRectangle) p;
+
+                double[] PARayons = { 0, b.getRayon(), -b.getRayon() };
+                // amelioration distance de contact pour les coins
+                double[] PARayonsPourCoinsRectangle = { b.getRayon() / Math.sqrt(2), -b.getRayon() / Math.sqrt(2) };
+                boolean insideOfRectangle = false;
+
+                double[] RayonsVerif;
+
+                for (int j = 0; j < 2; ++j) {
+                    if (j == 0)
+                        RayonsVerif = PARayons;
+                    else
+                        RayonsVerif = PARayonsPourCoinsRectangle;
+                    for (double PAr1 : RayonsVerif) {
+                        for (double PAr2 : RayonsVerif) {
+                            double PAx = b.getXt() - r.getOrigineVecteurX() + PAr1;
+                            double PAy = b.getYt() - r.getOrigineVecteurY() + PAr2;
+                            double detWithLongueur = PAx * r.getVecteurLongueurY() -
+                                    r.getVecteurLongueurX() * PAy;
+                            double detWithLargeur = PAx * r.getVecteurLargeurY() - r.getVecteurLargeurX()
+                                    * PAy;
+
+                            // double d = det(PQ, PR);
+                            // A position de la balle peg PA vecteur longueur
+                            // 0 <= -det(PA, PQ)/d <= 1 && 0 <= det(PA, PR)/d <= 1
+                            double n = -detWithLongueur / r.getDeterminant();
+                            double m = detWithLargeur / r.getDeterminant();
+
+                            if (0 <= n && n <= 1
+                                    && 0 <= m && m <= 1) {
+                                insideOfRectangle = true;
+                                break;
+                            }
+                        }
+                    }
                 }
+                if (insideOfRectangle)
+                    l.add(p);
+
+                // System.out.println(" n m " + n + " " + m);
+
+                // boolean[] conditions = r.projectionBallOrigineVecteurs(b.getXt(), b.getYt(),
+                // b.getRayon());
+
+                // boolean contactWithPeg = false;
+                // for (int j = 0; j < 4; ++j) {
+                // if (conditions[j])
+                // contactWithPeg = true;
+                // }
+                // if (contactWithPeg)
+                // l.add(p);
+
             }
         }
         if (l.size() == 0)
@@ -143,25 +203,10 @@ public class PegGenerator {
 
     public void setWidthBoard(double w) {
         widthBoard = w;
-        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 100, 90 + 2 *
+        adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 400, 90 + 2 *
                 radius, 60, 30);
-    }
-
-    public boolean hasOrangePeg(){
-        for(int i = 0; i < pegListe.size(); i++){
-            if (pegListe.get(i).getColor().equals("orange") && !pegListe.get(i).isDestructed()){
-                return true ;
-            }
-        }
-        return false ;
-    }
-
-    public void setPegListe(ArrayList<Peg> pegListe) {
-        this.pegListe = pegListe;
-    }
-
-    public int getRadius() {
-        return radius;
+        multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
+        // spiralOfPeg(500, 500, 300, 15);
     }
 
 }

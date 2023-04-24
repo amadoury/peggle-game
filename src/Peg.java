@@ -2,7 +2,7 @@ public abstract class Peg {
 
     protected int pegX;
     protected int pegY;
-    protected String color ;
+    protected String color;
     protected boolean touched;
     protected boolean destructed;
     protected LabelPeg jlabel;
@@ -11,11 +11,12 @@ public abstract class Peg {
     Peg(int x, int y, String c) {
         pegX = x;
         pegY = y;
-        color = c; 
+        color = c;
     }
 
-    public String toString(){
-        return "pegX = "+pegX + "; pegY = "+pegY + "; color = "+color + "; touched = "+touched + "; destructed = "+destructed;
+    public String toString() {
+        return "pegX = " + pegX + "; pegY = " + pegY + "; color = " + color + "; touched = " + touched
+                + "; destructed = " + destructed;
     }
 
     public double getPegX() {

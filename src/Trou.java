@@ -17,7 +17,7 @@ public class Trou {
     private JLabel jlabel;
     private double vitesse = 1;
     private double resolutionScreen;
-    private boolean move = true ;
+    private boolean move = true;
 
     public Trou(int lo, int la, BoardModel bm, double res) {
         longueur = lo;
@@ -75,7 +75,8 @@ public class Trou {
     }
 
     public void setHeightBoard(double heightBoard) {
-        y = (int) heightBoard - 96 * resolutionScreen - 30; //+ 25 ;
+        // this.heightBoard = heightBoard;
+        y = (int) heightBoard - largeurImage;
     }
 
     public void setWidthBoard(double widthBoard) {
@@ -85,7 +86,7 @@ public class Trou {
     }
 
     public void move() {
-        if (move){
+        if (move) {
             if (x + longueurImage / 2 + dx > widthBoard || x - longueurImage / 2 < 0) {
                 dx = -dx;
             }
@@ -98,17 +99,17 @@ public class Trou {
             if (x < widthBoard / 2 && dx < 0)
                 vitesse -= 0.001;
             x += vitesse * vitesse * dx;
-    
+
             jlabel.setBounds((int) (x - longueurImage / 2), (int) (y - largeurImage / 2), (int) longueurImage,
                     (int) largeurImage);
         }
     }
 
     public boolean contactTrou(Ball b) {
-        return b.getYt() >= y - largeur / 2 && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
+        return b.getYt() >= y - largeur / 1.8 && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
     }
 
-    public void setMove(boolean move){
-        this.move = move ;
+    public void setMove(boolean move) {
+        this.move = move;
     }
 }

@@ -1,7 +1,9 @@
 import java.awt.*;
-import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Ball {
@@ -22,16 +24,19 @@ public class Ball {
     private JLabel labelImgBall;
     private double gravity = 0.01;
     private double dtVal = 0.015;
-    private double nombreUpdatesRepeted = 10;
+    private double nombreUpdatesRepeted = 8;
+    private int nombreRebondPointilee = 1;
     // private int widthBall = 45;
     // private int radiusBall = widthBall / 2;
     private BoardMain board;
-    private BoardIA boardIA ;
+    private BoardIA boardIA;
     private boolean startBall = false;
     private int rayon;
     private BoardModel boardModel;
     private int nombreBall;
-    private Sound sound ;
+    private Sound sound;
+    private Peg lastPegTouched;
+    BufferedImage imageCurrent;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm) {
         this.x_initial = x_initial;
@@ -42,7 +47,12 @@ public class Ball {
         boardModel = bm;
         nombreBall = nb;
         // this.thetha = Math.toRadians(thetha) ;
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource(path));
+        try {
+            imageCurrent = ImageIO.read(this.getClass().getResource("ressources/ball.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ImageIcon imageIcon = new ImageIcon(imageCurrent);
         labelImgBall = new JLabel(imageIcon);
         labelImgBall.setBounds((int) (x_initial) - rayon, (int) y_initial - rayon, 2 * rayon, 2 *
                 rayon);
@@ -59,6 +69,25 @@ public class Ball {
     }
 
     public void updateImgBall() {
+        // double spaceWithTrou = boardModel.getTrou().getY() -
+        // boardModel.getTrou().getLargeur() / 2 - yt + rayon;
+        // if (spaceWithTrou < 2 * rayon) {
+        // BufferedImage newImg = imageCurrent.getSubimage(0, 0,
+        // labelImgBall.getWidth(), (int) spaceWithTrou);
+        // ImageIcon subImageIcon = new ImageIcon(newImg);
+        // labelImgBall = new JLabel(subImageIcon);
+        // labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, (int)
+        // spaceWithTrou);
+
+        // Image image = subImageIcon.getImage(); // transform it
+        // Image newimg = image.getScaledInstance(2 * rayon, 2 * rayon,
+        // java.awt.Image.SCALE_SMOOTH); // scale it the
+        // // smooth way
+        // subImageIcon = new ImageIcon(newimg); // transform it back
+        // labelImgBall.setIcon(subImageIcon);
+        // System.out.println("sjfjrkjgkr");
+
+        // } else
         labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, 2 * rayon);
     }
 
@@ -110,8 +139,9 @@ public class Ball {
         return this.startBall;
     }
 
-    public void setStartBall(boolean start) {
+    public boolean setStartBall(boolean start) {
         startBall = start;
+        return nombreBall != 0;
     }
 
     public void setWidthBoard(double widthBoard) {
@@ -144,7 +174,7 @@ public class Ball {
             updateCoordBall(dtVal / nombreUpdatesRepeted);
         }
 
-        resetBall();
+        resetBall(false);
     }
 
     public ArrayList<Point> trajectoire() {
@@ -152,13 +182,19 @@ public class Ball {
             return null;
         int rebond = 0;
         ArrayList<Point> l = new ArrayList<Point>();
-        while (rebond < 2) {
+        while (rebond <= nombreRebondPointilee) {
             for (int i = 0; i < nombreUpdatesRepeted; ++i) {
                 updateCoordBall(dtVal / nombreUpdatesRepeted);
+                if ((xt + rayon) >= widthBoard || xt + rayon <= 0) {
+                    lastPegTouched = null;
+                    ++rebond;
+                }
             }
-            if (yt + rayon >= heightBoard)
+            if (yt + rayon >= heightBoard) {
+                lastPegTouched = null;
                 break;
-            if (boardModel.contact() || (xt + rayon) >= widthBoard || xt + rayon <= 0)
+            }
+            if (boardModel.contact())
                 ++rebond;
             l.add(new Point((int) xt, (int) yt));
         }
@@ -172,27 +208,35 @@ public class Ball {
     // met à jour les coordonnées de la balle à l'instant dt
     public void updateCoordBall(double dt) {
 
-        if ((xt + rayon) >= widthBoard || xt + rayon <= 0)
+        if ((xt + rayon) >= widthBoard || xt + rayon <= 0) {
             vitesseX = -vitesseX;
-        if (yt <= 0)
+            lastPegTouched = null;
+        }
+        if (yt <= 0) {
             vitesseY = -vitesseY;
+            lastPegTouched = null;
+        }
 
         xt = xt(dt);
         yt = yt(dt);
     }
 
-    public void resetBall() {
+    public void resetBall(boolean needToReset) {
         boolean c = boardModel.getTrou().contactTrou(this);
-        if (yt + rayon >= heightBoard || c) {
+        if (c) {
+            boardModel.trouFall();
+        }
+        if (yt + rayon >= heightBoard || c || needToReset) {
             xt = x_initial;
             yt = y_initial;
             startBall = false;
             boardModel.retireAllTouched();
             vitesseX = vitesseX_initial;
             vitesseY = vitesseY_initial;
+            lastPegTouched = null;
             if (!c)
                 --nombreBall;
-            trajectoire();
+            boardModel.ballRestart();
         }
     }
 
@@ -207,8 +251,7 @@ public class Ball {
         return (vInitial * vitesseY * dt) + yt;
     }
 
-  
-    private void rebondCercle(double x, double y) {  
+    private void rebondCercle(double x, double y) {
         double normeVectOrtho = (Math
                 .sqrt(Math.pow(xt - x, 2) + Math.pow(yt - y, 2)));
         double vectOthogonalX = (xt - x) / normeVectOrtho;
@@ -221,121 +264,151 @@ public class Ball {
         vitesseY -= 2 * produitScalaire * vectOthogonalY;
     }
 
-
     public boolean contactPeg(Peg p) {
+        if (p instanceof PegSoleil) {
+            if (startBall) {
+                if (p.isDestructed() != true) {
+                    resetBall(true);
+                    p.pegTouchdown();
+                }
+
+            }
+            lastPegTouched = p;
+            return true;
+        }
+        if (p instanceof PegRebond) {
+            rebondCercle(p.getPegX(), p.getPegY());
+
+            if (startBall) {
+                vitesseX *= 1.3;
+                vitesseY *= 1.3;
+                p.pegTouchdown();
+
+            }
+            lastPegTouched = p;
+            return true;
+        }
         if (p instanceof PegCercle) {
 
             rebondCercle(p.getPegX(), p.getPegY());
 
             vitesseX *= 0.9;
             vitesseY *= 0.9;
-            if (startBall){
-                boardModel.scoreTouchPegIA(p);
+
+            if (startBall) {
+                boardModel.scoreTouchPeg(p, true);
                 p.pegTouchdown();
                 sound.setFile(1);
                 sound.play();
             }
-            
-
-
+            lastPegTouched = p;
             return true;
         }
         if (p instanceof PegRectangle) {
-            boolean touch = false;
+            PegRectangle r = (PegRectangle) p;
+            double normeVectLongueur = (Math
+                    .sqrt(Math.pow(r.getVecteurLongueurX(), 2) + Math.pow(r.getVecteurLongueurY(), 2)));
+            double vectLongueurXNormalise = r.getVecteurLongueurX() / normeVectLongueur;
+            double vectLongueurYNormalise = r.getVecteurLongueurY() / normeVectLongueur;
 
-            if (xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + rayon) {
+            double normeVectLargeur = (Math
+                    .sqrt(Math.pow(r.getVecteurLargeurX(), 2) + Math.pow(r.getVecteurLargeurY(), 2)));
+            double vectLargeurXNormalise = r.getVecteurLargeurX() / normeVectLargeur;
+            double vectLargeurYNormalise = r.getVecteurLargeurY() / normeVectLargeur;
 
-                if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2
-                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon
-                        && xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2) {
-                            
-                    rebondCercle(p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + 0.001,
-                            p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + 0.001);
+            boolean[] conditions = r.projectionBallOrigineVecteurs(xt, yt, rayon, startBall);
+
+            double vecteurX = xt - r.getOrigineVecteurX();
+            double vecteurY = yt - r.getOrigineVecteurY();
+
+            double produitScalaireLongueurV = r.produitScalaireLongueur(vitesseX, vitesseY);
+            double produitScalaireLargeurV = r.produitScalaireLargeur(vitesseX, vitesseY);
+
+            double produitScalaireLongueur = r.produitScalaireLongueur(vecteurX, vecteurY);
+            double produitScalaireLargeur = r.produitScalaireLargeur(vecteurX, vecteurY);
+
+            if (startBall) {
+                System.out.println(produitScalaireLongueurV * vectLargeurXNormalise + " X Y "
+                        + produitScalaireLongueurV * vectLargeurYNormalise);
+                System.out.println("REBOND " + produitScalaireLargeurV + " " + produitScalaireLongueurV);
+                System.out
+                        .println("CONDITIONS " + conditions[0] + " " + conditions[1] + " " + conditions[2] + " "
+                                + conditions[3]);
+            }
+
+            if (conditions[0]) {
+                // if (vectLargeurXNormalise > 0) {
+                // vectLargeurXNormalise -= vectLargeurXNormalise;
+                // }
+                if (conditions[1]) {
+                    rebondCercle(p.getPegX() + r.getVecteurLongueurX() / 2 - r.getVecteurLargeurX() / 2,
+                            p.getPegY() - r.getVecteurLargeurY() / 2 + r.getVecteurLongueurY() / 2);
+                } else if (conditions[3]) {
+                    rebondCercle(p.getPegX() - r.getVecteurLongueurX() / 2 + r.getVecteurLargeurX() / 2,
+                            p.getPegY() + r.getVecteurLargeurY() / 2 - r.getVecteurLongueurY() / 2);
+                } else {
+                    // if (produitScalaireLargeurV>= 0) {
+                    // produitScalaireLargeurV-= produitScalaireLargeur;
+                    // }
+                    if (produitScalaireLargeurV > 0) {
+                        vitesseX -= 2 * produitScalaireLargeurV * vectLargeurXNormalise;
+                        vitesseY -= 2 * produitScalaireLargeurV * vectLargeurYNormalise;
+                    }
                 }
+            }
 
-                else if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2
-                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 - rayon
-                        && xt < p.getPegX() - ((PegRectangle) p).getLongueur() / 2) {
-
-                    rebondCercle(p.getPegX() - ((PegRectangle) p).getLongueur() / 2 + 0.001,
-                            p.getPegY() + ((PegRectangle) p).getLargeur() / 2 - 0.001);
+            else if (conditions[2]) {
+                // if (vectLargeurXNormalise > 0) {
+                // vectLargeurXNormalise -= vectLargeurXNormalise;
+                // }
+                if (conditions[1]) {
+                    rebondCercle(p.getPegX() - r.getVecteurLongueurX() / 2 - r.getVecteurLargeurX() / 2,
+                            p.getPegY() - r.getVecteurLargeurY() / 2 - r.getVecteurLongueurY() / 2);
+                } else if (conditions[3]) {
+                    rebondCercle(p.getPegX() + r.getVecteurLongueurX() / 2 - r.getVecteurLargeurX() / 2,
+                            p.getPegY() - r.getVecteurLargeurY() / 2 + r.getVecteurLongueurY() / 2);
+                } else {
+                    // if (produitScalaireLargeurV<= 0) {
+                    // produitScalaireLargeurV-= produitScalaireLargeur;
+                    // }
+                    if (produitScalaireLargeurV < 0) {
+                        vitesseX -= 2 * produitScalaireLargeurV * vectLargeurXNormalise;
+                        vitesseY -= 2 * produitScalaireLargeurV * vectLargeurYNormalise;
+                    }
                 }
+            }
 
-                else if (vitesseX >= 0) {
-                    // vitesseX -= vitesseX;
-                    vitesseX *= -1;
+            else if (conditions[1]) {
+                // if (produitScalaireLargeurV > 0) {
+                // xt = xt + produitScalaireLongueur * vectLongueurXNormalise -
+                // r.getVecteurLongueurX();
+                // yt = yt + produitScalaireLongueur * vectLongueurYNormalise -
+                // r.getVecteurLongueurY();
+                vitesseX -= 2 * produitScalaireLongueurV * vectLongueurXNormalise;
+                vitesseY -= 2 * produitScalaireLongueurV * vectLongueurYNormalise;
+            } else if (conditions[3]) {
+                // if (produitScalaireLargeurV >= 0) {
+                // produitScalaireLargeurV -= produitScalaireLargeurV;
+                // }
+                // if (produitScalaireLargeurV < 0) {
+                // xt = xt + produitScalaireLongueur * vectLongueurXNormalise;
+                // yt = yt + produitScalaireLongueur * vectLongueurYNormalise;
+                vitesseX -= 2 * produitScalaireLongueurV * vectLongueurXNormalise;
+                vitesseY -= 2 * produitScalaireLongueurV * vectLongueurYNormalise;
+            }
 
-                }
-                // xt = p.getPegX() - ((PegRectangle) p).getLongueur() / 2.;
-                touch = true;
+            if (lastPegTouched != p) {
                 vitesseX *= 0.9;
-            }
-            if (xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - rayon) {
-
-                if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2
-                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon
-                        && xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2) {
-
-                    rebondCercle(p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - 0.001,
-                            p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + 0.001);
-                }
-
-                else if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2
-                        && yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 - rayon
-                        && xt > p.getPegX() + ((PegRectangle) p).getLongueur() / 2) {
-
-                    rebondCercle(p.getPegX() + ((PegRectangle) p).getLongueur() / 2 - 0.001,
-                            p.getPegY() + ((PegRectangle) p).getLargeur() / 2 - 0.001);
-                }
-
-                else if (vitesseX <= 0) {
-                    // vitesseX -= vitesseX;
-                    vitesseX *= -1;
-                }
-                // xt = p.getPegX() + ((PegRectangle) p).getLongueur() / 2.;
-                touch = true;
-                vitesseX *= 0.9;
-
-            }
-            if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon) {
-                if (vitesseY >= 0) {
-                    // vitesseY -= vitesseY;
-                    vitesseY *= -1;
-                }
-                // yt = p.getPegY() - ((PegRectangle) p).getLargeur() / 2.;
-                touch = true;
                 vitesseY *= 0.9;
-
             }
-            
-            if (yt < p.getPegY() - ((PegRectangle) p).getLargeur() / 2 + rayon) {
-                if (vitesseY >= 0) {
-                    // vitesseY -= vitesseY;
-                    vitesseY *= -1;
-                }
-                // yt = p.getPegY() - ((PegRectangle) p).getLargeur() / 2.;
-                touch = true;
-                vitesseY *= 0.9;
+            lastPegTouched = p;
 
-            }
-            if (yt > p.getPegY() + ((PegRectangle) p).getLargeur() / 2 - rayon) {
-                if (vitesseY <= 0) {
-                    // vitesseY -= vitesseY;
-                    vitesseY *= -1;
-
-                }
-                // yt = p.getPegY() + ((PegRectangle) p).getLargeur() / 2.;
-                touch = true;
-                vitesseY *= 0.9;
-
-            }
-            if (startBall){
-                sound.setFile(1);
-                sound.play(); 
-                sound.stop();
+            if (startBall) {
+                boardModel.scoreTouchPeg(p, true);
                 p.pegTouchdown();
             }
-            return touch;
+
+            return true;
         }
 
         return false;
@@ -345,7 +418,7 @@ public class Ball {
         this.sound = sound;
     }
 
-    public void setBoardIA(BoardIA bia){
+    public void setBoardIA(BoardIA bia) {
         this.boardIA = bia;
     }
 }
