@@ -89,18 +89,17 @@ public class BoardMain extends Board implements KeyListener {
                         (int)(Double.parseDouble(tabRows[1]) * height),
                         boardModel.getGenerator().getRadius(), tabRows[2])) ;
                         break;
+                    case "PegSoleil" :
+                    listPeg.add(new PegSoleil((int)(Double.parseDouble(tabRows[0]) * width) ,
+                    (int)(Double.parseDouble(tabRows[1]) * height),
+                    boardModel.getGenerator().getRadius() * 3, tabRows[2])) ;
+                    break;
                     // case "PegRectangle" :
                     //     listPeg.add(new PegRectangle((int)(Double.parseDouble(tabRows[0]) * width) ,
                     //     (int)(Double.parseDouble(tabRows[1]) * height), 60, 30, tabRows[2])) ;
                     //     break;
                 }
             }
-
-            // while (scanner.hasNext()) {
-            //     String[] tabRows = scanner.next().split("/");
-            //     listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]),
-            //             boardModel.getGenerator().getRadius(), tabRows[2]));
-            // }
 
             scanner.close();
 
