@@ -101,6 +101,23 @@ public class PegGenerator {
         return pegListe;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setPegListe(ArrayList<Peg> pegListe) {
+        this.pegListe = pegListe;
+    }
+
+    public boolean hasOrangePeg() {
+        for (int i = 0; i < pegListe.size(); i++) {
+            if (pegListe.get(i).getColor().equals("orange") && !pegListe.get(i).isDestructed()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private List<Integer> melangeNumbers(int n, int len) {
         List<Integer> l = new ArrayList<Integer>();
         for (int i = 0; i < n; ++i) {
@@ -205,25 +222,8 @@ public class PegGenerator {
         widthBoard = w;
         adaptResolutionPeg(radius, 100, 250, (int) widthBoard - 400, 90 + 2 *
                 radius, 60, 30);
-        //multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
+        // multipleLinesOfPeg(radius, coordX, coordY, length, pegSpacing, 6);
         // spiralOfPeg(500, 500, 300, 15);
-    }
-
-    public int getRadius() {
-        return radius;
-    }
-
-    public void setPegListe(ArrayList<Peg> pegListe) {
-        this.pegListe = pegListe;
-    }
-
-    public boolean hasOrangePeg(){
-        for(int i = 0; i < pegListe.size(); i++){
-            if (pegListe.get(i).getColor().equals("orange") && !pegListe.get(i).isDestructed()){
-                return true ;
-            }
-        }
-        return false ;
     }
 
 }

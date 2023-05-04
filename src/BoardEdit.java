@@ -21,7 +21,7 @@ public class BoardEdit extends Board {
         listPath.add("ressources/peg-orange.png");
         listPath.add("ressources/peg-bleu.png");
         listPath.add("ressources/peg-bleu-rectangle.png");
-       // listPath.add("ressources/peg-bleu-rectangle.png") ;
+        // listPath.add("ressources/peg-bleu-rectangle.png") ;
 
         popUp = new PopUp(listPath);
 
@@ -86,28 +86,30 @@ public class BoardEdit extends Board {
         }
     }
 
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         g2d = (Graphics2D) g;
 
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
-        if(editor.getListPeg().size() >= 1){
+        if (editor.getListPeg().size() >= 1) {
             try {
                 FileWriter writer = new FileWriter("level4.txt");
-                for(Peg e : editor.getListPeg()) {
+                for (Peg e : editor.getListPeg()) {
                     String type;
-                    if(e instanceof PegCercle) type = "PegCercle";
-                    else type = "PegRectangle";
-                    writer.write(e.pegX + "/" + e.pegY+"/" + e.getColor() + "/" +type + "\n");
-                }  
+                    if (e instanceof PegCercle)
+                        type = "PegCercle";
+                    else
+                        type = "PegRectangle";
+                    writer.write(e.pegX + "/" + e.pegY + "/" + e.getColor() + "/" + type + "\n");
+                }
                 writer.close();
-            } catch(IOException e){
+            } catch (IOException e) {
                 System.out.println("Une erreur est survenue lors de la création du fichier.");
                 e.printStackTrace();
-            } 
-            //afficher("level1.txt");
-        } 
+            }
+            // afficher("level1.txt");
+        }
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {

@@ -1,95 +1,107 @@
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
+import javax.swing.* ;
+import java.awt.* ;
+import java.awt.event.MouseEvent;
 import java.io.InputStream;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-import java.awt.Color;
+import javax.imageio.ImageIO;
+import java.awt.event.*;
 
-public class MenuPrincipal extends JFrame {
-    private ImagePanel PanelImage = new ImagePanel(new ImageIcon("src/ressources/menu.png").getImage());
+
+public class MenuPrincipal extends JPanel {
+    private Image imgbcg ; 
     private JPanel ButtonPanel = new JPanel();
-    private JButton playButton = new JButton("PLAY");
-    private JButton paramButton = new JButton("SETTINGS");
-    private JButton exitButton = new JButton("EXIT");
 
-    public MenuPrincipal() throws FontFormatException, IOException {
-        super();
-        setTitle("JEU");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1400, 1000);
-        setResizable(false);
+    private int width,height;
+    public JButton playButton = createButton("PLAY",(int)(width*0.64),(int)(height*0.35));
+    public JButton editButton = createButton("EDITOR",(int)(width*0.64),(int)(height*0.5));
+    public JButton exitButton = createButton("EXIT",(int)(width*0.64),(int)(height*0.65));
+    private Dimension dim ;
 
-        String path_font = "ressources/font_style/font.ttf";
-        InputStream is = MenuPrincipal.class.getResourceAsStream(path_font);
-        Font font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(65f);
+    public MenuPrincipal(Dimension dim){
+        this.dim = dim ;
+        try{
+            imgbcg = ImageIO.read(this.getClass().getResource("ressources/bcg-Menu-principal.jpg")) ;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
-        Color c = new Color(207, 159, 255);
-        playButton.setFont(font);
-        playButton.setBackground(c);
-        paramButton.setFont(font);
-        paramButton.setBackground(c);
-        exitButton.setFont(font);
-        exitButton.setBackground(c);
+        Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+
+
+        width = (int)screensize.getWidth();
+        height = (int)screensize.getHeight();
 
         ButtonPanel.setLayout(null);
-        playButton.setBounds(475, 700, 215, 105);
-        paramButton.setBounds(715, 700, 440, 105);
-        exitButton.setBounds(1180, 700, 198, 105);
+        ButtonPanel.setOpaque(false);
+        ButtonPanel.setPreferredSize(new Dimension(1920, 1080));
 
-        ButtonPanel.add(playButton);
-        ButtonPanel.add(paramButton);
+        playButton.setBounds((int)(width*0.64),(int)(height*0.35),325,105);
+        editButton.setBounds((int)(width*0.64),(int)(height*0.5),325,105);
+        exitButton.setBounds((int)(width*0.64),(int)(height*0.65),325,105);
+
+
+        ButtonPanel.add(playButton); 
+        ButtonPanel.add(editButton);
         ButtonPanel.add(exitButton);
 
-        playButton.addActionListener(e -> {
-            // renvoie vers le menuNiveau
-            try {
-                PlayActionPerformed(e);
-            } catch (FontFormatException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
 
-        paramButton.addActionListener(e -> {
-            // renvoie vers le menu des paramÃ¨tres
-            ParamActionPerformed(e);
-        });
-
-        exitButton.addActionListener(e -> {
-            ExitActionPerformed(e);
-        });
-
-        this.getContentPane().add(PanelImage);
-        this.getContentPane().add(ButtonPanel);
+        //this.getContentPane().add(PanelImage);
+        this.add(ButtonPanel);
         this.setVisible(true);
     }
 
-    private void PlayActionPerformed(java.awt.event.ActionEvent evt) throws FontFormatException, IOException {
-        // Level Selection menu
-        /*
-         * this.dispose();
-         * LoadingScreen load = new LoadingScreen();
-         * //load.setVisible(true);
-         */
+
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D)g ;
+        g2d.drawImage(imgbcg, 0, 0, (int)dim.getWidth() , (int)dim.getHeight() , null, null);
     }
 
-    private void ParamActionPerformed(java.awt.event.ActionEvent evt) {
-        // Parameters Menu
+
+    private JButton createButton(String text,int width,int height){
+      JButton button = new JButton(text);
+
+      String path_font = "ressources/font_style/font.ttf";
+      InputStream is ;
+      Font font ;
+
+      try{
+        is = LevelMenu.class.getResourceAsStream(path_font);
+        font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(65f);
+        button.setFont(font);
+      }
+      catch(Exception e){
+        e.printStackTrace();
+      }
+      button.setFocusPainted(false);
+    
+      Color colorPrinciaple = new Color(212,226,8);
+      Color colorClicked = new Color(165,176,3);
+      Color textColor = new Color(153,0,153);
+      button.setBackground(colorPrinciaple);
+      button.setForeground(textColor);
+
+
+      button.addMouseListener(new MouseAdapter() {
+        public void mouseEntered(MouseEvent e) {
+            button.setBackground(Color.WHITE);
+            button.setForeground(Color.BLACK);
+        }
+      });
+
+      button.addMouseListener(new MouseAdapter() {
+        public void mouseExited(MouseEvent e) {
+            button.setBackground(colorPrinciaple);
+            button.setForeground(textColor);
+        }
+      });
+
+      button.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e){
+          button.setBackground(colorClicked);
+        }
+      });
+
+      return button;
     }
-
-    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {
-        System.exit(0);
-    }
-
-    /*
-     * public static void main(String[] args) throws FontFormatException,
-     * IOException{
-     * new MenuPrincipal();
-     * }
-     */
-
 }
