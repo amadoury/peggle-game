@@ -76,31 +76,31 @@ public class BoardMain extends Board implements KeyListener {
     public void loadPegOnBoardWithFile(String path) {
         try {
             ArrayList<Peg> listPeg = new ArrayList<Peg>();
-            File file = new File(path);
+            File file = new File(this.getClass().getResource(path).toURI());
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("\n");
 
-            // while(scanner.hasNext()){
-            // String [] tabRows = scanner.next().split("/");
-            // System.out.println(tabRows[0]);
-            // switch(tabRows[3]){
-            // case "PegCercle" :
-            // listPeg.add(new PegCercle((int)(Double.parseDouble(tabRows[0]) * width) ,
-            // (int)(Double.parseDouble(tabRows[1]) * height),
-            // boardModel.getGenerator().getRadius(), tabRows[2])) ;
-            // break;
-            // case "PegRectangle" :
-            // listPeg.add(new PegRectangle((int)(Double.parseDouble(tabRows[0]) * width) ,
-            // (int)(Double.parseDouble(tabRows[1]) * height), 60, 30, tabRows[2])) ;
-            // break;
-            // }
-            // }
-
-            while (scanner.hasNext()) {
-                String[] tabRows = scanner.next().split("/");
-                listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]),
-                        boardModel.getGenerator().getRadius(), tabRows[2]));
+            while(scanner.hasNext()){
+                String [] tabRows = scanner.next().split("/");
+                System.out.println(tabRows[0]);
+                switch(tabRows[3]){
+                    case "PegCercle" :
+                        listPeg.add(new PegCercle((int)(Double.parseDouble(tabRows[0]) * width) ,
+                        (int)(Double.parseDouble(tabRows[1]) * height),
+                        boardModel.getGenerator().getRadius(), tabRows[2])) ;
+                        break;
+                    // case "PegRectangle" :
+                    //     listPeg.add(new PegRectangle((int)(Double.parseDouble(tabRows[0]) * width) ,
+                    //     (int)(Double.parseDouble(tabRows[1]) * height), 60, 30, tabRows[2])) ;
+                    //     break;
+                }
             }
+
+            // while (scanner.hasNext()) {
+            //     String[] tabRows = scanner.next().split("/");
+            //     listPeg.add(new PegCercle(Integer.parseInt(tabRows[0]), Integer.parseInt(tabRows[1]),
+            //             boardModel.getGenerator().getRadius(), tabRows[2]));
+            // }
 
             scanner.close();
 

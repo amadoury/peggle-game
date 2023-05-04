@@ -66,7 +66,7 @@ public class MenuLevel extends JPanel{
 
             for(int i = 1; i < 10; i++){
                 //ressources/img-button-level-"+i+".png
-                listButtonLevels.add(new Button("ressources/img-levels.png", "src/ressources/level/level2.txt", i)) ;
+                listButtonLevels.add(new Button("ressources/img-levels.png", "ressources/level/level2.txt", i)) ;
                 this.add(listButtonLevels.get(i - 1));
             }
             
