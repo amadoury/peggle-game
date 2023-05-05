@@ -65,8 +65,7 @@ public class MenuLevel extends JPanel{
             int yStart = (int)((1. / 5.) * dim.getHeight());
 
             for(int i = 1; i < 10; i++){
-                //ressources/img-button-level-"+i+".png
-                listButtonLevels.add(new Button("ressources/img-levels.png", "ressources/level/level3.txt", i)) ;
+                listButtonLevels.add(new Button("ressources/img-levels.png", "ressources/level/level"+i+".txt", i)) ;
                 this.add(listButtonLevels.get(i - 1));
             }
             
