@@ -9,11 +9,11 @@ import java.awt.event.*;
 public class MenuPrincipal extends JPanel {
     private Image imgbcg ; 
     private JPanel ButtonPanel = new JPanel();
-
     private int width,height;
-    public JButton playButton = createButton("PLAY",(int)(width*0.64),(int)(height*0.35));
-    public JButton editButton = createButton("EDITOR",(int)(width*0.64),(int)(height*0.5));
-    public JButton exitButton = createButton("EXIT",(int)(width*0.64),(int)(height*0.65));
+    public JButton playButton = createButton("PLAY");
+    public JButton tutoButton = createButton("TUTORIAL");
+    public JButton editButton = createButton("EDITOR");
+    public JButton exitButton = createButton("EXIT");
     private Dimension dim ;
 
     public MenuPrincipal(Dimension dim){
@@ -35,17 +35,19 @@ public class MenuPrincipal extends JPanel {
         ButtonPanel.setOpaque(false);
         ButtonPanel.setPreferredSize(new Dimension(1920, 1080));
 
-        playButton.setBounds((int)(width*0.64),(int)(height*0.35),325,105);
-        editButton.setBounds((int)(width*0.64),(int)(height*0.5),325,105);
-        exitButton.setBounds((int)(width*0.64),(int)(height*0.65),325,105);
+         
+
+        playButton.setBounds((int)(width*0.42),(int)(height*0.40),360,95);
+        tutoButton.setBounds((int)(width*0.42),(int)(height*0.52),360,95);
+        editButton.setBounds((int)(width*0.42),(int)(height*0.64),360,95);
+        exitButton.setBounds((int)(width*0.42),(int)(height*0.76),360,95);
 
 
-        ButtonPanel.add(playButton); 
+        ButtonPanel.add(playButton);
+        ButtonPanel.add(tutoButton); 
         ButtonPanel.add(editButton);
         ButtonPanel.add(exitButton);
 
-
-        //this.getContentPane().add(PanelImage);
         this.add(ButtonPanel);
         this.setVisible(true);
     }
@@ -58,7 +60,7 @@ public class MenuPrincipal extends JPanel {
     }
 
 
-    private JButton createButton(String text,int width,int height){
+    private JButton createButton(String text){
       JButton button = new JButton(text);
 
       String path_font = "ressources/font_style/font.ttf";
@@ -67,7 +69,7 @@ public class MenuPrincipal extends JPanel {
 
       try{
         is = LevelMenu.class.getResourceAsStream(path_font);
-        font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(65f);
+        font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(57f);
         button.setFont(font);
       }
       catch(Exception e){
@@ -75,7 +77,10 @@ public class MenuPrincipal extends JPanel {
       }
       button.setFocusPainted(false);
     
-      Color colorPrinciaple = new Color(212,226,8);
+      // 178,255,102
+      // 153,255,51
+      Color colorPrinciaple = new Color(153,255,51);
+      // Color colorPrinciaple = new Color(212,226,8);
       Color colorClicked = new Color(165,176,3);
       Color textColor = new Color(153,0,153);
       button.setBackground(colorPrinciaple);
