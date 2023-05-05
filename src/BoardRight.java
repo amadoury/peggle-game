@@ -74,7 +74,6 @@ public class BoardRight extends JPanel implements MouseInputListener {
 
     public void setHeight(double height) {
         this.height = height;
-        System.out.println(getWidth());
         setSize((int) width, (int) height);
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBallsToFire.png"));
         imageIcon.setImage(
@@ -192,7 +191,6 @@ public class BoardRight extends JPanel implements MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(e.getY());
         if (e.getY() > height * 2 / 3 + 50)
             System.out.println("DESXHDHUSIFEUHFHE");
     }

@@ -34,9 +34,6 @@ public class BoardIA extends BoardMain {
         }
 
         // left.updateScore(player1.getScore(), player2.getScore());
-
-        System.out.println("p 1 :" + player1.getScore());
-        System.out.println("p 2 :" + player2.getScore());
     }
 
     public void renderPlayerTurn() {

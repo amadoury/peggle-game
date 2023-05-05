@@ -330,14 +330,14 @@ public class Ball {
             double produitScalaireLongueur = r.produitScalaireLongueur(vecteurX, vecteurY);
             double produitScalaireLargeur = r.produitScalaireLargeur(vecteurX, vecteurY);
 
-            if (startBall) {
-                System.out.println(produitScalaireLongueurV * vectLargeurXNormalise + " X Y "
-                        + produitScalaireLongueurV * vectLargeurYNormalise);
-                System.out.println("REBOND " + produitScalaireLargeurV + " " + produitScalaireLongueurV);
-                System.out
-                        .println("CONDITIONS " + conditions[0] + " " + conditions[1] + " " + conditions[2] + " "
-                                + conditions[3]);
-            }
+            // if (startBall) {
+            //     System.out.println(produitScalaireLongueurV * vectLargeurXNormalise + " X Y "
+            //             + produitScalaireLongueurV * vectLargeurYNormalise);
+            //     System.out.println("REBOND " + produitScalaireLargeurV + " " + produitScalaireLongueurV);
+            //     System.out
+            //             .println("CONDITIONS " + conditions[0] + " " + conditions[1] + " " + conditions[2] + " "
+            //                     + conditions[3]);
+            // }
 
             if (conditions[0]) {
                 // if (vectLargeurXNormalise > 0) {

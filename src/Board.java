@@ -12,10 +12,9 @@ public class Board extends JPanel implements MouseInputListener {
     public double height;
     protected double resolutionScreen = Toolkit.getDefaultToolkit().getScreenResolution();
 
-    public Board() {
-
+    public Board(int i) {
         try {
-            imageBoard = ImageIO.read(this.getClass().getResource("ressources/bgd-peggle-img-1.jpg"));
+            imageBoard = ImageIO.read(this.getClass().getResource("ressources/bgd-peggle-img-"+i+".jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -23,7 +22,6 @@ public class Board extends JPanel implements MouseInputListener {
         width = imageBoard.getWidth(this);
         height = imageBoard.getHeight(this);
 
-        System.out.println("image " + width + "height " + height);
 
         // width = dim.getWidth() ;
         // height = dim.getHeight();

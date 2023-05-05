@@ -23,7 +23,7 @@ public class App extends JPanel {
     public String path ;
     public boolean multiPlayer;
 
-    public App(Dimension dim, String path , boolean multiPlayer) {
+    public App(Dimension dim,String path , boolean multiPlayer) {
         this.dim = dim;
         this.path = path ;
         this.multiPlayer = multiPlayer ;
@@ -44,16 +44,6 @@ public class App extends JPanel {
         panelBoard.setLayout(cardLayout);
         panelBoard.add(boardMain, "boardMain");
 
-        // panelBoard.add(levelMenu, "levelMenu");
-
-        // panelBoard.add(boardMain, "boardMain");
-        // panelBoard.add(boardEdit, "boardEdit");
-        // panelBoard.add(intro, "intro");
-        // panelBoard.add(boardIA, "boardIA");
-
-        // boardMain.setDim(Toolkit.getDefaultToolkit().getScreenSize());
-        // cardLayout.show(panelBoard, "intro");
-         //cardLayout.show(panelBoard, "");
 
         width = (6. / 8.) * dim.getWidth();
         height = dim.getHeight() - 100;
@@ -64,52 +54,11 @@ public class App extends JPanel {
         this.add(right);
         this.add(left);
 
-        //MenuLevel menuLevel = new MenuLevel((int)xStart, 0) ;
-
-        //panelBoard.add(menuLevel, "ml");
-
-        //cardLayout.show(panelBoard, "ml");
-
         panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
         right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
         left.setBounds(0, 0, (int) xStart, (int) height);
 
-        // intro.listPage.get(2).launch.addActionListener((event) -> {
-        //     cardLayout.show(panelBoard, "levelMenu");
-        // });
 
-        // levelMenu.getLevel1().addActionListener((event) -> {
-        //     BoardMain bd = new BoardMain("src/ressources/level/level1.txt", right, left, false);
-        //     bd.setApp(this);
-        //     panelBoard.add(bd, "boardlevel1");
-        //     cardLayout.show(panelBoard, "boardlevel1");
-        //     setParams(bd);
-        // });
-
-        // levelMenu.getLevel2().addActionListener((event) -> {
-        //     BoardMain bd = new BoardMain("src/ressources/level/level2.txt", right, left, false);
-        //     bd.setApp(this);
-        //     panelBoard.add(bd, "boardlevel2");
-        //     cardLayout.show(panelBoard, "boardlevel2");
-
-        //     setParams(bd);
-        // });
-
-        // levelMenu.getLevel3().addActionListener((event) -> {
-        //     BoardMain bd = new BoardMain("src/ressources/level/level3.txt", right, left, false);
-        //     bd.setApp(this);
-        //     panelBoard.add(bd, "boardlevel3");
-        //     cardLayout.show(panelBoard, "boardlevel3");
-        //     setParams(bd);
-        // });
-
-        //pack();
-
-        // dimensionFrame = this.getBounds().getSize();
-
-        // boardEdit.setApp(this);
-        // levelMenu.setDim(dim);
-        // intro.setDim(dim);
 
         setParams(boardMain);
         right.setWidth(width);

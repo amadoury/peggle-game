@@ -12,7 +12,6 @@ public class MenuLevel extends JPanel{
     private Dimension dim ;
     private boolean isMultiplayer = false;
     private CardLayout cardLayout ;
-    //private ArrayList<App> listAppLevels = new ArrayList<App>() ;
 
     public MenuLevel(Dimension dim){
         this.dim = dim ;
@@ -65,8 +64,7 @@ public class MenuLevel extends JPanel{
             int yStart = (int)((1. / 5.) * dim.getHeight());
 
             for(int i = 1; i < 10; i++){
-                //ressources/img-button-level-"+i+".png
-                listButtonLevels.add(new Button("ressources/img-levels.png", "ressources/level/level3.txt", i)) ;
+                listButtonLevels.add(new Button("ressources/img-levels.png", "ressources/level/level"+i+".txt", i)) ;
                 this.add(listButtonLevels.get(i - 1));
             }
             
@@ -82,7 +80,7 @@ public class MenuLevel extends JPanel{
                 yStart += 200 ;
             }
 
-            avancer.setBounds((int)(dim.getWidth() - (1. / 8.) *  dim.getWidth()),  (int)((1. / 5.) * dim.getHeight()) + 200, 200, 100);
+            avancer.setBounds((int)(dim.getWidth()  - 0),  (int)((1. / 5.) * dim.getHeight()) + 200, 200, 100);
             retourner.setBounds(20,  (int)((1. / 5.) * dim.getHeight()) + 200, 200, 100);
 
 
@@ -143,7 +141,6 @@ public class MenuLevel extends JPanel{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            //App app1 = new App(dim,"ressources/level/level2.txt", false);
             cardLayout.show(MenuLevel.this, "app" + nLevel);
         }
 

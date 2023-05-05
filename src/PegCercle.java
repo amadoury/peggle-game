@@ -10,7 +10,6 @@ public class PegCercle extends Peg {
         super(x, y, c);
         rayon = r;
         color = c;
-        System.out.println(color);
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance((int) (2 * rayon), (int) (2 * rayon), java.awt.Image.SCALE_SMOOTH); // scale

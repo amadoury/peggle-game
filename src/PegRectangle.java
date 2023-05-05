@@ -25,6 +25,7 @@ public class PegRectangle extends Peg {
     PegRectangle(int x, int y, double lo, double la, double angle, String c) {
         super(x, y, c);
         longueur = (int) lo;
+
         largeur = (int) la;
         this.angle = angle;
 

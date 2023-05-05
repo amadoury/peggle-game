@@ -16,7 +16,6 @@ class LevelMenu extends JPanel{
         width = (int)dim.getWidth(); 
         height = (int)dim.getHeight();
         this.setPreferredSize(new Dimension(dim));
-        System.out.println(dim);
         //text.setBorder(new EmptyBorder(new Insets(75, 0, 0, 0)));
         text.setFont(new Font("Serif", Font.BOLD, 50));
         header.add(text) ;
