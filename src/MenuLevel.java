@@ -80,7 +80,7 @@ public class MenuLevel extends JPanel{
                 yStart += 200 ;
             }
 
-            avancer.setBounds((int)(dim.getWidth()  - 0),  (int)((1. / 5.) * dim.getHeight()) + 200, 200, 100);
+            avancer.setBounds((int)(dim.getWidth() - 120),  (int)((1. / 5.) * dim.getHeight()) + 200, 100, 100);
             retourner.setBounds(20,  (int)((1. / 5.) * dim.getHeight()) + 200, 200, 100);
 
 

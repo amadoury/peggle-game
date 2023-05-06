@@ -57,7 +57,7 @@ public class BoardMain extends Board implements KeyListener {
             loadPegOnBoardWithFile(filePath);
         }
 
-        // timer : animation
+        //timer : animation
         final int INITIAL_DELAY = 100;
         final int PERIOD_INTERVAL = 15;
         timer = new Timer();

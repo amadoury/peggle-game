@@ -16,6 +16,12 @@ public class Main extends JFrame {
         MenuLevel menuLevel = new MenuLevel(dim) ;
         mainPanel.add(menuLevel, "menuLevel") ;
 
+        App appEdit = new App(dim, cardLayout, mainPanel) ;
+        mainPanel.add(appEdit, "appEdit") ;
+
+        Tutorial tutorial = new Tutorial(dim, cardLayout, mainPanel) ;
+        mainPanel.add(tutorial, "tutorial") ;
+
         this.add(mainPanel) ;
 
         cardLayout.show(mainPanel, "menup");
@@ -24,14 +30,17 @@ public class Main extends JFrame {
             cardLayout.show(mainPanel, "menuLevel");
         });
 
-        menup.editButton.addActionListener((event) ->{
-            cardLayout.show(mainPanel, "menuLevel");
+        menup.tutoButton.addActionListener((event) ->{
+            cardLayout.show(mainPanel, "tutorial");
         });
 
         menup.exitButton.addActionListener((event) ->{
-            dispose();
+            System.exit(1);
         });
 
+        menup.editButton.addActionListener((event) -> {
+            cardLayout.show(mainPanel, "appEdit");
+        });
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

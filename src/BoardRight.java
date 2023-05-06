@@ -1,18 +1,12 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class BoardRight extends JPanel implements MouseInputListener {
     private JLabel labelNumberBall;
-    private JLabel labelPeg;
-    private JLabel labelButton;
-    private JButton buttonEdit;
     private JLabel labelImgBall;
     private int rayon = 0;
     private double height;
@@ -38,26 +32,12 @@ public class BoardRight extends JPanel implements MouseInputListener {
 
         // jlabel.addMouseListener(this);
         // addMouseMotionListener(this);
-
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        // TODO Auto-generated method stub
-        // super.paintComponent(g);
-        // add(labelImgBall);
-        // labelImgBall.setLocation(new Point(50, 50));
-        // setBackground(Color.WHITE);
         super.paintComponent(g);
         g2d = (Graphics2D) g;
-
-        // imageBoardRight = imageBoardRight.getScaledInstance((int) width, (int) height
-        // - 100,
-        // java.awt.Image.SCALE_SMOOTH);
-
-        // g2d.drawImage(imageBoardRight, 0, 0, (int) width, (int) height - 20,
-        // null, null);
-
     }
 
     public void updateLabelBall(int number) {
@@ -76,8 +56,7 @@ public class BoardRight extends JPanel implements MouseInputListener {
         this.height = height;
         setSize((int) width, (int) height);
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBallsToFire.png"));
-        imageIcon.setImage(
-                imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_SMOOTH));
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_SMOOTH));
         jlabel = new LabelPeg(imageIcon);
 
         jlabel.setBounds(0, 0, (int) width, (int) height);
@@ -138,32 +117,14 @@ public class BoardRight extends JPanel implements MouseInputListener {
     }
 
     public void trouFall() {
-        // try {
-        // imageBoardRight =
-        // ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFireFreeBall.gif"));
-        // // imageBoardRight =
-        // //
-        // ImageIO.read(this.getClass().getResource("ressources/peggleBarreScoreWithZero.png"));
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-
-        // labelImgBall = new JLabel(imageIconBall);
-        // listLabelBall.add(0, labelImgBall);
-        // labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3
-        // - ballY), 2 * rayon,
-        // 2 * rayon);
         --positionCurrentBall;
         listLabelBall.get(positionCurrentBall).setVisible(true);
         ballY += 2 * rayon + 5;
 
         ++nombreBall;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBallsToFireFreeBall.gif"));
-        imageIcon.setImage(
-                imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_DEFAULT));
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
-
-        // jlabel.setBounds(0, 0, (int) width, (int) height);
     }
 
     public void pegTouched() {
