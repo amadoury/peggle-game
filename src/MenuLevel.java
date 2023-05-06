@@ -12,17 +12,21 @@ public class MenuLevel extends JPanel{
     private Dimension dim ;
     private boolean isMultiplayer = false;
     private CardLayout cardLayout ;
+    private CardLayout cdLayoutMain ;
+    private JPanel mainPanel ;
+    Page page ;
 
-    public MenuLevel(Dimension dim){
+    public MenuLevel(Dimension dim, CardLayout cdLayout, JPanel mainPanel){
         this.dim = dim ;
+        this.cdLayoutMain = cdLayout ;
+        this.mainPanel = mainPanel ;
         this.setLayout(null);
 
         cardLayout = new CardLayout() ;
 
         this.setLayout(cardLayout);
 
-
-        Page page = new Page("ressources/bcg-menu-level.jpg") ;
+        page = new Page("ressources/bcg-menu-level.jpg", 1) ;
 
         this.add(page, "page");
     
@@ -34,9 +38,10 @@ public class MenuLevel extends JPanel{
     }
 
     public class Page extends JPanel{
-        private Button avancer = new Button("ressources/fleche-droite1.png", true);
-        private Button retourner = new Button("ressources/fleche-gauche1.png", true);
+        private Button avancer ;
+        private Button retourner ;
         private String text = "Select Level" ;
+        private Button iaToggle = new Button() ;
         int xText ;
         int yText ;
 
@@ -46,11 +51,22 @@ public class MenuLevel extends JPanel{
         private Image bckImage ;
         ArrayList<Button> listButtonLevels = new ArrayList<Button>() ;
 
-        public Page(String path){
+        private JLabel labelInfoIA = new JLabel("Turn On to Play with IA") ;
+
+        public Page(String path, int n){
+
+            avancer = new Button("ressources/fleche-droite1.png", true, "avancer", n);
+            retourner = new Button("ressources/fleche-gauche1.png", true, "retour", n);
+
             this.setLayout(null) ;
 
             this.add(avancer);
             this.add(retourner);
+            this.add(iaToggle) ;
+            this.add(labelInfoIA);
+            
+            labelInfoIA.setBounds((int)dim.getWidth() - 320, 80 , 300 , 30);
+            iaToggle.setBounds((int)dim.getWidth() - 300  , 100  , 100, 100);
 
             try{
                 bckImage = ImageIO.read(this.getClass().getResource(path)) ;
@@ -119,10 +135,24 @@ public class MenuLevel extends JPanel{
     public class Button extends JLabel implements MouseListener{
         public App app ;
         private int nLevel ;
+        private ImageIcon imgIcon ;
+        private boolean iaButton ;
+        private boolean status = true ;
+        private String type;
+        private int nbPage;
 
-        public Button(String path, boolean resizeImg){
-            ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(path)) ;
-            
+        public Button(){
+            type = "ia";
+            imgIcon = new ImageIcon(this.getClass().getResource("ressources/ia-off.png")) ;
+            this.setIcon(imgIcon);
+            iaButton = true ;
+            addMouseListener(this);
+        }
+
+        public Button(String path, boolean resizeImg, String type, int i){
+            imgIcon = new ImageIcon(this.getClass().getResource(path)) ;
+            this.type = type ;
+            this.nbPage = i;
             if (resizeImg){
                 Image img = imgIcon.getImage() ;
                 Image newImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
@@ -130,18 +160,37 @@ public class MenuLevel extends JPanel{
             }
             this.setIcon(imgIcon);
             addMouseListener(this);
+            this.setToolTipText("Appuyer pour desactiver l'IA");
+
         }
 
         public Button(String pathImg, String pathLevel, int n){
-            this(pathImg, false);
+            this(pathImg, false, "bLevel", n);
             this.nLevel = n ;
             app = new App(dim, pathLevel, isMultiplayer);
             MenuLevel.this.add(app, "app" + n);
         }
 
+        public void changeImg(boolean status){
+            String str = status ? "on" : "off" ;
+            String text = status ? "Turn Off To Play Without IA" : "Turn On To Play With IA"  ;
+            imgIcon = new ImageIcon(this.getClass().getResource("ressources/ia-"+ str +".png")) ;
+            this.setIcon(imgIcon);
+            page.labelInfoIA.setText(text) ;
+        }
+
         @Override
         public void mouseClicked(MouseEvent e) {
-            cardLayout.show(MenuLevel.this, "app" + nLevel);
+            if (type.equals("bLevel")){
+                cardLayout.show(MenuLevel.this, "app" + nLevel);
+            }
+            else if (iaButton){
+                changeImg(status);
+                status = !status ;
+            }
+            else if (type.equals("retour") && nbPage == 1){
+                cdLayoutMain.show(mainPanel, "menup");
+            }
         }
 
         @Override
@@ -154,6 +203,23 @@ public class MenuLevel extends JPanel{
 
         @Override
         public void mouseEntered(MouseEvent e) {
+            if (type.equals("bLevel")){
+                
+            }
+            else if (iaButton){
+               // JLabel info = new JLabel("Info");
+
+                if(status){
+                    //this.setToolTipText("Appuyer pour desactiver l'IA");
+                    
+                }
+                else{
+        
+                }
+            }
+            else if (type.equals("retour") && nbPage == 1){
+                this.setToolTipText("Appuyer pour retourner au Menu Principal");
+            }
         }
 
         @Override

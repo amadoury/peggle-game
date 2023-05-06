@@ -3,7 +3,7 @@ import javax.swing.*;
 
 
 public class Main extends JFrame {
-    private Dimension dim ;
+    private Dimension dim;
     private JPanel mainPanel = new JPanel() ;
     private CardLayout cardLayout = new CardLayout() ;
 
@@ -13,7 +13,7 @@ public class Main extends JFrame {
 
         MenuPrincipal menup = new MenuPrincipal(dim) ;
         mainPanel.add(menup, "menup");
-        MenuLevel menuLevel = new MenuLevel(dim) ;
+        MenuLevel menuLevel = new MenuLevel(dim, cardLayout, mainPanel) ;
         mainPanel.add(menuLevel, "menuLevel") ;
 
         App appEdit = new App(dim, cardLayout, mainPanel) ;
