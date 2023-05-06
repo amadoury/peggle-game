@@ -83,6 +83,8 @@ public class BoardModel {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+        if (gameOver)
+            board.requestFocus();
     }
 
     public PegGenerator getGenerator() {

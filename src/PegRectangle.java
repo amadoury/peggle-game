@@ -21,6 +21,7 @@ public class PegRectangle extends Peg {
     private double origineVecteurX;
     private double origineVecteurY;
     private BufferedImage imageLabel;
+    protected Timer timer = new Timer(5000, null);
 
     PegRectangle(int x, int y, double lo, double la, double angle, String c) {
         super(x, y, c);
@@ -235,6 +236,18 @@ public class PegRectangle extends Peg {
         // ImageIcon imageIcon = new ImageIcon(
         // PegRectangle.this.getClass().getResource("ressources/peg-" + color +
         // "-animation.gif"));
+    }
+
+    public void touchTimeStart() {
+        timer.start();
+    }
+
+    public void actualisePeg() {
+        if (timer.isRunning()) {
+            timer.stop();
+            destructed = true;
+            delete();
+        }
     }
 
 }

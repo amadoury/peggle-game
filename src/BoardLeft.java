@@ -23,7 +23,9 @@ public class BoardLeft extends JPanel implements MouseInputListener {
     private int valScore = 0;
     private JLabel jlabel;
 
-    public BoardLeft() {
+    public BoardLeft(double width, double height) {
+        this.width = width / 8.;
+        this.height = height;
 
         setLayout(null);
 

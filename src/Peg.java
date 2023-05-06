@@ -63,4 +63,10 @@ public abstract class Peg {
     public LabelPeg getLabelPeg() {
         return jlabel;
     }
+
+    public void actualisePeg() {
+    }
+
+    public void touchTimeStart() {
+    }
 }
