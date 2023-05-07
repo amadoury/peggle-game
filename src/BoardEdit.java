@@ -6,14 +6,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.event.MouseEvent;
+import javax.imageio.ImageIO;
+import java.awt.event.*;
 
 public class BoardEdit extends Board {
     private PopUp popUp;
     private Editor editor;
     private int xMouse;
     private int yMouse;
-    private JButton valid_edit = new JButton("VALIDER");
-    private JButton retourMenu = new JButton("Back To Menu");
+    // private JButton valid_edit = new JButton("VALIDER");
+    // private JButton retourMenu = new JButton("Back To Menu");
+    private JButton valid_edit = createButton("TO VALIDATE");
+    private JButton retourMenu = createButton("BACK TO MENU");
     private App app;
 
     public BoardEdit(Dimension dim) throws FontFormatException, IOException {
@@ -27,13 +32,10 @@ public class BoardEdit extends Board {
         listPath.add("ressources/peg-bleu.png");
         listPath.add("ressources/peg-bleu-rectangle.png");
         listPath.add("ressources/peg-soleil.png");
-       //listPath.add("ressources/peg-bleu-rectangle.png") ;
 
-        String path_font = "ressources/font_style/font.ttf";
-        InputStream is = MenuPrincipal.class.getResourceAsStream(path_font);
-        Font font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(25f);
-        valid_edit.setFont(font);
-        valid_edit.setBounds((int)(width/2),0,150,40);
+
+
+        valid_edit.setBounds((int)(width*0.40),0,325,50);
         add(valid_edit);
 
         popUp = new PopUp(listPath);
@@ -168,4 +170,55 @@ public class BoardEdit extends Board {
     public Editor getEditor() {
         return editor;
     }
+
+
+    private JButton createButton(String text){
+        JButton button = new JButton(text);
+  
+        String path_font = "ressources/font_style/font.ttf";
+        InputStream is ;
+        Font font ;
+  
+        try{
+          is = LevelMenu.class.getResourceAsStream(path_font);
+          font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
+          button.setFont(font);
+        }
+        catch(Exception e){
+          e.printStackTrace();
+        }
+        button.setFocusPainted(false);
+      
+        // 178,255,102
+        // 153,255,51
+        Color colorPrinciaple = new Color(153,255,51);
+        // Color colorPrinciaple = new Color(212,226,8);
+        Color colorClicked = new Color(165,176,3);
+        Color textColor = new Color(153,0,153);
+        button.setBackground(colorPrinciaple);
+        button.setForeground(textColor);
+  
+  
+        button.addMouseListener(new MouseAdapter() {
+          public void mouseEntered(MouseEvent e) {
+              button.setBackground(Color.WHITE);
+              button.setForeground(Color.BLACK);
+          }
+        });
+  
+        button.addMouseListener(new MouseAdapter() {
+          public void mouseExited(MouseEvent e) {
+              button.setBackground(colorPrinciaple);
+              button.setForeground(textColor);
+          }
+        });
+  
+        button.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e){
+            button.setBackground(colorClicked);
+          }
+        });
+  
+        return button;
+      }
 }
