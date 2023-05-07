@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class PegSoleil extends PegCercle {
@@ -16,7 +18,10 @@ public class PegSoleil extends PegCercle {
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel = new LabelPeg(imageIcon);
         jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) 2 * rayon, (int) 2 * rayon);
-
+        ArrayList<String> l = new ArrayList<String>();
+        l.add("ressources/audio/burn.mp3");
+        sound = new Sound(l);
+        sound.setFile(0);
     }
 
     @Override
@@ -46,7 +51,10 @@ public class PegSoleil extends PegCercle {
             imageIcon.setImage(imageIcon.getImage().getScaledInstance((int) (2 * rayon), (int) (2 * rayon),
                     java.awt.Image.SCALE_SMOOTH));
             jlabel.setIcon(imageIcon);
-        }
+        } else
+            return;
+
+        sound.play();
 
     }
 

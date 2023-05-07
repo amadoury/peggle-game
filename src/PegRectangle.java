@@ -208,9 +208,6 @@ public class PegRectangle extends Peg {
         double vecteurX = x;
         double vecteurY = y;
 
-        double normeVectPoint = (Math
-                .sqrt(Math.pow(vecteurX, 2) + Math.pow(vecteurY, 2)));
-
         double normeVectLargeur = (Math
                 .sqrt(Math.pow(vecteurLargeurX, 2) + Math.pow(vecteurLargeurY, 2)));
         double vectLargeurXNormalise = vecteurLargeurX / normeVectLargeur;

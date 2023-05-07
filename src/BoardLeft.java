@@ -30,6 +30,8 @@ public class BoardLeft extends JPanel implements MouseInputListener {
     private int positionScore;
     private int pegOrangeTouched;
 
+    private Sound sound;
+
     public BoardLeft(double width, double height) {
         this.width = width / 8.;
         this.height = height;

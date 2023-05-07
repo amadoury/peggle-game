@@ -7,6 +7,7 @@ public abstract class Peg {
     protected boolean destructed;
     protected LabelPeg jlabel;
     protected String player = "";
+    protected Sound sound;
 
     Peg(int x, int y, String c) {
         pegX = x;

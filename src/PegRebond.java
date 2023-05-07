@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class PegRebond extends PegCercle {
@@ -13,6 +15,10 @@ public class PegRebond extends PegCercle {
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel = new LabelPeg(imageIcon);
         jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) 2 * rayon, (int) 2 * rayon);
+        ArrayList<String> l = new ArrayList<String>();
+        l.add("ressources/audio/pegRebond.mp3");
+        sound = new Sound(l);
+        sound.setFile(0);
     }
 
     public void pegTouchdown() {
@@ -28,6 +34,7 @@ public class PegRebond extends PegCercle {
         imageIcon.setImage(
                 imageIcon.getImage().getScaledInstance((int) (3.5 * rayon), (int) (3.5 * rayon), Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
+        sound.play();
     }
 
 }
