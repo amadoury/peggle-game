@@ -322,8 +322,6 @@ public class Ball {
                     ((PegCercle) p).touchTimeStart();
                 }
                 p.pegTouchdown();
-                sound.setFile(1);
-                sound.play();
             }
 
             lastPegTouched = p;

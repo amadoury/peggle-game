@@ -66,6 +66,8 @@ public class PegCercle extends Peg {
         jlabel.setBounds((int) (pegX - 1.5 * rayon), (int) (pegY - 1.5 * rayon), (int) 3 * rayon, (int) 3 * rayon);
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(3 * rayon, 3 * rayon, Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
+        sound.setFile(0);
+        sound.play();
     }
 
     public void touchTimeStart() {
