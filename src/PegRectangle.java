@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -21,6 +23,7 @@ public class PegRectangle extends Peg {
     private double origineVecteurX;
     private double origineVecteurY;
     private BufferedImage imageLabel;
+    protected Timer timer = new Timer(5000, null);
 
     PegRectangle(int x, int y, double lo, double la, double angle, String c) {
         super(x, y, c);
@@ -28,6 +31,20 @@ public class PegRectangle extends Peg {
 
         largeur = (int) la;
         this.angle = angle;
+
+        ActionListener task = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                destructed = true;
+                delete();
+                timer.stop();
+            }
+
+        };
+        timer = new Timer(4000, task);
+        timer.setRepeats(false);
 
         vecteurLongueurX = Math.cos(angle) * longueur;
         vecteurLongueurY = Math.sin(angle) * longueur;
@@ -192,9 +209,6 @@ public class PegRectangle extends Peg {
         double vecteurX = x;
         double vecteurY = y;
 
-        double normeVectPoint = (Math
-                .sqrt(Math.pow(vecteurX, 2) + Math.pow(vecteurY, 2)));
-
         double normeVectLargeur = (Math
                 .sqrt(Math.pow(vecteurLargeurX, 2) + Math.pow(vecteurLargeurY, 2)));
         double vectLargeurXNormalise = vecteurLargeurX / normeVectLargeur;
@@ -236,6 +250,12 @@ public class PegRectangle extends Peg {
         // ImageIcon imageIcon = new ImageIcon(
         // PegRectangle.this.getClass().getResource("ressources/peg-" + color +
         // "-animation.gif"));
+        sound.setFile(0);
+        sound.play();
+    }
+
+    public void touchTimeStart() {
+        timer.start();
     }
 
 }

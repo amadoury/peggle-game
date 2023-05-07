@@ -1,28 +1,27 @@
-import java.awt.* ;
+import java.awt.*;
 import javax.swing.*;
-
 
 public class Main extends JFrame {
     private Dimension dim;
-    private JPanel mainPanel = new JPanel() ;
-    private CardLayout cardLayout = new CardLayout() ;
+    private JPanel mainPanel = new JPanel();
+    private CardLayout cardLayout = new CardLayout();
 
-    public Main(Dimension dim){
-        this.dim = dim ;
+    public Main(Dimension dim) {
+        this.dim = dim;
         mainPanel.setLayout(cardLayout);
 
-        MenuPrincipal menup = new MenuPrincipal(dim) ;
+        MenuPrincipal menup = new MenuPrincipal(dim);
         mainPanel.add(menup, "menup");
-        MenuLevel menuLevel = new MenuLevel(dim, cardLayout, mainPanel) ;
-        mainPanel.add(menuLevel, "menuLevel") ;
+        MenuLevel menuLevel = new MenuLevel(dim, cardLayout, mainPanel);
+        mainPanel.add(menuLevel, "menuLevel");
 
-        App appEdit = new App(dim, cardLayout, mainPanel) ;
-        mainPanel.add(appEdit, "appEdit") ;
+        App appEdit = new App(dim, cardLayout, mainPanel);
+        mainPanel.add(appEdit, "appEdit");
 
-        Tutorial tutorial = new Tutorial(dim, cardLayout, mainPanel) ;
-        mainPanel.add(tutorial, "tutorial") ;
+        Tutorial tutorial = new Tutorial(dim, cardLayout, mainPanel);
+        mainPanel.add(tutorial, "tutorial");
 
-        this.add(mainPanel) ;
+        this.add(mainPanel);
 
         cardLayout.show(mainPanel, "menup");
 
@@ -30,11 +29,11 @@ public class Main extends JFrame {
             cardLayout.show(mainPanel, "menuLevel");
         });
 
-        menup.tutoButton.addActionListener((event) ->{
+        menup.tutoButton.addActionListener((event) -> {
             cardLayout.show(mainPanel, "tutorial");
         });
 
-        menup.exitButton.addActionListener((event) ->{
+        menup.exitButton.addActionListener((event) -> {
             System.exit(1);
         });
 

@@ -3,9 +3,10 @@ import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-public class BoardRight extends JPanel implements MouseInputListener {
+public class BoardRight extends JPanel {
     private JLabel labelNumberBall;
     private JLabel labelImgBall;
     private int rayon = 0;
@@ -20,17 +21,49 @@ public class BoardRight extends JPanel implements MouseInputListener {
     private JLabel jlabel;
     // private ImageIcon imageIcon;
     private int ballY = 0;
-    private int positionCurrentBall = 0;
+    private int positionCurrentBall;
     private int pegTouchedNumber;
 
-    public BoardRight() {
+    public BoardRight(double width, double height) {
+        this.width = width / 8.;
+        this.height = height;
+
         listLabelBall = new ArrayList<JLabel>();
 
         setLayout(null);
 
         imageIconBall = new ImageIcon(this.getClass().getResource("ressources/ball.png"));
 
-        // jlabel.addMouseListener(this);
+        jlabel = new JLabel();
+        jlabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println(e.getY());
+                if (e.getY() > height * 2 / 3 + 50)
+                    System.out.println("DESXHDHUSIFEUHFHE");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+
+        });
         // addMouseMotionListener(this);
     }
 
@@ -56,8 +89,9 @@ public class BoardRight extends JPanel implements MouseInputListener {
         this.height = height;
         setSize((int) width, (int) height);
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBallsToFire.png"));
-        imageIcon.setImage(imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_SMOOTH));
-        jlabel = new LabelPeg(imageIcon);
+        imageIcon.setImage(
+                imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_SMOOTH));
+        jlabel.setIcon(imageIcon);
 
         jlabel.setBounds(0, 0, (int) width, (int) height);
     }
@@ -76,15 +110,16 @@ public class BoardRight extends JPanel implements MouseInputListener {
 
     public void setNombreBall(int nombreBall) {
         this.nombreBall = nombreBall;
+        positionCurrentBall = nombreBall;
     }
 
     public void initalisation() {
 
         ballY = 0;
-        for (int i = 0; i < nombreBall; i++) {
+        for (int i = 0; i < nombreBall + 1; i++) {
             labelImgBall = new JLabel(imageIconBall);
 
-            listLabelBall.add(0, labelImgBall);
+            listLabelBall.add(labelImgBall);
 
             labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3 - ballY), 2 * rayon,
                     2 * rayon);
@@ -103,7 +138,7 @@ public class BoardRight extends JPanel implements MouseInputListener {
         // remove(listLabelBall.get(0));
         // listLabelBall.remove(0);
         listLabelBall.get(positionCurrentBall).setVisible(false);
-        ++positionCurrentBall;
+        --positionCurrentBall;
         ballY -= 2 * rayon + 5;
         repaint();
         // setBackground(Color.WHITE);
@@ -117,13 +152,29 @@ public class BoardRight extends JPanel implements MouseInputListener {
     }
 
     public void trouFall() {
-        --positionCurrentBall;
+        // try {
+        // imageBoardRight =
+        // ImageIO.read(this.getClass().getResource("ressources/peggleBallsToFireFreeBall.gif"));
+        // // imageBoardRight =
+        // //
+        // ImageIO.read(this.getClass().getResource("ressources/peggleBarreScoreWithZero.png"));
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+
+        // labelImgBall = new JLabel(imageIconBall);
+        // listLabelBall.add(0, labelImgBall);
+        // labelImgBall.setBounds((int) (width / 2 - rayon / 1.5), (int) (height * 2 / 3
+        // - ballY), 2 * rayon,
+        // 2 * rayon);
+        ++positionCurrentBall;
         listLabelBall.get(positionCurrentBall).setVisible(true);
         ballY += 2 * rayon + 5;
 
         ++nombreBall;
         ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBallsToFireFreeBall.gif"));
-        imageIcon.setImage(imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_DEFAULT));
+        imageIcon.setImage(
+                imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
     }
 
@@ -143,42 +194,6 @@ public class BoardRight extends JPanel implements MouseInputListener {
     public void ballRestart() {
         pegTouchedNumber = -1;
         pegTouched();
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getY() > height * 2 / 3 + 50)
-            System.out.println("DESXHDHUSIFEUHFHE");
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
     }
 
 }

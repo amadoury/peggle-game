@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Peg {
 
     protected int pegX;
@@ -7,11 +9,13 @@ public abstract class Peg {
     protected boolean destructed;
     protected LabelPeg jlabel;
     protected String player = "";
+    protected Sound sound;
 
     Peg(int x, int y, String c) {
         pegX = x;
         pegY = y;
         color = c;
+        ArrayList<String> l = new ArrayList<String>();
     }
 
     public String toString() {
@@ -62,5 +66,11 @@ public abstract class Peg {
 
     public LabelPeg getLabelPeg() {
         return jlabel;
+    }
+
+    public void actualisePeg() {
+    }
+
+    public void touchTimeStart() {
     }
 }

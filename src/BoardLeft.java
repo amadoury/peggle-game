@@ -1,12 +1,14 @@
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class BoardLeft extends JPanel implements MouseInputListener {
@@ -21,15 +23,34 @@ public class BoardLeft extends JPanel implements MouseInputListener {
 
     private JLabel score = new JLabel();
     private int valScore = 0;
-    private JLabel jlabel;
+    private JLabel jlabel = new JLabel();
 
-    public BoardLeft() {
+    Timer timer;
+    private int totalPegOrange;
+    private int positionScore;
+    private int pegOrangeTouched;
 
-        setLayout(null);
+    private Sound sound;
+
+    public BoardLeft(double width, double height) {
+        this.width = width / 8.;
+        this.height = height;
+
+        // String path_font = "ressources/font_style/font.ttf";
+        // InputStream is;
+        // Font font;
+
+        // try {
+        //     is = LevelMenu.class.getResourceAsStream(path_font);
+        //     font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(25f);
+        //     score.setFont(font);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
         score.setText("" + valScore);
-        Font font = new Font("Verdana", Font.BOLD, 25);
-        score.setFont(font);
+        // Font font = new Font("Verdana", Font.BOLD, 25);
+        // score.setFont(font);
         score.setForeground(new Color(174, 222, 246));
         // score.setForeground(Color.WHITE);
         add(score);
@@ -58,14 +79,36 @@ public class BoardLeft extends JPanel implements MouseInputListener {
     public void setHeight(double height) {
         this.height = height;
         setSize((int) width, (int) height);
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBarreScore.png"));
+        ImageIcon imageIcon = new ImageIcon(
+                this.getClass().getResource("ressources/barreScore/peggleBarreScore-0.png"));
         imageIcon.setImage(
                 imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_SMOOTH));
-        jlabel = new JLabel(imageIcon);
+        jlabel.setIcon(imageIcon);
 
         jlabel.setBounds(0, 0, (int) width, (int) height);
         add(jlabel);
         score.setBounds((int) (width / 5 * 2), 3, 100, 25);
+
+        ActionListener task = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (positionScore < pegOrangeTouched * 26 / totalPegOrange && positionScore < 26) {
+                    ++positionScore;
+                    ImageIcon imageIcon = new ImageIcon(this.getClass()
+                            .getResource("ressources/barreScore/peggleBarreScore-" + positionScore + ".png"));
+                    imageIcon.setImage(
+                            imageIcon.getImage().getScaledInstance((int) width, (int) height,
+                                    java.awt.Image.SCALE_SMOOTH));
+                    jlabel.setIcon(imageIcon);
+                    System.out.println("POSITION SCORE &&&&&&&&&&" + positionScore + " " + width + " " + height);
+                    // jlabel.setBounds(0, 0, (int) width, (int) height);
+                }
+            }
+
+        };
+        timer = new Timer(50, task);
+        timer.setRepeats(true);
     }
 
     public void setWidth(double width) {
@@ -117,6 +160,23 @@ public class BoardLeft extends JPanel implements MouseInputListener {
     @Override
     public void mouseMoved(MouseEvent e) {
 
+    }
+
+    public void setTotalPegOrange(int totalPegOrange) {
+        this.totalPegOrange = totalPegOrange;
+    }
+
+    public void pegOrangeTouched() {
+        ++pegOrangeTouched;
+    }
+
+    public void restart() {
+        positionScore = 0;
+        timer.stop();
+    }
+
+    public void startTimer() {
+        timer.start();
     }
 
 }

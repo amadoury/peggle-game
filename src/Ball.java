@@ -1,8 +1,9 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -38,6 +39,7 @@ public class Ball {
     private Peg lastPegTouched;
     BufferedImage imageCurrent;
     private boolean multiPlayer;
+    private Timer timer;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm, boolean multiPlayer) {
         this.x_initial = x_initial;
@@ -48,6 +50,23 @@ public class Ball {
         boardModel = bm;
         nombreBall = nb;
         this.multiPlayer = multiPlayer;
+
+        // ActionListener task = new ActionListener() {
+
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+
+        // for (Peg p : boardModel.getGenerator().getPegListe()) {
+        // if (p instanceof PegCercle || p instanceof PegRectangle) {
+        // p.actualisePeg();
+        // }
+        // }
+        // }
+
+        // };
+        // timer = new Timer(1000, task);
+        // timer.setRepeats(true);
+
         // this.thetha = Math.toRadians(thetha) ;
         try {
             imageCurrent = ImageIO.read(this.getClass().getResource("ressources/ball.png"));
@@ -298,12 +317,13 @@ public class Ball {
             vitesseY *= 0.9;
 
             if (startBall) {
-                boardModel.scoreTouchPeg(p, true);
+                boardModel.touchPeg(p, true);
+                if (!p.touched) {
+                    ((PegCercle) p).touchTimeStart();
+                }
                 p.pegTouchdown();
-                sound.setFile(1);
-                sound.play();
             }
-        
+
             lastPegTouched = p;
             return true;
         }
@@ -407,7 +427,9 @@ public class Ball {
             lastPegTouched = p;
 
             if (startBall) {
-                boardModel.scoreTouchPeg(p, true);
+                boardModel.touchPeg(p, true);
+                if (!p.touched)
+                    ((PegRectangle) p).touchTimeStart();
                 p.pegTouchdown();
             }
 
@@ -424,4 +446,23 @@ public class Ball {
     public void setBoardIA(BoardIA bia) {
         this.boardIA = bia;
     }
+
+    // class Helper extends TimerTask {
+    // public static int i = 0;
+
+    // public void run() {
+    // System.out.println("Timer ran " + ++i);
+    // }
+    // }
+
+    // public class Test {
+    // public static void main(String[] args) {
+
+    // Timer timer = new Timer(0, null);
+    // TimerTask task = new Helper();
+
+    // timer.s
+
+    // }
+    // }
 }

@@ -3,17 +3,17 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class App extends JPanel {
-    
-    private Dimension dimensionFrame ;
 
-    private BoardRight right = new BoardRight();
-    private BoardLeft left = new BoardLeft();
+    private Dimension dimensionFrame;
 
-    //private JPanel right = new JPanel() ;
+    private BoardRight right;
+    private BoardLeft left;
+
+    // private JPanel right = new JPanel() ;
 
     private JPanel panelBoard;
     private BoardMain boardMain;
-    private BoardEdit boardEdit ;
+    private BoardEdit boardEdit;
 
     private double width;
     private double height;
@@ -21,42 +21,40 @@ public class App extends JPanel {
     private boolean isEditing = false;
     private CardLayout cardLayout;
     public Dimension dim;
-    public String path ;
+    public String path;
     public boolean multiPlayer;
 
-
-    public App(Dimension dim,String path , boolean multiPlayer) {
+    public App(Dimension dim, String path, boolean multiPlayer) {
         this.dim = dim;
-        this.path = path ;
-        this.multiPlayer = multiPlayer ;
-        left = new BoardLeft() ;
-        right = new BoardRight();
+        this.path = path;
+        this.multiPlayer = multiPlayer;
+        right = new BoardRight(dim.getWidth(), dim.getHeight());
+        left = new BoardLeft(dim.getWidth(), dim.getHeight());
         boardMain = new BoardMain(path, right, left, false);
         initUI();
     }
 
-    public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu){
-        this.dim = dim ;
-        try{
-            boardEdit = new BoardEdit(dim) ;
-        }
-        catch(Exception e){
+    public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu) {
+        this.dim = dim;
+        try {
+            boardEdit = new BoardEdit(dim);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         initUIBoardEdit();
 
-        JButton buttonRetour = new JButton("Back To Menu") ;
+        JButton buttonRetour = new JButton("Back To Menu");
         buttonRetour.setBounds(10, 10, 200, 40);
 
         buttonRetour.addActionListener((event) -> {
-            cdLMenu.show(panelMenu, "menup") ;
+            cdLMenu.show(panelMenu, "menup");
         });
 
         this.add(buttonRetour);
         boardEdit.setApp(this);
     }
 
-    public void initUIBoardEdit(){
+    public void initUIBoardEdit() {
         cardLayout = new CardLayout();
         panelBoard = new JPanel();
         panelBoard.setLayout(cardLayout);
@@ -68,13 +66,13 @@ public class App extends JPanel {
 
         setLayout(null);
         this.add(panelBoard);
-        //this.add(right);
-        //this.add(left);
+        // this.add(right);
+        // this.add(left);
         panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
-        //right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
-        //left.setBounds(0, 0, (int) xStart, (int) height);
+        // right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
+        // left.setBounds(0, 0, (int) xStart, (int) height);
 
-        //this.addComponentListener(new ResizeListener());
+        // this.addComponentListener(new ResizeListener());
     }
 
     private void initUI() {
@@ -86,7 +84,6 @@ public class App extends JPanel {
         width = (6. / 8.) * dim.getWidth();
         height = dim.getHeight();
         double xStart = (1. / 8.) * dim.getWidth();
-
         setLayout(null);
         this.add(panelBoard);
         this.add(right);
@@ -99,8 +96,8 @@ public class App extends JPanel {
         setParams(boardMain);
         right.setWidth(dim.getWidth());
         right.setHeight(dim.getHeight());
-
         right.initalisation();
+
         left.setWidth(dim.getWidth());
         left.setHeight(dim.getHeight());
 
