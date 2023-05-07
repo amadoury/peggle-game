@@ -83,8 +83,10 @@ public class BoardModel {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
-        if (gameOver)
+        if (gameOver) {
             board.requestFocus();
+            left.restart();
+        }
     }
 
     public PegGenerator getGenerator() {
@@ -104,8 +106,16 @@ public class BoardModel {
     public void setBallStart(boolean b) {
         boolean wasStarted = ball.isBallStart();
 
-        if (ball.setStartBall(b) && b && !wasStarted)
+        if (ball.setStartBall(b) && b && !wasStarted) {
             right.ballUsed();
+            int orange = 0;
+            for (Peg p : generator.getPegListe()) {
+                if (p.getColor().equals("orange"))
+                    ++orange;
+            }
+            left.setTotalPegOrange(orange);
+            left.startTimer();
+        }
     }
 
     public boolean contact() {
@@ -148,7 +158,7 @@ public class BoardModel {
         right.ballRestart();
     }
 
-    public void scoreTouchPeg(Peg p, boolean b) {
+    public void touchPeg(Peg p, boolean b) {
         if (p.touched)
             return;
         right.pegTouched();
@@ -158,11 +168,13 @@ public class BoardModel {
             else
                 score2 += 10;
         }
-        if (p.color.equals("orange"))
+        if (p.color.equals("orange")) {
             if (b)
                 score1 += 100;
             else
                 score2 += 100;
+            left.pegOrangeTouched();
+        }
         left.upgradeScore(score1);
     }
 

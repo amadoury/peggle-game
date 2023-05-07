@@ -18,7 +18,6 @@ public class PegCercle extends Peg {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // actualisePeg();
 
                 destructed = true;
                 delete();

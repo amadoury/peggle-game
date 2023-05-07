@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -21,7 +23,12 @@ public class BoardLeft extends JPanel implements MouseInputListener {
 
     private JLabel score = new JLabel();
     private int valScore = 0;
-    private JLabel jlabel;
+    private JLabel jlabel = new JLabel();
+
+    Timer timer;
+    private int totalPegOrange;
+    private int positionScore;
+    private int pegOrangeTouched;
 
     public BoardLeft(double width, double height) {
         this.width = width / 8.;
@@ -36,7 +43,6 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         // score.setForeground(Color.WHITE);
         add(score);
 
-        System.out.println(getHeight());
     }
 
     // public BoardLeft() {
@@ -62,14 +68,36 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         this.height = height;
         System.out.println(getWidth());
         setSize((int) width, (int) height);
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peggleBarreScore.png"));
+        ImageIcon imageIcon = new ImageIcon(
+                this.getClass().getResource("ressources/barreScore/peggleBarreScore-0.png"));
         imageIcon.setImage(
                 imageIcon.getImage().getScaledInstance((int) width, (int) height, java.awt.Image.SCALE_SMOOTH));
-        jlabel = new JLabel(imageIcon);
+        jlabel.setIcon(imageIcon);
 
         jlabel.setBounds(0, 0, (int) width, (int) height);
         add(jlabel);
         score.setBounds((int) (width / 5 * 2), 3, 100, 25);
+
+        ActionListener task = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (positionScore < pegOrangeTouched * 26 / totalPegOrange && positionScore < 26) {
+                    ++positionScore;
+                    ImageIcon imageIcon = new ImageIcon(this.getClass()
+                            .getResource("ressources/barreScore/peggleBarreScore-" + positionScore + ".png"));
+                    imageIcon.setImage(
+                            imageIcon.getImage().getScaledInstance((int) width, (int) height,
+                                    java.awt.Image.SCALE_SMOOTH));
+                    jlabel.setIcon(imageIcon);
+                    System.out.println("POSITION SCORE &&&&&&&&&&" + positionScore + " " + width + " " + height);
+                    // jlabel.setBounds(0, 0, (int) width, (int) height);
+                }
+            }
+
+        };
+        timer = new Timer(50, task);
+        timer.setRepeats(true);
     }
 
     public void setWidth(double width) {
@@ -122,6 +150,23 @@ public class BoardLeft extends JPanel implements MouseInputListener {
     @Override
     public void mouseMoved(MouseEvent e) {
 
+    }
+
+    public void setTotalPegOrange(int totalPegOrange) {
+        this.totalPegOrange = totalPegOrange;
+    }
+
+    public void pegOrangeTouched() {
+        ++pegOrangeTouched;
+    }
+
+    public void restart() {
+        positionScore = 0;
+        timer.stop();
+    }
+
+    public void startTimer() {
+        timer.start();
     }
 
 }

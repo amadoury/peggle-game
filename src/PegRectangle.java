@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -28,6 +30,20 @@ public class PegRectangle extends Peg {
         longueur = (int) lo;
         largeur = (int) la;
         this.angle = angle;
+
+        ActionListener task = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                destructed = true;
+                delete();
+                timer.stop();
+            }
+
+        };
+        timer = new Timer(4000, task);
+        timer.setRepeats(false);
 
         vecteurLongueurX = Math.cos(angle) * longueur;
         vecteurLongueurY = Math.sin(angle) * longueur;
@@ -240,14 +256,6 @@ public class PegRectangle extends Peg {
 
     public void touchTimeStart() {
         timer.start();
-    }
-
-    public void actualisePeg() {
-        if (timer.isRunning()) {
-            timer.stop();
-            destructed = true;
-            delete();
-        }
     }
 
 }

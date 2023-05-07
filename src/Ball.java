@@ -317,7 +317,7 @@ public class Ball {
             vitesseY *= 0.9;
 
             if (startBall) {
-                boardModel.scoreTouchPeg(p, true);
+                boardModel.touchPeg(p, true);
                 if (!p.touched) {
                     ((PegCercle) p).touchTimeStart();
                 }
@@ -429,7 +429,7 @@ public class Ball {
             lastPegTouched = p;
 
             if (startBall) {
-                boardModel.scoreTouchPeg(p, true);
+                boardModel.touchPeg(p, true);
                 if (!p.touched)
                     ((PegRectangle) p).touchTimeStart();
                 p.pegTouchdown();

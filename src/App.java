@@ -120,8 +120,8 @@ public class App extends JPanel {
         setParams(boardMain);
         right.setWidth(dim.getWidth());
         right.setHeight(dim.getHeight());
-
         right.initalisation();
+
         left.setWidth(dim.getWidth());
         left.setHeight(dim.getHeight());
 
