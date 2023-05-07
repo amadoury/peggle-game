@@ -15,8 +15,6 @@ import javax.swing.SwingUtilities;
 import java.util.Scanner;
 import java.util.Timer;
 
-import javax.swing.*;
-
 public class BoardMain extends Board implements KeyListener {
 
     private Timer timer;
@@ -38,15 +36,11 @@ public class BoardMain extends Board implements KeyListener {
     private boolean multiPlayer;
 
     public BoardMain(String filePath, BoardRight right, BoardLeft left, boolean multiPlayer) {
-        // super(dim);
-        // System.out.println(Toolkit.getDefaultToolkit());
+        super((int) filePath.charAt(22) - (int) '0');
         this.right = right;
         this.left = left;
         this.multiPlayer = multiPlayer;
         initBoard(filePath);
-
-        // width = dim.getWidth();
-        // height = dim.getHeight() ;
 
         this.addKeyListener(this);
         this.setFocusable(true);
@@ -76,19 +70,18 @@ public class BoardMain extends Board implements KeyListener {
     public void loadPegOnBoardWithFile(String path) {
         try {
             ArrayList<Peg> listPeg = new ArrayList<Peg>();
+            double reso = resolutionScreen / 100;
             File file = new File(this.getClass().getResource(path).toURI());
             Scanner scanner = new Scanner(file);
             scanner.useDelimiter("\n");
 
             while (scanner.hasNext()) {
                 String[] tabRows = scanner.next().split("/");
-                double reso = resolutionScreen / 100;
-                switch (tabRows[3].substring(0, tabRows[3].length() - 1)) {
+                switch (tabRows[3]) {
                     case "PegCercle":
                         listPeg.add(new PegCercle((int) (Double.parseDouble(tabRows[0]) * width / reso),
                                 (int) (Double.parseDouble(tabRows[1]) * height / reso),
                                 boardModel.getGenerator().getRadius(), tabRows[2]));
-
                         break;
                     case "PegSoleil":
                         listPeg.add(new PegSoleil((int) (Double.parseDouble(tabRows[0]) * width / reso),
@@ -327,9 +320,6 @@ public class BoardMain extends Board implements KeyListener {
     public void setWidthScreen(double w) {
         // double var = w - (2.0 / 8.0) * w;
         double var = (6. / 8.0) * w;
-        System.out.println(var + " var");
-        System.out.println(w + "width ");
-
         width = var;
         boardModel.setWidthBoard(var);
     }
@@ -373,7 +363,6 @@ public class BoardMain extends Board implements KeyListener {
 
         if (key == KeyEvent.VK_ENTER) {
             if (commandKey == 0) {
-                System.out.println("Retry");
 
                 for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); i++) {
                     this.remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg());
@@ -391,7 +380,6 @@ public class BoardMain extends Board implements KeyListener {
 
             if (commandKey == 2) {
                 app.getCardLayout().show(app.getPanelBoard(), "levelMenu");
-                System.out.println("cardLayout");
             }
         }
     }

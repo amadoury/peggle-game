@@ -1,8 +1,0 @@
-1004/365/orange/PegCercle
-952/473/bleu/PegRectangle
-344/428/bleu/PegCercle
-832/488/bleu/PegRectangle
-515/382/orange/PegCercle
-657/586/bleu/PegCercle
-409/518/bleu/PegCercle
-741/621/orange/PegCercle

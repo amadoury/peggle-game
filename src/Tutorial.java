@@ -4,18 +4,18 @@ import javax.swing.border.EmptyBorder;
 import java.awt.* ;
 import java.util.ArrayList;
 
-public class Intro extends JPanel {
+public class Tutorial extends JPanel {
     public ArrayList<Page> listPage = new ArrayList<Page>() ;
     public int width, height ;
 
-    public Intro(Dimension dim){
+    public Tutorial(Dimension dim, CardLayout cdlMenu, JPanel mainPanel){
         this.setPreferredSize(dim);
 
         /* for the first page */
         ArrayList<String> textPage1  = new ArrayList<String>();
 
         textPage1.add("Welcome to Peggle Game") ;
-        String text1 = "<html><h2> L'objectif du jeu est : </h2> <ul><li>Détruire tous les pegs en orange.</li><li>Vous avez 10 balles pour les détruire, si vous les épuisez et qu'il reste encore des pegs orange alors vous avez perdu</li> </ul></html>"; 
+        String text1 = "<html><h2> L'objectif du jeu est : </h2> <ul><li>Détruire tous les Pegs Orange.</li><li>Vous avez 10 balles pour les détruire, si vous les épuisez et qu'il reste encore des pegs orange alors vous avez perdu</li> </ul></html>"; 
         textPage1.add(text1);
         listPage.add(new Page(textPage1, "ressources/img-intro-1.png", false));
     
@@ -48,6 +48,11 @@ public class Intro extends JPanel {
 
         listPage.get(0).forward.addActionListener((event) -> {
             cardLayout.show(panelPage, "page2");
+        });
+
+
+        listPage.get(0).backward.addActionListener((event) -> {
+            cdlMenu.show(mainPanel, "menup") ;
         });
 
         listPage.get(1).backward.addActionListener((event) -> {
@@ -110,7 +115,7 @@ public class Intro extends JPanel {
 
             forward.setBackground(Color.LIGHT_GRAY);
             backward.setBackground(Color.LIGHT_GRAY);
-            ImageIcon imgforward = new ImageIcon(this.getClass().getResource("ressources/fleche-droite.png"));
+            ImageIcon imgforward = new ImageIcon(this.getClass().getResource("ressources/fleche-droite1.png"));
             Image imagef = imgforward.getImage();
             Image newimgf = imagef.getScaledInstance(25, 15 ,java.awt.Image.SCALE_SMOOTH);
 
@@ -129,7 +134,7 @@ public class Intro extends JPanel {
                 panelEnd.add(launch);
             }
 
-            ImageIcon imgbackward = new ImageIcon(this.getClass().getResource("ressources/fleche-gauche.png"));
+            ImageIcon imgbackward = new ImageIcon(this.getClass().getResource("ressources/fleche-gauche1.png"));
             Image imageb = imgbackward.getImage();
             Image newimgb = imageb.getScaledInstance(25, 15 ,java.awt.Image.SCALE_SMOOTH);
            
@@ -154,5 +159,3 @@ public class Intro extends JPanel {
         }
     }
 }
-
-

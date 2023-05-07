@@ -1,4 +1,3 @@
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -9,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class BoardLeft extends JPanel implements MouseInputListener {
@@ -36,11 +36,21 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         this.width = width / 8.;
         this.height = height;
 
-        setLayout(null);
+        String path_font = "ressources/font_style/font.ttf";
+        InputStream is;
+        Font font;
+
+        try {
+            is = LevelMenu.class.getResourceAsStream(path_font);
+            font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(25f);
+            score.setFont(font);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         score.setText("" + valScore);
-        Font font = new Font("Verdana", Font.BOLD, 25);
-        score.setFont(font);
+        // Font font = new Font("Verdana", Font.BOLD, 25);
+        // score.setFont(font);
         score.setForeground(new Color(174, 222, 246));
         // score.setForeground(Color.WHITE);
         add(score);
@@ -68,7 +78,6 @@ public class BoardLeft extends JPanel implements MouseInputListener {
 
     public void setHeight(double height) {
         this.height = height;
-        System.out.println(getWidth());
         setSize((int) width, (int) height);
         ImageIcon imageIcon = new ImageIcon(
                 this.getClass().getResource("ressources/barreScore/peggleBarreScore-0.png"));
@@ -124,7 +133,6 @@ public class BoardLeft extends JPanel implements MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println(e.getY());
         if (e.getY() > height * 2 / 3 + 50)
             System.out.println("DESXHDHUSIFEUHFHE");
     }
