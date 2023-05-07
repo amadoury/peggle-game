@@ -14,7 +14,9 @@ public class MenuLevel extends JPanel{
     private CardLayout cardLayout ;
     private CardLayout cdLayoutMain ;
     private JPanel mainPanel ;
-    Page page ;
+    private ArrayList<Page> listPage = new ArrayList<Page>() ;
+    private ArrayList<Button> listButtonLevels = new ArrayList<Button>() ;
+
 
     public MenuLevel(Dimension dim, CardLayout cdLayout, JPanel mainPanel){
         this.dim = dim ;
@@ -26,14 +28,20 @@ public class MenuLevel extends JPanel{
 
         this.setLayout(cardLayout);
 
-        page = new Page("ressources/bcg-menu-level.jpg", 1) ;
+        Page page1 = new Page("ressources/bcg-menu-level.jpg", 1, 1, 9) ;
+        listPage.add(page1) ;
 
-        this.add(page, "page");
-    
+        Page page2 = new Page("ressources/bcg-menu-level.jpg", 2, 10, 12) ;
+        listPage.add(page2);
 
-        cardLayout.show(this, "page") ;
+        this.add(listPage.get(0), "page1");
+        this.add(listPage.get(1), "page2");
 
-        page.setBounds(0,0, (int)dim.getWidth(), (int)dim.getHeight());
+        
+
+        cardLayout.show(this, "page1") ;
+
+        listPage.get(0).setBounds(0,0, (int)dim.getWidth(), (int)dim.getHeight());
 
     }
 
@@ -41,7 +49,7 @@ public class MenuLevel extends JPanel{
         private Button avancer ;
         private Button retourner ;
         private String text = "Select Level" ;
-        private Button iaToggle = new Button() ;
+        private Button iaToggle ;
         int xText ;
         int yText ;
 
@@ -49,11 +57,11 @@ public class MenuLevel extends JPanel{
 
         private Graphics2D g2d ;
         private Image bckImage ;
-        ArrayList<Button> listButtonLevels = new ArrayList<Button>() ;
 
         private JLabel labelInfoIA = new JLabel("Turn On to Play with IA") ;
 
-        public Page(String path, int n){
+        public Page(String path, int n, int deb, int fin){
+            iaToggle = new Button(n) ;
 
             avancer = new Button("ressources/fleche-droite1.png", true, "avancer", n);
             retourner = new Button("ressources/fleche-gauche1.png", true, "retour", n);
@@ -79,8 +87,8 @@ public class MenuLevel extends JPanel{
             int xStart = (int)((2. / 8.) * dim.getWidth()) + 100;
             int yStart = (int)((1. / 5.) * dim.getHeight());
 
-            for(int i = 1; i < 10; i++){
-                listButtonLevels.add(new Button("ressources/img-levels.png", "ressources/level/level"+i+".txt", i)) ;
+            for(int i = deb; i <= fin ; i++){
+                listButtonLevels.add(new Button("ressources/img-level-"+ i + ".png", "ressources/level/level"+i+".txt", i)) ;
                 this.add(listButtonLevels.get(i - 1));
             }
             
@@ -88,7 +96,7 @@ public class MenuLevel extends JPanel{
             int part = (int)(widthBis / 3.) ;
 
 
-            for(int i = 0; i < 9; i += 3){
+            for(int i = deb - 1 ; i < fin ; i += 3){
                 listButtonLevels.get(i).setBounds(xStart, yStart, 175, 155) ;
                 listButtonLevels.get(i+1).setBounds(xStart + part , yStart,175, 155);
                 listButtonLevels.get(i+2).setBounds(xStart + 2 * part , yStart,175, 155);
@@ -141,7 +149,8 @@ public class MenuLevel extends JPanel{
         private String type;
         private int nbPage;
 
-        public Button(){
+        public Button(int n){
+            this.nbPage = n ;
             type = "ia";
             imgIcon = new ImageIcon(this.getClass().getResource("ressources/ia-off.png")) ;
             this.setIcon(imgIcon);
@@ -176,7 +185,7 @@ public class MenuLevel extends JPanel{
             String text = status ? "Turn Off To Play Without IA" : "Turn On To Play With IA"  ;
             imgIcon = new ImageIcon(this.getClass().getResource("ressources/ia-"+ str +".png")) ;
             this.setIcon(imgIcon);
-            page.labelInfoIA.setText(text) ;
+            listPage.get(nbPage - 1).labelInfoIA.setText(text) ;
         }
 
         @Override
@@ -190,6 +199,12 @@ public class MenuLevel extends JPanel{
             }
             else if (type.equals("retour") && nbPage == 1){
                 cdLayoutMain.show(mainPanel, "menup");
+            }
+            else if (type.equals("avancer") && nbPage == 1){
+                cardLayout.show(MenuLevel.this, "page2");
+            }
+            else if (type.equals("retour") && nbPage == 2){
+                cardLayout.show(MenuLevel.this, "page1");
             }
         }
 

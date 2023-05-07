@@ -26,7 +26,7 @@ public class Main extends JFrame {
 
         cardLayout.show(mainPanel, "menup");
 
-        menup.playButton.addActionListener((event) ->{
+        menup.playButton.addActionListener((event) -> {
             cardLayout.show(mainPanel, "menuLevel");
         });
 
@@ -41,6 +41,7 @@ public class Main extends JFrame {
         menup.editButton.addActionListener((event) -> {
             cardLayout.show(mainPanel, "appEdit");
         });
+
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

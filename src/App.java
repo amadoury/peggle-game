@@ -53,7 +53,7 @@ public class App extends JPanel {
         });
 
         this.add(buttonRetour);
-
+        boardEdit.setApp(this);
     }
 
     public void initUIBoardEdit(){
