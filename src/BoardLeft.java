@@ -1,4 +1,3 @@
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -22,14 +21,26 @@ public class BoardLeft extends JPanel implements MouseInputListener {
     private JLabel score = new JLabel();
     private int valScore = 0;
     private JLabel jlabel;
+    import java.io.InputStream;
 
     public BoardLeft() {
 
-        setLayout(null);
+        String path_font = "ressources/font_style/font.ttf";
+        InputStream is ;
+        Font font ;
+
+        try{
+            is = LevelMenu.class.getResourceAsStream(path_font);
+            font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(25f);
+            score.setFont(font);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
         score.setText("" + valScore);
-        Font font = new Font("Verdana", Font.BOLD, 25);
-        score.setFont(font);
+        // Font font = new Font("Verdana", Font.BOLD, 25);
+        // score.setFont(font);
         score.setForeground(new Color(174, 222, 246));
         // score.setForeground(Color.WHITE);
         add(score);
