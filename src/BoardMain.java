@@ -77,6 +77,9 @@ public class BoardMain extends Board implements KeyListener {
 
             while (scanner.hasNext()) {
                 String[] tabRows = scanner.next().split("/");
+                if (tabRows[3].charAt(tabRows[3].length() - 1) == '\r')
+                    tabRows[3] = tabRows[3].substring(0, tabRows[3].length() - 1);
+
                 switch (tabRows[3]) {
                     case "PegCercle":
                         listPeg.add(new PegCercle((int) (Double.parseDouble(tabRows[0]) * width / reso),
