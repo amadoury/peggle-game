@@ -36,13 +36,23 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         this.width = width / 8.;
         this.height = height;
 
+        // String path_font = "ressources/font_style/font.ttf";
+        // InputStream is;
+        // Font font;
+
+        // try {
+        // is = LevelMenu.class.getResourceAsStream(path_font);
+        // font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(25f);
+        // score.setFont(font);
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+
         setLayout(null);
 
         score.setText("" + valScore);
-        Font font = new Font("Verdana", Font.BOLD, 25);
-        score.setFont(font);
+        score.setFont(new Font("Verdana", Font.BOLD, 25));
         score.setForeground(new Color(174, 222, 246));
-        // score.setForeground(Color.WHITE);
         add(score);
 
     }

@@ -7,6 +7,9 @@ public class Main extends JFrame {
     private CardLayout cardLayout = new CardLayout();
 
     public Main(Dimension dim) {
+        // setDefaultLookAndFeelDecorated(true);
+        // setExtendedState(MAXIMIZED_BOTH);
+        // setVisible(true);
         this.dim = dim;
         mainPanel.setLayout(cardLayout);
 
