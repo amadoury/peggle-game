@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public abstract class Peg {
 
     protected int pegX;
@@ -15,7 +13,6 @@ public abstract class Peg {
         pegX = x;
         pegY = y;
         color = c;
-        ArrayList<String> l = new ArrayList<String>();
     }
 
     public String toString() {

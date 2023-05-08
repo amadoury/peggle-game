@@ -180,7 +180,7 @@ public class BoardEdit extends Board {
         Font font ;
   
         try{
-          is = LevelMenu.class.getResourceAsStream(path_font);
+          is = this.getClass().getResourceAsStream(path_font);
           font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
           button.setFont(font);
         }

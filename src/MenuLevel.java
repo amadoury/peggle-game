@@ -16,6 +16,8 @@ public class MenuLevel extends JPanel {
     private JPanel mainPanel ;
     private ArrayList<Page> listPage = new ArrayList<Page>() ;
     private ArrayList<Button> listButtonLevels = new ArrayList<Button>() ;
+    private CardLayout cardLayLevels = new CardLayout() ;
+    private JPanel panelLevels = new JPanel() ;
 
 
     public MenuLevel(Dimension dim, CardLayout cdLayout, JPanel mainPanel) {
@@ -34,15 +36,20 @@ public class MenuLevel extends JPanel {
         Page page2 = new Page("ressources/bcg-menu-level.jpg", 2, 10, 12) ;
         listPage.add(page2);
 
+        panelLevels.setLayout(cardLayLevels);
+
         this.add(listPage.get(0), "page1");
         this.add(listPage.get(1), "page2");
-
-        
+        //this.add(panelLevels,  "panelLevels");
 
         cardLayout.show(this, "page1") ;
+        //cardLayout.first(this);
 
         listPage.get(0).setBounds(0,0, (int)dim.getWidth(), (int)dim.getHeight());
+    }
 
+    public void moveCdLToPage1(){
+        cardLayout.show(this, "page1") ;
     }
 
     public class Page extends JPanel{
@@ -109,7 +116,7 @@ public class MenuLevel extends JPanel {
             InputStream is;
 
             try {
-                is = LevelMenu.class.getResourceAsStream(path_font);
+                is = this.getClass().getResourceAsStream(path_font);
                 font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(65f);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -172,8 +179,9 @@ public class MenuLevel extends JPanel {
         public Button(String pathImg, String pathLevel, int n) {
             this(pathImg, false, "bLevel", n);
             this.nLevel = n;
-            app = new App(dim, pathLevel, isMultiplayer);
+            app = new App(dim, pathLevel, isMultiplayer, cdLayoutMain, mainPanel, MenuLevel.this);
             MenuLevel.this.add(app, "app" + n);
+            //panelLevels.add(app, "app"+n);
         }
 
         public void changeImg(boolean status) {

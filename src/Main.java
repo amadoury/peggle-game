@@ -41,7 +41,6 @@ public class Main extends JFrame {
             cardLayout.show(mainPanel, "appEdit");
         });
 
-
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

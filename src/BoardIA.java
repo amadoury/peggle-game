@@ -11,8 +11,8 @@ public class BoardIA extends BoardMain {
     private String playerTurn;
     private boolean showText = true;
 
-    public BoardIA(String path, BoardRight right, BoardLeft left) {
-        super(path, right, left, true);
+    public BoardIA(String path, BoardRight right, BoardLeft left, CardLayout cardLayout, JPanel mainPanel, MenuLevel menuLevel) {
+        super(path, right, left, true, cardLayout, mainPanel, menuLevel);
         // boardModel = new BoardModelIA((int)resolutionScreen, this , right, left);
         int n = ThreadLocalRandom.current().nextInt(0, 2);
         currentPlayer = n == 0 ? true : false;

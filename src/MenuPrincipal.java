@@ -66,7 +66,7 @@ public class MenuPrincipal extends JPanel {
       Font font ;
 
       try{
-        is = LevelMenu.class.getResourceAsStream(path_font);
+        is = this.getClass().getResourceAsStream(path_font);
         font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(57f);
         button.setFont(font);
       }

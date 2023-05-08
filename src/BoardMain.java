@@ -10,6 +10,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import java.util.Scanner;
@@ -34,11 +35,17 @@ public class BoardMain extends Board implements KeyListener {
 
     // private double time = 0.015;
     private boolean multiPlayer;
+    private CardLayout cardLayout ;
+    private JPanel mainPanel ;
+    private MenuLevel menuLevel;
 
-    public BoardMain(String filePath, BoardRight right, BoardLeft left, boolean multiPlayer) {
+    public BoardMain(String filePath, BoardRight right, BoardLeft left, boolean multiPlayer, CardLayout cdLayout, JPanel mainPanel, MenuLevel menuLevel) {
         super((int) filePath.charAt(22) - (int) '0');
+        this.cardLayout = cdLayout; 
+        this.mainPanel = mainPanel ;
         this.right = right;
         this.left = left;
+        this.menuLevel = menuLevel ;
         this.multiPlayer = multiPlayer;
         initBoard(filePath);
 
@@ -227,7 +234,7 @@ public class BoardMain extends Board implements KeyListener {
         /* rety */
 
         g2d.setFont(g2d.getFont().deriveFont(50f));
-        text = "Retry";
+        text = "Menu Principal";
         x = getXforCenteredText(text);
         y += 2 * y;
         g2d.drawString(text, x, y);
@@ -236,7 +243,7 @@ public class BoardMain extends Board implements KeyListener {
         }
 
         /* back */
-        text = "Quit";
+        text = "Menu Level";
         x = getXforCenteredText(text);
         y += 55;
 
@@ -247,7 +254,7 @@ public class BoardMain extends Board implements KeyListener {
         }
 
         /* go to menuLevel */
-        text = "Levels";
+        text = "Quit";
         x = getXforCenteredText(text);
         y += 55;
 
@@ -366,23 +373,18 @@ public class BoardMain extends Board implements KeyListener {
 
         if (key == KeyEvent.VK_ENTER) {
             if (commandKey == 0) {
-
-                for (int i = 0; i < boardModel.getGenerator().getPegListe().size(); i++) {
-                    this.remove(boardModel.getGenerator().getPegListe().get(i).getLabelPeg());
-                }
-
-                boardModel.setPegGenerator(new PegGenerator(Toolkit.getDefaultToolkit().getScreenResolution(), 20));
-                loadPegOnBoard(boardModel.getGenerator());
-                boardModel.setGameOver(false);
+                // retour to menu princiapl 
+                menuLevel.moveCdLToPage1();
+                cardLayout.show(mainPanel, "menup");
             }
             if (commandKey == 1) {
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-                frame.dispose();
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                //retour au menu Level
+                menuLevel.moveCdLToPage1();
+                cardLayout.show(mainPanel, "menuLevel");
             }
 
             if (commandKey == 2) {
-                app.getCardLayout().show(app.getPanelBoard(), "levelMenu");
+                System.exit(1);
             }
         }
     }

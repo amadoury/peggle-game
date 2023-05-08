@@ -292,7 +292,8 @@ public class Ball {
                     resetBall(true);
                     p.pegTouchdown();
                 }
-
+                sound.setFile(3);
+                sound.play();
             }
             lastPegTouched = p;
             return true;
@@ -304,8 +305,14 @@ public class Ball {
                 vitesseX *= 1.3;
                 vitesseY *= 1.3;
                 p.pegTouchdown();
-
             }
+            
+            if (startBall){
+                sound.setFile(2);
+                sound.play();
+            }
+
+
             lastPegTouched = p;
             return true;
         }
@@ -321,8 +328,13 @@ public class Ball {
                 if (!p.touched) {
                     ((PegCercle) p).touchTimeStart();
                 }
+
+                sound.setFile(1);
+                sound.play();
+
                 p.pegTouchdown();
             }
+
 
             lastPegTouched = p;
             return true;

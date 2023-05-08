@@ -15,10 +15,6 @@ public class PegRebond extends PegCercle {
         imageIcon = new ImageIcon(newimg); // transform it back
         jlabel = new LabelPeg(imageIcon);
         jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) 2 * rayon, (int) 2 * rayon);
-        ArrayList<String> l = new ArrayList<String>();
-        l.add("ressources/audio/pegRebond.wav");
-        sound = new Sound(l);
-        sound.setFile(0);
     }
 
     public void pegTouchdown() {
