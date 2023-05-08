@@ -50,6 +50,9 @@ public class BoardModel {
         board.add(trou.getJlabel());
         ArrayList<String> paths = new ArrayList<String>();
         paths.add("ressources/audio/shot.wav");
+        paths.add("ressources/audio/rebond.wav") ;
+        paths.add("ressources/audio/pegRebond.wav") ;
+        paths.add("ressources/audio/burn.wav") ;
         sound = new Sound(paths);
         right.setRayon((int) (20 / resolutionScreen));
         right.setNombreBall(nombreBall);

@@ -17,20 +17,19 @@ public class App extends JPanel {
 
     private double width;
     private double height;
-    private LevelMenu levelMenu;
     private boolean isEditing = false;
     private CardLayout cardLayout;
     public Dimension dim;
     public String path;
     public boolean multiPlayer;
 
-    public App(Dimension dim, String path, boolean multiPlayer) {
+    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel) {
         this.dim = dim;
         this.path = path;
         this.multiPlayer = multiPlayer;
-        right = new BoardRight(dim.getWidth(), dim.getHeight());
+        right = new BoardRight(dim.getWidth(), dim.getHeight(),  cdLMenu, panelMenu, menuLevel);
         left = new BoardLeft(dim.getWidth(), dim.getHeight());
-        boardMain = new BoardMain(path, right, left, false);
+        boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
         initUI();
     }
 
@@ -51,7 +50,7 @@ public class App extends JPanel {
         });
 
         this.add(buttonRetour);
-
+        boardEdit.setApp(this);
     }
 
     public void initUIBoardEdit() {
@@ -112,10 +111,6 @@ public class App extends JPanel {
 
     public JPanel getPanelBoard() {
         return panelBoard;
-    }
-
-    public LevelMenu getLevelMenu() {
-        return levelMenu;
     }
 
     public CardLayout getCardLayout() {

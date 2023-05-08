@@ -24,7 +24,7 @@ public class BoardRight extends JPanel {
     private int positionCurrentBall;
     private int pegTouchedNumber;
 
-    public BoardRight(double width, double height) {
+    public BoardRight(double width, double height, CardLayout cdLayMenu, JPanel mainPanel, MenuLevel menuLevel) {
         this.width = width / 8.;
         this.height = height;
 
@@ -44,8 +44,14 @@ public class BoardRight extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 System.out.println(e.getY());
-                if (e.getY() > height * 2 / 3 + 50)
-                    System.out.println("DESXHDHUSIFEUHFHE");
+                if (e.getY() > height - 100){
+                    
+                    int result = JOptionPane.showConfirmDialog(null,"Do you want to go to Menu Level ?", "Warning !", JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION){
+                        menuLevel.moveCdLToPage1();
+                        cdLayMenu.show(mainPanel, "menuLevel") ;
+                    }
+                }
             }
 
             @Override

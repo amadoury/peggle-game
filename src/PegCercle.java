@@ -58,16 +58,9 @@ public class PegCercle extends Peg {
         touched = true;
         ImageIcon imageIcon = new ImageIcon(
                 PegCercle.this.getClass().getResource("ressources/peg-" + color + "-animation.gif"));
-        // Image image = imageIcon.getImage(); // transform it
-        // Image newimg = image.getScaledInstance(rayon * 2, rayon * 2,
-        // java.awt.Image.SCALE_SMOOTH); // scale it the
-        // // smooth way
-        // imageIcon = new ImageIcon(newimg); // transform it back
         jlabel.setBounds((int) (pegX - 1.5 * rayon), (int) (pegY - 1.5 * rayon), (int) 3 * rayon, (int) 3 * rayon);
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(3 * rayon, 3 * rayon, Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
-        sound.setFile(0);
-        sound.play();
     }
 
     public void touchTimeStart() {
