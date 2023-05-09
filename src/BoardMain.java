@@ -175,7 +175,8 @@ public class BoardMain extends Board implements KeyListener {
 
         showFireWorksOnScreen();
 
-        if (boardModel.getLeft().barreMax()) {
+        if (boardModel.getLeft().barreMax()
+                || (boardModel.getRight().noBalls() && !boardModel.getBall().isBallStart())) {
 
             boardModel.setGameOver(true);
             // drawGameOverScreen();
@@ -189,8 +190,12 @@ public class BoardMain extends Board implements KeyListener {
             }
 
             boardModel.getTrou().setMove(false);
-            if (!multiPlayer)
-                drawGameWiningScreen("YOU WON");
+            if (!multiPlayer) {
+                if (boardModel.getLeft().barreMax())
+                    drawGameWiningScreen("YOU WON");
+                else
+                    drawGameWiningScreen("YOU LOST");
+            }
         }
 
     }

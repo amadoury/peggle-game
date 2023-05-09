@@ -223,4 +223,8 @@ public class BoardRight extends JPanel {
         pegTouched();
     }
 
+    public boolean noBalls() {
+        return positionCurrentBall == -1;
+    }
+
 }

@@ -226,4 +226,8 @@ public class BoardModel {
     public BoardLeft getLeft() {
         return left;
     }
+
+    public BoardRight getRight() {
+        return right;
+    }
 }
