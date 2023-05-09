@@ -69,8 +69,8 @@ public class MenuLevel extends JPanel {
         public Page(String path, int n, int deb, int fin) {
             iaToggle = new Button(n);
 
-            avancer = new Button("ressources/fleche-droite1.png", true, "avancer", n);
-            retourner = new Button("ressources/fleche-gauche1.png", true, "retour", n);
+            avancer = new Button("ressources/fleche-droite.png", true, "avancer", n);
+            retourner = new Button("ressources/fleche-gauche.png", true, "retour", n);
 
             this.setLayout(null);
 
@@ -93,7 +93,8 @@ public class MenuLevel extends JPanel {
 
             for (int i = deb; i <= fin; i++) {
                 listButtonLevels.add(
-                        new Button("ressources/img-level-" + i + ".png", "ressources/level/level" + i + ".txt", i));
+                        new Button("ressources/levelBoutons/img-level-" + i + ".png",
+                                "ressources/level/level" + i + ".txt", i));
                 this.add(listButtonLevels.get(i - 1));
             }
 
@@ -109,14 +110,14 @@ public class MenuLevel extends JPanel {
             }
 
             avancer.setBounds((int) (dim.getWidth() - 120), (int) ((1. / 5.) * dim.getHeight()) + 200, 100, 100);
-            retourner.setBounds(20, (int) ((1. / 5.) * dim.getHeight()) + 200, 200, 100);
+            retourner.setBounds(20, (int) ((1. / 5.) * dim.getHeight()) + 200, 100, 100);
 
-            String path_font = "ressources/font_style/Roboto-BlackItalic.ttf";
+            String path_font = "ressources/font_style/Gorditas-Regular.ttf";
             InputStream is;
 
             try {
                 is = this.getClass().getResourceAsStream(path_font);
-                font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(65f);
+                font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(120f);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -126,10 +127,10 @@ public class MenuLevel extends JPanel {
         public void paintComponent(Graphics g) {
             g2d = (Graphics2D) g;
 
-            g2d.setColor(Color.WHITE);
+            g2d.setColor(new Color(249, 234, 230));
             g2d.setFont(font);
             xText = getXforCenteredText("Select Level");
-            yText = 75;
+            yText = 110;
 
             g2d.drawImage(bckImage, 0, 0, (int) dim.getWidth(), (int) dim.getHeight(), null, null);
             g2d.drawString(text, xText, yText);
@@ -150,17 +151,21 @@ public class MenuLevel extends JPanel {
         private boolean status = true;
         private String type;
         private int nbPage;
+        String path;
+        String pathLight;
 
         public Button(int n) {
+            path = "ressources/ia-off.png";
             this.nbPage = n;
             type = "ia";
-            imgIcon = new ImageIcon(this.getClass().getResource("ressources/ia-off.png"));
+            imgIcon = new ImageIcon(this.getClass().getResource(path));
             this.setIcon(imgIcon);
             iaButton = true;
             addMouseListener(this);
         }
 
         public Button(String path, boolean resizeImg, String type, int i) {
+            this.path = path;
             imgIcon = new ImageIcon(this.getClass().getResource(path));
             this.type = type;
             this.nbPage = i;
@@ -171,7 +176,6 @@ public class MenuLevel extends JPanel {
             }
             this.setIcon(imgIcon);
             addMouseListener(this);
-            this.setToolTipText("Appuyer pour desactiver l'IA");
 
         }
 
@@ -218,8 +222,11 @@ public class MenuLevel extends JPanel {
         @Override
         public void mouseEntered(MouseEvent e) {
             setCursor(new Cursor(Cursor.HAND_CURSOR));
-            if (type.equals("bLevel")) {
 
+            if (type.equals("bLevel")) {
+                imgIcon = new ImageIcon(
+                        this.getClass().getResource("ressources/levelBoutons/img-level-light-" + nLevel + ".png"));
+                this.setIcon(imgIcon);
             } else if (iaButton) {
                 // JLabel info = new JLabel("Info");
 
@@ -232,11 +239,27 @@ public class MenuLevel extends JPanel {
             } else if (type.equals("retour") && nbPage == 1) {
                 this.setToolTipText("Appuyer pour retourner au Menu Principal");
             }
+
+            if (type.equals("retour") || type.equals("avancer")) {
+                imgIcon = new ImageIcon(
+                        this.getClass().getResource(path.substring(0, path.length() - 4) + "-touched.png"));
+                this.setIcon(imgIcon);
+                Image img = imgIcon.getImage();
+                Image newImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                imgIcon.setImage(newImg);
+            }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            imgIcon = new ImageIcon(this.getClass().getResource(path));
+            this.setIcon(imgIcon);
+            if (type.equals("retour") || type.equals("avancer")) {
+                Image img = imgIcon.getImage();
+                Image newImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                imgIcon.setImage(newImg);
+            }
         }
     }
 }
