@@ -1,26 +1,36 @@
-import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class BoardIA extends BoardMain {
     private Player player1 = new Player();
-    private Player player2 = new Player();
+    private Player playerIA = new Player();
+    private JLabel labelScore1 = new JLabel("Votre Score : " + player1.getScore()) ;
+    private JLabel labelScoreIA = new JLabel("Score de l'IA : " + playerIA.getScore()) ;
     private boolean currentPlayer; // true si c'est le tour du player1 sinon false
     private Graphics2D g2d;
     private String playerTurn;
     private boolean showText = true;
 
-    public BoardIA(String path, BoardRight right, BoardLeft left, CardLayout cardLayout, JPanel mainPanel, MenuLevel menuLevel) {
+    public BoardIA(String path, BoardRight right, BoardLeft left, CardLayout cardLayout, JPanel mainPanel, MenuLevel menuLevel, Dimension dim) {
         super(path, right, left, true, cardLayout, mainPanel, menuLevel);
-        // boardModel = new BoardModelIA((int)resolutionScreen, this , right, left);
-        int n = ThreadLocalRandom.current().nextInt(0, 2);
-        currentPlayer = n == 0 ? true : false;
+
+        currentPlayer = true ;
         boardModel.getBall().setBoardIA(this);
+
+        int xS1 = (int)(dim.getWidth() * 1. / 8.) + 100 ; 
+        int xSIA = (int)(dim.getWidth() * 1. / 2.) + 100 ;
+        int yS = 10 ;
+        this.add(labelScore1);
+        this.add(labelScoreIA);
+        labelScore1.setBounds(xS1, yS, 300, 50);
+        labelScoreIA.setBounds(xSIA, yS, 300, 50);
+        boardModel.getBall().setPlayer1(player1);
+        boardModel.getBall().setPlayerIA(playerIA);
     }
 
     public void printPlayerTurnOnScreen() {
-        playerTurn = currentPlayer ? "Tour du Player 1" : "Tour du Player 2";
+        playerTurn = currentPlayer ? "Votre Tour" : "Tour de l'IA";
         int x = getXforCenteredText(playerTurn);
         g2d.drawString(playerTurn, x, 500);
     }
@@ -33,7 +43,35 @@ public class BoardIA extends BoardMain {
             renderPlayerTurn();
         }
 
-        // left.updateScore(player1.getScore(), player2.getScore());
+        labelScore1.setText("Votre Score : " + player1.getScore());
+        labelScoreIA.setText("Score de l'IA : " + playerIA.getScore());
+        boardModel.getBall().setCurrentPlayer(!currentPlayer);
+
+
+        if (!currentPlayer) {
+            //System.out.println("tour de l'ia");
+            Point p = new Point(300, 300) ;
+            double normeVect = (Math.sqrt(Math.pow(p.getX() - getBounds().getWidth() / 2, 2) + Math.pow(p.getY() - 50, 2)));
+            boardModel.getBall().setVitesseX((p.getX() - getBounds().getWidth() / 2) / normeVect);
+            boardModel.getBall().setVitesseY(p.getY() / normeVect);
+            // boardModel.setBallStart(true);
+            // currentPlayer = !currentPlayer ;
+        }
+
+        if (!boardModel.getGenerator().hasOrangePeg()){
+            String str ;
+            if (player1.getScore() < playerIA.getScore()){
+                str = "IA WIN";
+            }
+            else if (player1.getScore() > playerIA.getScore()){
+                str = "YOU WIN" ;
+            }
+            else{
+                str = "EQUALITY" ;
+            }
+            System.out.println("1 : " + player1.getScore() + " 2 : "+playerIA.getScore());
+            drawGameWiningScreen(str);
+        }
     }
 
     public void renderPlayerTurn() {
@@ -44,8 +82,10 @@ public class BoardIA extends BoardMain {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        super.mousePressed(e);
-        currentPlayer = !currentPlayer;
+        if (currentPlayer && !boardModel.getBall().isBallStart()){
+            currentPlayer = !currentPlayer;
+            super.mousePressed(e);
+        }
     }
 
     public boolean getCurrentPlayer() {

@@ -69,7 +69,8 @@ public class LoadingScreen extends JFrame {
         Main main = new Main(dim);
         main.setVisible(true);
 
-        try {
+
+        try{
             Thread.sleep(100);
         } catch (Exception e) {
             e.printStackTrace();

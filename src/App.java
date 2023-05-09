@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class App extends JPanel {
 
@@ -14,6 +20,7 @@ public class App extends JPanel {
     private JPanel panelBoard;
     private BoardMain boardMain;
     private BoardEdit boardEdit;
+    private BoardIA boardIA ;
 
     private double width;
     private double height;
@@ -22,14 +29,25 @@ public class App extends JPanel {
     public Dimension dim;
     public String path;
     public boolean multiPlayer;
+    private MenuLevel menuLevel ;
+    private  boolean isValidate ;
 
-    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel) {
+    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel){
         this.dim = dim;
         this.path = path;
         this.multiPlayer = multiPlayer;
         right = new BoardRight(dim.getWidth(), dim.getHeight(),  cdLMenu, panelMenu, menuLevel);
         left = new BoardLeft(dim.getWidth(), dim.getHeight());
         boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
+        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim) ;
+
+        // if (!multiPlayer){
+        //     boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
+        // }
+        // else{
+        //     boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel) ;
+        // }
+
         initUI();
     }
 
@@ -45,15 +63,49 @@ public class App extends JPanel {
         JButton buttonRetour = new JButton("Back To Menu");
         buttonRetour.setBounds(10, 10, 200, 40);
 
+        JButton buttonPlay = new JButton("Play") ;
+        
+        isValidate = false;
+        buttonPlay.setBounds(10, 70, 100, 40);
+
+        if (!isValidate){
+            buttonPlay.setEnabled(false);
+        }
+
+
+        boardEdit.valid_edit.addActionListener((event) -> {
+            boardEdit.WriteLevelText();
+            buttonPlay.setEnabled(true);
+            isValidate = true ;
+        });
+
+        buttonPlay.addActionListener((event) -> {
+            try{
+                //FileSystems.getDefault()
+                File file = new File("ressources/level/ediit1.txt") ;
+                if (file.exists()){
+                   // Files.move(Paths.get(this.getClass().getResource("ediit1.txt").toURI()), Paths.get(this.getClass().getResource("ressources/level/").toURI()), StandardCopyOption.REPLACE_EXISTING);
+                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel) ;
+                    menuLevel.add(app, "appEdit") ;
+                    cdLMenu.show(menuLevel, "appEdit") ;
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }); 
+
+
         buttonRetour.addActionListener((event) -> {
             cdLMenu.show(panelMenu, "menup");
         });
 
         this.add(buttonRetour);
+        this.add(buttonPlay);
         boardEdit.setApp(this);
     }
 
-    public void initUIBoardEdit() {
+    public void initUIBoardEdit(){
         cardLayout = new CardLayout();
         panelBoard = new JPanel();
         panelBoard.setLayout(cardLayout);
@@ -66,12 +118,7 @@ public class App extends JPanel {
 
         setLayout(null);
         this.add(panelBoard);
-        // this.add(right);
-        // this.add(left);
         panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
-        // right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
-        // left.setBounds(0, 0, (int) xStart, (int) height);
-
         // this.addComponentListener(new ResizeListener());
     }
 
@@ -80,20 +127,35 @@ public class App extends JPanel {
         panelBoard = new JPanel();
         panelBoard.setLayout(cardLayout);
         panelBoard.add(boardMain, "boardMain");
+        panelBoard.add(boardIA, "boardIA");
 
         width = (6. / 8.) * dim.getWidth();
         height = dim.getHeight();
         double xStart = (1. / 8.) * dim.getWidth();
         setLayout(null);
+
         this.add(panelBoard);
         this.add(right);
         this.add(left);
+
+        if (multiPlayer){
+            cardLayout.show(panelBoard, "boardIA");
+        }
+        else{
+            cardLayout.show(panelBoard, "boardMain");
+        }
 
         panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
         right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
         left.setBounds(0, 0, (int) xStart, (int) height);
 
-        setParams(boardMain);
+        if (!multiPlayer){
+            setParams(boardMain);
+        }
+        else{
+            setParams(boardIA);
+        }
+
         right.setWidth(dim.getWidth());
         right.setHeight(dim.getHeight());
         right.initalisation();

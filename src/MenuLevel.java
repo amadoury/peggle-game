@@ -151,8 +151,8 @@ public class MenuLevel extends JPanel {
         private boolean status = true;
         private String type;
         private int nbPage;
-        String path;
-        String pathLight;
+        private String path;
+        private String pathLevel;
 
         public Button(int n) {
             path = "ressources/ia-off.png";
@@ -182,8 +182,10 @@ public class MenuLevel extends JPanel {
         public Button(String pathImg, String pathLevel, int n) {
             this(pathImg, false, "bLevel", n);
             this.nLevel = n;
-            app = new App(dim, pathLevel, isMultiplayer, cdLayoutMain, mainPanel, MenuLevel.this);
-            MenuLevel.this.add(app, "app" + n);
+            this.pathLevel = pathLevel;
+            // app = new App(dim, pathLevel, isMultiplayer , cdLayoutMain, mainPanel,
+            // MenuLevel.this);
+            // MenuLevel.this.add(app, "app" + n);
             // panelLevels.add(app, "app"+n);
         }
 
@@ -198,9 +200,13 @@ public class MenuLevel extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (type.equals("bLevel")) {
+                System.out.println("ismultiplayer dans menuLvele" + isMultiplayer);
+                app = new App(dim, pathLevel, isMultiplayer, cdLayoutMain, mainPanel, MenuLevel.this);
+                MenuLevel.this.add(app, "app" + nLevel);
                 cardLayout.show(MenuLevel.this, "app" + nLevel);
             } else if (iaButton) {
                 changeImg(status);
+                isMultiplayer = status;
                 status = !status;
             } else if (type.equals("retour") && nbPage == 1) {
                 cdLayoutMain.show(mainPanel, "menup");

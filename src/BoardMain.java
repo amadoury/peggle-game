@@ -241,7 +241,7 @@ public class BoardMain extends Board implements KeyListener {
         /* rety */
 
         g2d.setFont(g2d.getFont().deriveFont(50f));
-        text = "Menu Principal";
+        text = "Menu";
         x = getXforCenteredText(text);
         y += 2 * y;
         g2d.drawString(text, x, y);
@@ -250,7 +250,7 @@ public class BoardMain extends Board implements KeyListener {
         }
 
         /* back */
-        text = "Menu Level";
+        text = "Level";
         x = getXforCenteredText(text);
         y += 55;
 
