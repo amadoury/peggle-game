@@ -40,10 +40,10 @@ public class MenuPrincipal extends JPanel {
     double w = width * reso;
     double h = height * reso;
 
-    playButton.setBounds((int) (w * 0.42), (int) (h * 0.30), (int) (360 * reso), (int) (95 * reso));
-    tutoButton.setBounds((int) (w * 0.42), (int) (h * 0.42), (int) (360 * reso), (int) (95 * reso));
-    editButton.setBounds((int) (w * 0.42), (int) (h * 0.54), (int) (360 * reso), (int) (95 * reso));
-    exitButton.setBounds((int) (w * 0.42), (int) (h * 0.66), (int) (360 * reso), (int) (95 * reso));
+    playButton.setBounds((int) (w * 0.42), (int) (h * 0.30), (int) (360 * reso), (int) (85 * reso));
+    tutoButton.setBounds((int) (w * 0.42), (int) (h * 0.42), (int) (360 * reso), (int) (85 * reso));
+    editButton.setBounds((int) (w * 0.42), (int) (h * 0.54), (int) (360 * reso), (int) (85 * reso));
+    exitButton.setBounds((int) (w * 0.42), (int) (h * 0.66), (int) (360 * reso), (int) (85 * reso));
 
     ButtonPanel.add(playButton);
     ButtonPanel.add(tutoButton);
@@ -88,6 +88,7 @@ public class MenuPrincipal extends JPanel {
     button.addMouseListener(new MouseAdapter() {
       public void mouseEntered(MouseEvent e) {
         button.setBackground(Color.WHITE);
+        button.setColor(Color.WHITE);
         button.setForeground(Color.BLACK);
       }
     });
@@ -95,6 +96,7 @@ public class MenuPrincipal extends JPanel {
     button.addMouseListener(new MouseAdapter() {
       public void mouseExited(MouseEvent e) {
         button.setBackground(colorPrinciaple);
+        button.setColor(colorPrinciaple);
         button.setForeground(textColor);
       }
     });
@@ -102,6 +104,7 @@ public class MenuPrincipal extends JPanel {
     button.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         button.setBackground(colorClicked);
+        button.setColor(colorClicked);
       }
     });
 
@@ -110,10 +113,13 @@ public class MenuPrincipal extends JPanel {
 
   public class menuBouton extends JButton {
 
+    private Color color;
+
     public menuBouton() {
       setBorder(new EmptyBorder(10, 10, 10, 10));
       setContentAreaFilled(false);
       setCursor(new Cursor(Cursor.HAND_CURSOR));
+      color = new Color(153, 255, 51);
     }
 
     public menuBouton(String s) {
@@ -129,7 +135,13 @@ public class MenuPrincipal extends JPanel {
       int height = getHeight() - 1;
       g2.draw(new RoundRectangle2D.Double(0, 0, width, height, height, height));
       g2.dispose();
+      g.setColor(color);
+      g.fillRoundRect(0, 0, getSize().width, getSize().height, 80, 80);
       super.paintComponent(g);
+    }
+
+    public void setColor(Color color) {
+      this.color = color;
     }
   }
 }
