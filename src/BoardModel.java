@@ -26,7 +26,7 @@ public class BoardModel {
 
     private Sound sound;
     protected BoardRight right;
-
+    private boolean multiPlayer ;
     private int score;
 
     public BoardModel(int resolutionScreen, BoardMain board, BoardRight right, BoardLeft left, boolean multiPlayer) {
@@ -34,6 +34,7 @@ public class BoardModel {
         this.board = board;
         this.right = right;
         this.left = left;
+        this.multiPlayer = multiPlayer ;
         initBoardModel();
     }
 
@@ -42,7 +43,7 @@ public class BoardModel {
         canon = new Canon(0, 25, 70 / resolutionScreen);
         xInitBall = canon.getCanonX();
         yInitBall = canon.getCanonY();
-        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), nombreBall, this, false);
+        ball = new Ball(xInitBall, yInitBall, angleChute, (int) (20 / resolutionScreen), nombreBall, this, multiPlayer);
         generator = new PegGenerator(resolutionScreen, 20);
         trou = new Trou(144, 12, this, resolutionScreen);// meilleure dimension : longeur = 12 x
                                                          // largeur
@@ -53,6 +54,7 @@ public class BoardModel {
         paths.add("ressources/audio/rebond.wav") ;
         paths.add("ressources/audio/pegRebond.wav") ;
         paths.add("ressources/audio/burn.wav") ;
+
         sound = new Sound(paths);
         right.setRayon((int) (20 / resolutionScreen));
         right.setNombreBall(nombreBall);

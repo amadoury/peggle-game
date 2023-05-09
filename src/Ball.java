@@ -40,6 +40,9 @@ public class Ball {
     BufferedImage imageCurrent;
     private boolean multiPlayer;
     private Timer timer;
+    private Player player1 ;
+    private Player playerIA ;
+    private boolean currentPlayer ;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm, boolean multiPlayer) {
         this.x_initial = x_initial;
@@ -332,6 +335,19 @@ public class Ball {
                 sound.setFile(1);
                 sound.play();
 
+                if (multiPlayer){
+                    if (currentPlayer){
+                        if (p.color.equals("orange") && !p.touched){
+                            player1.incrementeScore();
+                        }
+                    }
+                    else {
+                        if (p.color.equals("orange") && !p.touched){
+                            playerIA.incrementeScore();
+                        }
+                    }
+                }
+
                 p.pegTouchdown();
             }
 
@@ -457,6 +473,22 @@ public class Ball {
 
     public void setBoardIA(BoardIA bia) {
         this.boardIA = bia;
+    }
+
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+
+    public void setPlayerIA(Player playerIA) {
+        this.playerIA = playerIA;
+    }
+
+    public void setCurrentPlayer(boolean currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setMultiPlayer(boolean multiPlayer) {
+        this.multiPlayer = multiPlayer;
     }
 
     // class Helper extends TimerTask {

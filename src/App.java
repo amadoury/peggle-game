@@ -14,6 +14,7 @@ public class App extends JPanel {
     private JPanel panelBoard;
     private BoardMain boardMain;
     private BoardEdit boardEdit;
+    private BoardIA boardIA ;
 
     private double width;
     private double height;
@@ -23,13 +24,22 @@ public class App extends JPanel {
     public String path;
     public boolean multiPlayer;
 
-    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel) {
+    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel){
         this.dim = dim;
         this.path = path;
         this.multiPlayer = multiPlayer;
         right = new BoardRight(dim.getWidth(), dim.getHeight(),  cdLMenu, panelMenu, menuLevel);
         left = new BoardLeft(dim.getWidth(), dim.getHeight());
         boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
+        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim) ;
+
+        // if (!multiPlayer){
+        //     boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
+        // }
+        // else{
+        //     boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel) ;
+        // }
+
         initUI();
     }
 
@@ -53,7 +63,7 @@ public class App extends JPanel {
         boardEdit.setApp(this);
     }
 
-    public void initUIBoardEdit() {
+    public void initUIBoardEdit(){
         cardLayout = new CardLayout();
         panelBoard = new JPanel();
         panelBoard.setLayout(cardLayout);
@@ -65,12 +75,7 @@ public class App extends JPanel {
 
         setLayout(null);
         this.add(panelBoard);
-        // this.add(right);
-        // this.add(left);
         panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
-        // right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
-        // left.setBounds(0, 0, (int) xStart, (int) height);
-
         // this.addComponentListener(new ResizeListener());
     }
 
@@ -79,20 +84,35 @@ public class App extends JPanel {
         panelBoard = new JPanel();
         panelBoard.setLayout(cardLayout);
         panelBoard.add(boardMain, "boardMain");
+        panelBoard.add(boardIA, "boardIA");
 
         width = (6. / 8.) * dim.getWidth();
         height = dim.getHeight();
         double xStart = (1. / 8.) * dim.getWidth();
         setLayout(null);
+
         this.add(panelBoard);
         this.add(right);
         this.add(left);
+
+        if (multiPlayer){
+            cardLayout.show(panelBoard, "boardIA");
+        }
+        else{
+            cardLayout.show(panelBoard, "boardMain");
+        }
 
         panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
         right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
         left.setBounds(0, 0, (int) xStart, (int) height);
 
-        setParams(boardMain);
+        if (!multiPlayer){
+            setParams(boardMain);
+        }
+        else{
+            setParams(boardIA);
+        }
+
         right.setWidth(dim.getWidth());
         right.setHeight(dim.getHeight());
         right.initalisation();

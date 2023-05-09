@@ -67,7 +67,6 @@ public class LoadingScreen extends JFrame {
         main.setVisible(true);
 
 
-
         try{
             Thread.sleep(100);
         }
