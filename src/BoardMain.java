@@ -35,17 +35,18 @@ public class BoardMain extends Board implements KeyListener {
 
     // private double time = 0.015;
     private boolean multiPlayer;
-    private CardLayout cardLayout ;
-    private JPanel mainPanel ;
+    private CardLayout cardLayout;
+    private JPanel mainPanel;
     private MenuLevel menuLevel;
 
-    public BoardMain(String filePath, BoardRight right, BoardLeft left, boolean multiPlayer, CardLayout cdLayout, JPanel mainPanel, MenuLevel menuLevel) {
+    public BoardMain(String filePath, BoardRight right, BoardLeft left, boolean multiPlayer, CardLayout cdLayout,
+            JPanel mainPanel, MenuLevel menuLevel) {
         super((int) filePath.charAt(22) - (int) '0');
-        this.cardLayout = cdLayout; 
-        this.mainPanel = mainPanel ;
+        this.cardLayout = cdLayout;
+        this.mainPanel = mainPanel;
         this.right = right;
         this.left = left;
-        this.menuLevel = menuLevel ;
+        this.menuLevel = menuLevel;
         this.multiPlayer = multiPlayer;
         initBoard(filePath);
 
@@ -174,7 +175,8 @@ public class BoardMain extends Board implements KeyListener {
 
         showFireWorksOnScreen();
 
-        if (!boardModel.getGenerator().hasOrangePeg()) {
+        if (boardModel.getLeft().barreMax()) {
+
             boardModel.setGameOver(true);
             // drawGameOverScreen();
 
@@ -373,12 +375,12 @@ public class BoardMain extends Board implements KeyListener {
 
         if (key == KeyEvent.VK_ENTER) {
             if (commandKey == 0) {
-                // retour to menu princiapl 
+                // retour to menu princiapl
                 menuLevel.moveCdLToPage1();
                 cardLayout.show(mainPanel, "menup");
             }
             if (commandKey == 1) {
-                //retour au menu Level
+                // retour au menu Level
                 menuLevel.moveCdLToPage1();
                 cardLayout.show(mainPanel, "menuLevel");
             }

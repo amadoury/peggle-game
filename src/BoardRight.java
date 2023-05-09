@@ -4,6 +4,7 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 public class BoardRight extends JPanel {
@@ -44,12 +45,13 @@ public class BoardRight extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 System.out.println(e.getY());
-                if (e.getY() > height - 100){
-                    
-                    int result = JOptionPane.showConfirmDialog(null,"Do you want to go to Menu Level ?", "Warning !", JOptionPane.YES_NO_OPTION);
-                    if (result == JOptionPane.YES_OPTION){
+                if (Math.pow(e.getX() - 90, 2) + Math.pow(e.getY() + 60 - height, 2) < 50 * 50) {
+
+                    int result = JOptionPane.showConfirmDialog(null, "Do you want to go to Menu Level ?", "Warning !",
+                            JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
                         menuLevel.moveCdLToPage1();
-                        cdLayMenu.show(mainPanel, "menuLevel") ;
+                        cdLayMenu.show(mainPanel, "menuLevel");
                     }
                 }
             }
@@ -67,6 +69,23 @@ public class BoardRight extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
 
+            }
+
+        });
+        jlabel.addMouseMotionListener(new MouseMotionListener() {
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (Math.pow(e.getX() - 90, 2) + Math.pow(e.getY() + 60 - height, 2) < 50 * 50)
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                else
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
 
         });
@@ -116,13 +135,13 @@ public class BoardRight extends JPanel {
 
     public void setNombreBall(int nombreBall) {
         this.nombreBall = nombreBall;
-        positionCurrentBall = nombreBall;
+        positionCurrentBall = nombreBall - 1;
     }
 
     public void initalisation() {
 
         ballY = 0;
-        for (int i = 0; i < nombreBall + 1; i++) {
+        for (int i = 0; i < nombreBall + 5; i++) {
             labelImgBall = new JLabel(imageIconBall);
 
             listLabelBall.add(labelImgBall);
@@ -133,6 +152,8 @@ public class BoardRight extends JPanel {
             ballY += 2 * rayon + 5;
 
             add(labelImgBall);
+            if (i >= nombreBall)
+                labelImgBall.setVisible(false);
             // labelImgBall.setLocation(new Point(50, 50));
         }
         add(jlabel);

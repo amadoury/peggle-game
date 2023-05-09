@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class BoardLeft extends JPanel implements MouseInputListener {
+public class BoardLeft extends JPanel {
     private JLabel labelNumberBall;
     private JLabel labelPeg;
     private JLabel labelButton;
@@ -126,42 +126,6 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         // setBackground(Color.WHITE);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getY() > height * 2 / 3 + 50)
-            System.out.println("DESXHDHUSIFEUHFHE");
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-
     public void setTotalPegOrange(int totalPegOrange) {
         this.totalPegOrange = totalPegOrange;
     }
@@ -170,13 +134,12 @@ public class BoardLeft extends JPanel implements MouseInputListener {
         ++pegOrangeTouched;
     }
 
-    public void restart() {
-        positionScore = 0;
-        timer.stop();
-    }
-
     public void startTimer() {
         timer.start();
+    }
+
+    public boolean barreMax() {
+        return positionScore == 26;
     }
 
 }

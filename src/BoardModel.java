@@ -19,13 +19,14 @@ public class BoardModel {
     private double widthBoard;
     private double heightBoard;
     private boolean gameOver = false;
-    protected BoardLeft left;
+
     int score1 = 0;
     int score2 = 0;
     private int nombreBall = 9;
 
     private Sound sound;
     protected BoardRight right;
+    protected BoardLeft left;
 
     private int score;
 
@@ -50,9 +51,9 @@ public class BoardModel {
         board.add(trou.getJlabel());
         ArrayList<String> paths = new ArrayList<String>();
         paths.add("ressources/audio/shot.wav");
-        paths.add("ressources/audio/rebond.wav") ;
-        paths.add("ressources/audio/pegRebond.wav") ;
-        paths.add("ressources/audio/burn.wav") ;
+        paths.add("ressources/audio/rebond.wav");
+        paths.add("ressources/audio/pegRebond.wav");
+        paths.add("ressources/audio/burn.wav");
         sound = new Sound(paths);
         right.setRayon((int) (20 / resolutionScreen));
         right.setNombreBall(nombreBall);
@@ -87,7 +88,6 @@ public class BoardModel {
         this.gameOver = gameOver;
         if (gameOver) {
             board.requestFocus();
-            left.restart();
         }
     }
 
@@ -221,5 +221,9 @@ public class BoardModel {
     public void trouFall() {
         right.trouFall();
         ++nombreBall;
+    }
+
+    public BoardLeft getLeft() {
+        return left;
     }
 }
