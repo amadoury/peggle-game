@@ -40,18 +40,11 @@ public class App extends JPanel {
         left = new BoardLeft(dim.getWidth(), dim.getHeight());
         boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
         boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim) ;
-
-        // if (!multiPlayer){
-        //     boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
-        // }
-        // else{
-        //     boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel) ;
-        // }
-
         initUI();
     }
 
-    public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu) {
+    public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, Main main) {
+        this.menuLevel = menuLevel ;
         this.dim = dim;
         try {
             boardEdit = new BoardEdit(dim);
@@ -81,13 +74,16 @@ public class App extends JPanel {
 
         buttonPlay.addActionListener((event) -> {
             try{
-                //FileSystems.getDefault()
-                File file = new File("ressources/level/ediit1.txt") ;
+                File file = new File("src/ressources/level/ediit1.txt") ;
                 if (file.exists()){
-                   // Files.move(Paths.get(this.getClass().getResource("ediit1.txt").toURI()), Paths.get(this.getClass().getResource("ressources/level/").toURI()), StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("hello text");
                     App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel) ;
-                    menuLevel.add(app, "appEdit") ;
-                    cdLMenu.show(menuLevel, "appEdit") ;
+                    panelMenu.add(app, "appEdit") ;
+                    cdLMenu.show(panelMenu, "appEdit") ;
+                    main.moveCdLToEditor();   
+                }
+                else{
+                    System.out.println("file doesn't exist");
                 }
             }
             catch(Exception e){
