@@ -70,7 +70,8 @@ public class App extends JPanel {
         panelBoard.add(boardEdit, "boardEdit");
 
         width = (6. / 8.) * dim.getWidth();
-        height = dim.getHeight();
+        Rectangle winSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        height = winSize.height;
         double xStart = (1. / 8.) * dim.getWidth();
 
         setLayout(null);
