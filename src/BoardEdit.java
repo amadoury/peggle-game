@@ -17,7 +17,8 @@ public class BoardEdit extends Board {
     private int yMouse;
     // private JButton valid_edit = new JButton("VALIDER");
     // private JButton retourMenu = new JButton("Back To Menu");
-    private JButton valid_edit = createButton("TO VALIDATE");
+    public boolean isValidate = false ;
+    public JButton valid_edit = createButton("TO VALIDATE");
     private JButton retourMenu = createButton("BACK TO MENU");
     private App app;
 
@@ -32,8 +33,6 @@ public class BoardEdit extends Board {
         listPath.add("ressources/peg-bleu.png");
         listPath.add("ressources/peg-bleu-rectangle.png");
         listPath.add("ressources/peg-soleil.png");
-
-
 
         valid_edit.setBounds((int)(width*0.40),0,325,50);
         add(valid_edit);
@@ -113,25 +112,16 @@ public class BoardEdit extends Board {
                 });
             }
         }
+    }
 
-        valid_edit.addActionListener((event) -> {
-            WriteLevelText();
-        });
+    public boolean isValidateEdit(){
+        return isValidate;
     }
 
     public void paintComponent(Graphics g){
         g2d = (Graphics2D) g;
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null); 
     }
-
-    // public void setWidthScreen(double w) {
-    // double var = w - (2.0 / 8.0) * w;
-    // width = var;
-    // }
-
-    // public void setHeightScreen(double w) {
-    // height = w;
-    // }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -151,12 +141,13 @@ public class BoardEdit extends Board {
         // System.out.println("OK");
         if(editor.getListPeg().size() >= 1){
             try {
-                FileWriter writer = new FileWriter("level3.txt");
+                FileWriter writer = new FileWriter("ediit1.txt");
                 for(Peg e : editor.getListPeg()) {
-                    String type;
-                    if(e instanceof PegCercle) type = "PegCercle";
+                    String type = "";
+                    if (e instanceof PegRebond) type = "PegRebond" ;
+                    else if (e instanceof PegSoleil) type = "PegSoleil";
+                    else if(e instanceof PegCercle) type = "PegCercle";
                     else if(e instanceof PegRectangle) type = "PegRectangle";
-                    else type = "PegSoleil";
                     writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/" +type + "\n");
                 }  
                 writer.close();
@@ -164,7 +155,7 @@ public class BoardEdit extends Board {
                 System.out.println("Une erreur est survenue lors de la création du fichier.");
                 e.printStackTrace();
             } 
-        } 
+        }
     }
 
     public Editor getEditor() {

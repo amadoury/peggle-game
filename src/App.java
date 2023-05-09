@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class App extends JPanel {
 
@@ -23,6 +29,8 @@ public class App extends JPanel {
     public Dimension dim;
     public String path;
     public boolean multiPlayer;
+    private MenuLevel menuLevel ;
+    private  boolean isValidate ;
 
     public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel){
         this.dim = dim;
@@ -55,11 +63,45 @@ public class App extends JPanel {
         JButton buttonRetour = new JButton("Back To Menu");
         buttonRetour.setBounds(10, 10, 200, 40);
 
+        JButton buttonPlay = new JButton("Play") ;
+        
+        isValidate = false;
+        buttonPlay.setBounds(10, 70, 100, 40);
+
+        if (!isValidate){
+            buttonPlay.setEnabled(false);
+        }
+
+
+        boardEdit.valid_edit.addActionListener((event) -> {
+            boardEdit.WriteLevelText();
+            buttonPlay.setEnabled(true);
+            isValidate = true ;
+        });
+
+        buttonPlay.addActionListener((event) -> {
+            try{
+                //FileSystems.getDefault()
+                File file = new File("ressources/level/ediit1.txt") ;
+                if (file.exists()){
+                   // Files.move(Paths.get(this.getClass().getResource("ediit1.txt").toURI()), Paths.get(this.getClass().getResource("ressources/level/").toURI()), StandardCopyOption.REPLACE_EXISTING);
+                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel) ;
+                    menuLevel.add(app, "appEdit") ;
+                    cdLMenu.show(menuLevel, "appEdit") ;
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }); 
+
+
         buttonRetour.addActionListener((event) -> {
             cdLMenu.show(panelMenu, "menup");
         });
 
         this.add(buttonRetour);
+        this.add(buttonPlay);
         boardEdit.setApp(this);
     }
 

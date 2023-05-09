@@ -47,6 +47,17 @@ public class BoardIA extends BoardMain {
         labelScoreIA.setText("Score de l'IA : " + playerIA.getScore());
         boardModel.getBall().setCurrentPlayer(!currentPlayer);
 
+
+        if (!currentPlayer) {
+            //System.out.println("tour de l'ia");
+            Point p = new Point(300, 300) ;
+            double normeVect = (Math.sqrt(Math.pow(p.getX() - getBounds().getWidth() / 2, 2) + Math.pow(p.getY() - 50, 2)));
+            boardModel.getBall().setVitesseX((p.getX() - getBounds().getWidth() / 2) / normeVect);
+            boardModel.getBall().setVitesseY(p.getY() / normeVect);
+            // boardModel.setBallStart(true);
+            // currentPlayer = !currentPlayer ;
+        }
+
         if (!boardModel.getGenerator().hasOrangePeg()){
             String str ;
             if (player1.getScore() < playerIA.getScore()){
@@ -71,8 +82,10 @@ public class BoardIA extends BoardMain {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        super.mousePressed(e);
-        currentPlayer = !currentPlayer;
+        if (currentPlayer && !boardModel.getBall().isBallStart()){
+            currentPlayer = !currentPlayer;
+            super.mousePressed(e);
+        }
     }
 
     public boolean getCurrentPlayer() {

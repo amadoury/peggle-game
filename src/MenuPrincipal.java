@@ -26,19 +26,27 @@ public class MenuPrincipal extends JPanel {
         }
 
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+        
+        double reso = Toolkit.getDefaultToolkit().getScreenResolution() / 100. ;
+      
 
+        width = (int)screensize.getWidth() ;
+        height = (int)screensize.getHeight() ;
 
-        width = (int)screensize.getWidth();
-        height = (int)screensize.getHeight();
+        System.out.println(reso);
+
+        double w = width * reso ;
+        double h = height * reso ;
 
         ButtonPanel.setLayout(null);
         ButtonPanel.setOpaque(false);
         ButtonPanel.setPreferredSize(new Dimension(1920, 1080));        
 
-        playButton.setBounds((int)(width*0.42),(int)(height*0.40),360,95);
-        tutoButton.setBounds((int)(width*0.42),(int)(height*0.52),360,95);
-        editButton.setBounds((int)(width*0.42),(int)(height*0.64),360,95);
-        exitButton.setBounds((int)(width*0.42),(int)(height*0.76),360,95);
+        
+        playButton.setBounds((int)(w*0.42),(int)(h*0.40),(int)(360 * reso) ,(int)(95 * reso));
+        tutoButton.setBounds((int)(w*0.42),(int)(h*0.52),(int)(360 * reso),(int)(95 * reso));
+        editButton.setBounds((int)(w*0.42),(int)(h*0.64),(int)(360 * reso),(int)(95 * reso));
+        exitButton.setBounds((int)(w*0.42),(int)(h*0.76),(int)(360 * reso),(int)(95 * reso));
 
 
         ButtonPanel.add(playButton);
