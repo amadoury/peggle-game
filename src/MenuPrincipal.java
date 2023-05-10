@@ -1,104 +1,135 @@
-/*
- * @author Aurelien 
- */
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.event.*;
 
+public class MenuPrincipal extends JPanel {
+  private Image imgbcg;
+  private JPanel ButtonPanel = new JPanel();
+  private int width, height;
+  public JButton playButton = createButton("PLAY");
+  public JButton tutoButton = createButton("TUTORIAL");
+  public JButton editButton = createButton("EDITOR");
+  public JButton exitButton = createButton("EXIT");
+  private Dimension dim;
 
-public class MenuPrincipal extends JFrame {
-    private ImagePanel PanelImage = new ImagePanel(new ImageIcon("src/ressources/menu.png").getImage());
-    private JPanel ButtonPanel = new JPanel();
-    private JButton playButton = new JButton();
-    private JButton paramButton = new JButton();
-    private JButton exitButton = new JButton();
-
-    public MenuPrincipal() {
-      setTitle("JEU");
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      setSize(1400, 1000);
-      setResizable(false);
-
-      playButton.setIcon(new ImageIcon(getClass().getResource("ressources/buttonPlay.png")));
-      paramButton.setIcon(new ImageIcon(getClass().getResource("ressources/buttonParam.png")));
-      exitButton.setIcon(new ImageIcon(getClass().getResource("ressources/buttonExit.png")));
-
-      ButtonPanel.setLayout(null);
-      playButton.setBounds(475,700,215,105);
-      paramButton.setBounds(720,700,421,105);
-      exitButton.setBounds(1170,700,198,105);
-
-      playButton.setBorder(null);
-      playButton.setOpaque(false); playButton.setContentAreaFilled(false); playButton.setBorderPainted(false); playButton.setFocusPainted(false);
-      paramButton.setOpaque(false); paramButton.setContentAreaFilled(false); paramButton.setBorderPainted(false); paramButton.setFocusPainted(false);
-      exitButton.setOpaque(false); exitButton.setContentAreaFilled(false); exitButton.setBorderPainted(false); exitButton.setFocusPainted(false);
-
-
-
-      ButtonPanel.add(playButton); ButtonPanel.add(paramButton); ButtonPanel.add(exitButton);
-        
-        playButton.addActionListener(e -> 
-        {
-            // renvoie vers le menuNiveau
-            PlayActionPerformed(e);
-        });
-
-        paramButton.addActionListener(e -> 
-        {
-            // renvoie vers le menu des paramètres
-            ParamActionPerformed(e);
-        });
-
-        exitButton.addActionListener(e ->
-        {
-          ExitActionPerformed(e);
-        });
-
-        this.getContentPane().add(PanelImage);
-        this.getContentPane().add(ButtonPanel);
-        this.setVisible(true);
+  public MenuPrincipal(Dimension dim) {
+    this.dim = dim;
+    try {
+      imgbcg = ImageIO.read(this.getClass().getResource("ressources/bcg-Menu-principal.jpg"));
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    private void PlayActionPerformed(java.awt.event.ActionEvent evt) {                                         
-      // Level Selection menu
-    }                                        
+    Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    private void ParamActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // Parameters Menu
-    }                                        
+    width = (int) screensize.getWidth();
+    height = (int) screensize.getHeight();
 
-    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        System.exit(0);
-    }  
+    ButtonPanel.setLayout(null);
+    ButtonPanel.setOpaque(false);
+    ButtonPanel.setPreferredSize(new Dimension(1920, 1080));
 
+    double reso = Toolkit.getDefaultToolkit().getScreenResolution() / 100.;
 
-    class ImagePanel extends JPanel {
+    double w = width * reso;
+    double h = height * reso;
 
-        private Image img;
-      
-        public ImagePanel(String img) {
-          this(new ImageIcon(img).getImage());
-        }
-      
-        public ImagePanel(Image img) {
-          this.img = img;
-          Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
-          setPreferredSize(size);
-          setMinimumSize(size);
-          setMaximumSize(size);
-          setSize(1400,1000);
-          setLayout(null);
-        }
-      
-        public void paintComponent(Graphics g) {
-          g.drawImage(img, 0, 0, null);
-        }
+    playButton.setBounds((int) (w * 0.42), (int) (h * 0.30), (int) (360 * reso), (int) (95 * reso));
+    tutoButton.setBounds((int) (w * 0.42), (int) (h * 0.42), (int) (360 * reso), (int) (95 * reso));
+    editButton.setBounds((int) (w * 0.42), (int) (h * 0.54), (int) (360 * reso), (int) (95 * reso));
+    exitButton.setBounds((int) (w * 0.42), (int) (h * 0.66), (int) (360 * reso), (int) (95 * reso));
+
+    ButtonPanel.add(playButton);
+    ButtonPanel.add(tutoButton);
+    ButtonPanel.add(editButton);
+    ButtonPanel.add(exitButton);
+
+    this.add(ButtonPanel);
+    this.setVisible(true);
+  }
+
+  @Override
+  public void paintComponent(Graphics g) {
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.drawImage(imgbcg, 0, 0, (int) dim.getWidth(), (int) dim.getHeight(), null, null);
+  }
+
+  private menuBouton createButton(String text) {
+    menuBouton button = new menuBouton(text);
+
+    String path_font = "ressources/font_style/font.ttf";
+    InputStream is;
+    Font font;
+
+    try {
+      is = this.getClass().getResourceAsStream(path_font);
+      font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(57f);
+      button.setFont(font);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+    button.setFocusPainted(false);
+
+    // 178,255,102
+    // 153,255,51
+    Color colorPrinciaple = new Color(153, 255, 51);
+    // Color colorPrinciaple = new Color(212,226,8);
+    Color colorClicked = new Color(165, 176, 3);
+    Color textColor = new Color(153, 0, 153);
+    button.setBackground(colorPrinciaple);
+    button.setForeground(textColor);
+
+    button.addMouseListener(new MouseAdapter() {
+      public void mouseEntered(MouseEvent e) {
+        button.setBackground(Color.WHITE);
+        button.setForeground(Color.BLACK);
+      }
+    });
+
+    button.addMouseListener(new MouseAdapter() {
+      public void mouseExited(MouseEvent e) {
+        button.setBackground(colorPrinciaple);
+        button.setForeground(textColor);
+      }
+    });
+
+    button.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        button.setBackground(colorClicked);
+      }
+    });
+
+    return button;
+  }
+
+  public class menuBouton extends JButton {
+
+    public menuBouton() {
+      setBorder(new EmptyBorder(10, 10, 10, 10));
+      setContentAreaFilled(false);
+      setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    public menuBouton(String s) {
+      this();
+      setText(s);
+    }
+
+    protected void paintComponent(Graphics g) {
+      Graphics2D g2 = (Graphics2D) g.create();
+      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+      g2.setColor(getForeground());
+      int width = getWidth() - 1;
+      int height = getHeight() - 1;
+      g2.draw(new RoundRectangle2D.Double(0, 0, width, height, height, height));
+      g2.dispose();
+      super.paintComponent(g);
+    }
+  }
 }
-
-

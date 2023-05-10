@@ -1,57 +1,70 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 public class PegCercle extends Peg {
 
-    private double rayon;
-    private BufferedImage image;
-    private JLabel jlabel;
-    private String color;
+    protected int rayon;
+    protected Timer timer;
 
-    PegCercle(int x, int y, double r, String c) {// couleur avec majuscue
-        super(x, y);
+    PegCercle(int x, int y, int r, String c) {// couleur avec majuscue
+        super(x, y, c);
         rayon = r;
         color = c;
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + "@1x.png"));
+
+        ActionListener task = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                destructed = true;
+                delete();
+                timer.stop();
+            }
+
+        };
+        timer = new Timer(4000, task);
+        timer.setRepeats(false);
+
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + ".png"));
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance((int) rayon, (int) rayon, java.awt.Image.SCALE_SMOOTH); // scale it the
-                                                                                                       // smooth way
+        Image newimg = image.getScaledInstance((int) (2 * rayon), (int) (2 * rayon), java.awt.Image.SCALE_SMOOTH); // scale
+        // it the
+        // smooth way
         imageIcon = new ImageIcon(newimg); // transform it back
-        jlabel = new JLabel(imageIcon);
-        jlabel.setSize(50, 50);
-        jlabel.setBounds((int) pegX, (int) pegY, (int) rayon, (int) rayon);
+        jlabel = new LabelPeg(imageIcon);
+        // jlabel.setSize(rayon * 2, rayon * 2);
+        jlabel.setBounds((int) pegX - rayon, (int) pegY - rayon, (int) 2 * rayon, (int) 2 * rayon);
     }
 
-    public double getRayon() {
+    public int getRayon() {
         return rayon;
     }
 
-    public void setRayon(double rayon) {
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setRayon(int rayon) {
         this.rayon = rayon;
     }
 
     @Override
-    public void drawPeg(Graphics2D g) {
-        // TODO Auto-generated method stub
-        // g.drawOval(pegX, pegY, (int) rayon, (int) rayon);
-        g.drawOval(pegX, pegY, jlabel.getWidth(), jlabel.getWidth());
-        // g.drawImage(image, pegX, pegY, null);
-    }
-
-    public JLabel getJlabel() {
-        return jlabel;
-    }
-
-    @Override
     public void pegTouchdown() {
-        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/peg-" + color + "-glow@1x.png"));
-        Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newimg); // transform it back
+        if (touched)
+            return;
+        touched = true;
+        ImageIcon imageIcon = new ImageIcon(
+                PegCercle.this.getClass().getResource("ressources/peg-" + color + "-animation.gif"));
+        jlabel.setBounds((int) (pegX - 1.5 * rayon), (int) (pegY - 1.5 * rayon), (int) 3 * rayon, (int) 3 * rayon);
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance(3 * rayon, 3 * rayon, Image.SCALE_DEFAULT));
         jlabel.setIcon(imageIcon);
+    }
+
+    public void touchTimeStart() {
+        timer.start();
     }
 
 }

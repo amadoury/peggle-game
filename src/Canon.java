@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.geom.*;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -27,7 +26,7 @@ public class Canon {
         canonX = orbitX + orbitRayon * Math.cos(radian);
         canonY = orbitY - (orbitRayon * Math.sin(radian));
         try {
-            imageBasic = ImageIO.read(new File("ressources/cannon.png"));
+            imageBasic = ImageIO.read(this.getClass().getResource("ressources/cannon.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,14 +43,14 @@ public class Canon {
 
     void radianChanged(double r, Graphics g) {
         radian = r;
-        canonX = orbitX + orbitRayon * Math.cos(radian) - (3. / 4.) * orbitRayon;
+        canonX = orbitX + orbitRayon * Math.cos(radian);// - (3. / 4.) * orbitRayon
         canonY = orbitY - orbitRayon * Math.sin(radian);
         rotateCanon(r, (Graphics2D) g);
     }
 
-    public void setOrbX(double d) {
+    public void setOrbX(double d) {// - (3. / 4.) * orbitRayon
         orbitX = d / 2;
-        jlabel.setBounds((int) (orbitX - (3. / 4.) * orbitRayon - orbitRayon / 2), (int) (orbitY - orbitRayon / 2),
+        jlabel.setBounds((int) (orbitX - orbitRayon), (int) (orbitY - orbitRayon),
                 (int) orbitRayon * 2,
                 (int) orbitRayon * 2);
     }

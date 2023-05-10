@@ -1,49 +1,115 @@
-public class Trou{; 
-    private int x ;
-    private int y ;
-    private int diametre ;
-    private int dx ; //valeur ajoutée a x pour deplacer le trou horizontalement
+import java.awt.*;
 
-    public Trou(int x, int y, int d){
-        this.x = x ;
-        this.y = y ;
-        this.diametre = d ;
+import javax.swing.*;
+
+public class Trou {
+    private double x;
+    private double y;
+    private int longueur;// meilleure dimension : longeur = 12 x largeur
+    private int largeur;
+    private double longueurImage;
+    private double largeurImage;
+    private double dx = 2; // valeur ajoutée a x pour deplacer le trou horizontalement
+    private JLabel labelImgBall;
+    private BoardModel boardModel;
+    private double widthBoard;
+    // private double heightBoard;
+    private JLabel jlabel;
+    private double vitesse = 1;
+    private double resolutionScreen;
+    private boolean move = true;
+
+    public Trou(int lo, int la, BoardModel bm, double res) {
+        longueur = lo;
+        largeur = la;
+        boardModel = bm;
+        longueurImage = longueur * 1.5;
+        largeurImage = largeur * 5;
+        x = longueurImage / 2;
+        resolutionScreen = res;
+
+        ImageIcon imageIcon = new ImageIcon(this.getClass().getResource("ressources/trou.png"));
+        Image image = imageIcon.getImage();
+        Image newimg = image.getScaledInstance((int) (longueurImage), (int) (largeurImage),
+                java.awt.Image.SCALE_SMOOTH); // scale
+        imageIcon = new ImageIcon(newimg);
+        jlabel = new JLabel(imageIcon);
+        jlabel.setBounds((int) (x - longueurImage / 2), (int) (y - largeurImage / 2), (int) longueurImage,
+                (int) largeurImage);
     }
 
-    public int getX(){
-        return x ;
+    public double getX() {
+        return x;
     }
 
-    public int getY(){
+    public double getY() {
         return y;
     }
 
-    public int getDiametre(){
-        return diametre ;
+    public int getLargeur() {
+        return largeur;
     }
 
-    public void setX(int x){
-        this.x = x ;
+    public int getLongueur() {
+        return longueur;
     }
 
-    public void setY(int y){
-        this.y = y ;
+    public double getLongueurImage() {
+        return longueurImage;
     }
 
-    public void setDiametre(int d){
-        this.diametre = d ;
-    } 
+    public double getLargeurImage() {
+        return largeurImage;
+    }
 
-    public void move(int width){
-        if (x <= 0){
-            x = 0;
+    public JLabel getJlabel() {
+        return jlabel;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setHeightBoard(double heightBoard) {
+        // this.heightBoard = heightBoard;
+        y = (int) heightBoard - largeurImage;
+    }
+
+    public void setWidthBoard(double widthBoard) {
+        this.widthBoard = widthBoard;
+        x = widthBoard / 2;
+        vitesse = 1;
+    }
+
+    public void move() {
+        if (move) {
+            if (x + longueurImage / 2 + dx > widthBoard || x - longueurImage / 2 < 0) {
+                dx = -dx;
+            }
+            if (x > widthBoard / 2 && dx > 0)
+                vitesse -= 0.001;
+            if (x > widthBoard / 2 && dx < 0)
+                vitesse += 0.001;
+            if (x < widthBoard / 2 && dx > 0)
+                vitesse += 0.001;
+            if (x < widthBoard / 2 && dx < 0)
+                vitesse -= 0.001;
+            x += vitesse * vitesse * dx;
+
+            jlabel.setBounds((int) (x - longueurImage / 2), (int) (y - largeurImage / 2), (int) longueurImage,
+                    (int) largeurImage);
         }
-        else if (x + diametre + dx < width){
-            x += dx ;
-        }
-        else{
-            x -= dx ;
-        }
     }
 
+    public boolean contactTrou(Ball b) {
+        return b.getYt() >= y - largeur / 1.8 && b.getXt() < x + longueur / 2 && b.getXt() > x - longueur / 2;
+    }
+
+    public void setMove(boolean move) {
+        this.move = move;
+    }
 }
