@@ -6,7 +6,6 @@ import java.util.TimerTask;
 import java.util.ArrayList;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +39,7 @@ public class BoardMain extends Board implements KeyListener {
     private MenuLevel menuLevel;
 
     public BoardMain(String filePath, BoardRight right, BoardLeft left, boolean multiPlayer, CardLayout cdLayout,
-            JPanel mainPanel, MenuLevel menuLevel) {
+            JPanel mainPanel, MenuLevel menuLevel, App app) {
         super((int) filePath.charAt(22) - (int) '0');
         this.cardLayout = cdLayout;
         this.mainPanel = mainPanel;
@@ -49,7 +48,7 @@ public class BoardMain extends Board implements KeyListener {
         this.menuLevel = menuLevel;
         this.multiPlayer = multiPlayer;
         initBoard(filePath);
-
+        this.app = app ;
         this.addKeyListener(this);
         this.setFocusable(true);
     }
@@ -382,11 +381,13 @@ public class BoardMain extends Board implements KeyListener {
             if (commandKey == 0) {
                 // retour to menu princiapl
                 menuLevel.moveCdLToPage1();
+                mainPanel.remove(app) ;
                 cardLayout.show(mainPanel, "menup");
             }
             if (commandKey == 1) {
                 // retour au menu Level
                 menuLevel.moveCdLToPage1();
+                mainPanel.remove(app);
                 cardLayout.show(mainPanel, "menuLevel");
             }
 

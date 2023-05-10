@@ -12,8 +12,8 @@ public class BoardIA extends BoardMain {
     private String playerTurn;
     private boolean showText = true;
 
-    public BoardIA(String path, BoardRight right, BoardLeft left, CardLayout cardLayout, JPanel mainPanel, MenuLevel menuLevel, Dimension dim) {
-        super(path, right, left, true, cardLayout, mainPanel, menuLevel);
+    public BoardIA(String path, BoardRight right, BoardLeft left, CardLayout cardLayout, JPanel mainPanel, MenuLevel menuLevel, Dimension dim, App app) {
+        super(path, right, left, true, cardLayout, mainPanel, menuLevel, app);
 
         currentPlayer = true ;
         boardModel.getBall().setBoardIA(this);

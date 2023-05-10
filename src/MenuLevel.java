@@ -65,6 +65,7 @@ public class MenuLevel extends JPanel {
         private Image bckImage;
 
         private JLabel labelInfoIA = new JLabel("Turn On to Play with IA");
+        private Button backMenup = new Button("ressources/en-arriere.png",true,"backToMenup" ,1) ;
 
         public Page(String path, int n, int deb, int fin) {
             iaToggle = new Button(n);
@@ -78,6 +79,11 @@ public class MenuLevel extends JPanel {
             this.add(retourner);
             this.add(iaToggle);
             this.add(labelInfoIA);
+
+            if (n == 1){
+                this.add(backMenup) ;
+                backMenup.setBounds(10, 10, 128 , 128);
+            }
 
             labelInfoIA.setBounds((int) dim.getWidth() - 320, 80, 300, 30);
             iaToggle.setBounds((int) dim.getWidth() - 300, 100, 100, 100);
@@ -170,8 +176,14 @@ public class MenuLevel extends JPanel {
             this.type = type;
             this.nbPage = i;
             if (resizeImg) {
+                int width = 100; 
+                int height = 100;
+                if (type.equals("backToMenup")){
+                    width = 75;
+                    height = 75;
+                }
                 Image img = imgIcon.getImage();
-                Image newImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
                 imgIcon.setImage(newImg);
             }
             this.setIcon(imgIcon);
@@ -201,7 +213,7 @@ public class MenuLevel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (type.equals("bLevel")) {
                 System.out.println("ismultiplayer dans menuLvele" + isMultiplayer);
-                app = new App(dim, pathLevel, isMultiplayer, cdLayoutMain, mainPanel, MenuLevel.this);
+                app = new App(dim, pathLevel, isMultiplayer, cdLayoutMain, mainPanel, MenuLevel.this, cdLayoutMain);
                 MenuLevel.this.add(app, "app" + nLevel);
                 cardLayout.show(MenuLevel.this, "app" + nLevel);
             } else if (iaButton) {
@@ -215,6 +227,10 @@ public class MenuLevel extends JPanel {
             } else if (type.equals("retour") && nbPage == 2) {
                 cardLayout.show(MenuLevel.this, "page1");
             }
+            else if (type.equals("backToMenup") && nbPage == 1) {
+                cdLayoutMain.show(mainPanel, "menup");
+            }
+            
         }
 
         @Override
@@ -246,6 +262,13 @@ public class MenuLevel extends JPanel {
                 this.setToolTipText("Appuyer pour retourner au Menu Principal");
             }
 
+            if (nbPage == 1 && type.equals("backToMenup")){
+                imgIcon = new ImageIcon(this.getClass().getResource(path.substring(0, path.length() - 4) + "-light.png"));
+                this.setIcon(imgIcon);
+                Image img = imgIcon.getImage();
+                Image newImg = img.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                imgIcon.setImage(newImg);   
+            }
             if (type.equals("retour") || type.equals("avancer")) {
                 imgIcon = new ImageIcon(
                         this.getClass().getResource(path.substring(0, path.length() - 4) + "-touched.png"));
@@ -264,6 +287,11 @@ public class MenuLevel extends JPanel {
             if (type.equals("retour") || type.equals("avancer")) {
                 Image img = imgIcon.getImage();
                 Image newImg = img.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                imgIcon.setImage(newImg);
+            }
+            if (type.equals("backToMenup")) {
+                Image img = imgIcon.getImage();
+                Image newImg = img.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
                 imgIcon.setImage(newImg);
             }
         }

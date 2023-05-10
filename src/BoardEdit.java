@@ -47,7 +47,7 @@ public class BoardEdit extends Board {
             if (listPath.get(i).endsWith("orange.png")) {
                 popUp.getListMenuItem().get(i).addActionListener((event) -> {
                     /* pegCreation creation */
-                    PegCercle pegCercle = new PegCercle(xMouse,yMouse, (int) (25 * (resolutionScreen / 100)),
+                    PegCercle pegCercle = new PegCercle(xMouse,yMouse, (int) (20 * (resolutionScreen / 100)),
                             "orange");
 
                     /* add peg to editor */
@@ -65,7 +65,7 @@ public class BoardEdit extends Board {
                 });
             } else if (listPath.get(i).endsWith("bleu.png")) {
                 popUp.getListMenuItem().get(i).addActionListener((event) -> {
-                    PegCercle pegCercle = new PegCercle(xMouse,yMouse, (int) (25 * (resolutionScreen / 100)), "bleu");
+                    PegCercle pegCercle = new PegCercle(xMouse,yMouse, (int) (20 / (resolutionScreen / 100)), "bleu");
 
                     /* add peg to editor */
                     editor.addPeg(pegCercle);
@@ -102,7 +102,7 @@ public class BoardEdit extends Board {
             // }
              else if (listPath.get(i).endsWith("soleil.png")){
                 popUp.getListMenuItem().get(i).addActionListener((event) -> {
-                    PegSoleil pegSoleil = new PegSoleil(xMouse,yMouse,(int) (50 * (resolutionScreen / 100)), "soleil");
+                    PegSoleil pegSoleil = new PegSoleil(xMouse,yMouse,(int) (60 / (resolutionScreen / 100)), "soleil");
                     editor.addPeg(pegSoleil);
                     add(pegSoleil.getLabelPeg());
 

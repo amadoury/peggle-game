@@ -2,11 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 public class App extends JPanel {
 
@@ -32,14 +27,14 @@ public class App extends JPanel {
     private MenuLevel menuLevel ;
     private  boolean isValidate ;
 
-    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel){
+    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, CardLayout cardMain){
         this.dim = dim;
         this.path = path;
         this.multiPlayer = multiPlayer;
         right = new BoardRight(dim.getWidth(), dim.getHeight(),  cdLMenu, panelMenu, menuLevel);
         left = new BoardLeft(dim.getWidth(), dim.getHeight());
-        boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
-        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim) ;
+        boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel, this);
+        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim, this) ;
         initUI();
     }
 
@@ -77,10 +72,14 @@ public class App extends JPanel {
                 File file = new File("src/ressources/level/ediit1.txt") ;
                 if (file.exists()){
                     System.out.println("hello text");
-                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel) ;
+                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel, cdLMenu) ;
+
                     panelMenu.add(app, "appEdit") ;
                     cdLMenu.show(panelMenu, "appEdit") ;
-                    main.moveCdLToEditor();   
+                   // app = null ;
+                    file.delete();
+                    //main.moveCdLToEditor();   
+                    //panelMenu.remove(app);
                 }
                 else{
                     System.out.println("file doesn't exist");
