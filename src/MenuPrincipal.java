@@ -40,10 +40,10 @@ public class MenuPrincipal extends JPanel {
     double w = width * reso;
     double h = height * reso;
 
-    playButton.setBounds((int) (w * 0.40), (int) (h * 0.36), (int) (420 * reso), (int) (75 * reso));
-    tutoButton.setBounds((int) (w * 0.40), (int) (h * 0.46), (int) (420 * reso), (int) (75 * reso));
-    editButton.setBounds((int) (w * 0.40), (int) (h * 0.56), (int) (420 * reso), (int) (75 * reso));
-    exitButton.setBounds((int) (w * 0.40), (int) (h * 0.66), (int) (420 * reso), (int) (75 * reso));
+    playButton.setBounds((int) (w * 0.40), (int) (h * 0.46), (int) (420 * reso), (int) (75 * reso));
+    tutoButton.setBounds((int) (w * 0.40), (int) (h * 0.56), (int) (420 * reso), (int) (75 * reso));
+    editButton.setBounds((int) (w * 0.40), (int) (h * 0.66), (int) (420 * reso), (int) (75 * reso));
+    exitButton.setBounds((int) (w * 0.40), (int) (h * 0.76), (int) (420 * reso), (int) (75 * reso));
 
     ButtonPanel.add(playButton);
     ButtonPanel.add(tutoButton);

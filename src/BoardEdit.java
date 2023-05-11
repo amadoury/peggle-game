@@ -46,7 +46,7 @@ public class BoardEdit extends Board {
         listPath.add("ressources/peg-rebond.png");
         listPath.add("ressources/peg-orange-rectangle.png") ;
 
-        valid_edit.setBounds((int) (width * 0.40), 0, 325, 50);
+        valid_edit.setBounds((int) ((6. / 8.) * dim.getWidth() * 0.4), 0, 325, 50);
         add(valid_edit);
 
         popUp = new PopUp(listPath);
