@@ -255,16 +255,8 @@ public class MenuLevel extends JPanel {
                         this.getClass().getResource("ressources/levelBoutons/img-level-light-" +
                                 nLevel + ".png"));
                 this.setIcon(imgIcon);
-            } else if (iaButton) {
-                // JLabel info = new JLabel("Info");
-
-                if (status) {
-                    // this.setToolTipText("Appuyer pour desactiver l'IA");
-
-                } else {
-
-                }
-            } else if (type.equals("retour") && nbPage == 1) {
+            }
+            else if (type.equals("retour") && nbPage == 1) {
                 this.setToolTipText("Appuyer pour retourner au Menu Principal");
             }
 
@@ -289,7 +281,9 @@ public class MenuLevel extends JPanel {
         @Override
         public void mouseExited(MouseEvent e) {
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            imgIcon = new ImageIcon(this.getClass().getResource(path));
+            if (!type.equals("ia")){
+                imgIcon = new ImageIcon(this.getClass().getResource(path));
+            }
             this.setIcon(imgIcon);
             if (type.equals("retour") || type.equals("avancer")) {
                 Image img = imgIcon.getImage();
