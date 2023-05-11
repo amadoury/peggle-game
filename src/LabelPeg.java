@@ -13,6 +13,7 @@ public class LabelPeg extends JLabel implements MouseInputListener {
     private App app;
     private BoardEdit boardEdit;
     private Peg peg;
+    private Dimension dim;
 
     public LabelPeg(ImageIcon imgPeg) {
         super(imgPeg);
@@ -33,6 +34,10 @@ public class LabelPeg extends JLabel implements MouseInputListener {
                 });
             }
         }
+    }
+    
+    public void setDim(Dimension dim){
+        this.dim = dim ;
     }
 
     public void setEditing(boolean isEditing) {
@@ -88,8 +93,8 @@ public class LabelPeg extends JLabel implements MouseInputListener {
     public void mouseDragged(MouseEvent e) {
         if (isEditing) {
             /* action to Drag label */
-            int x = e.getXOnScreen() - xClick - (int) (0.125 * Toolkit.getDefaultToolkit().getScreenSize().getWidth())
-                    - app.getInsets().left;
+            //System.out.println(dim.getWidth() * 0.125 + "xxxxxxxxxxxx");
+            int x = e.getXOnScreen() - xClick - (int) (0.125 * dim.getWidth())- app.getInsets().left;
             int y = e.getYOnScreen() - yClick - app.getInsets().top;
             this.setLocation(x, y);
             peg.setPegX(x);

@@ -57,6 +57,8 @@ public class BoardLeft extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (totalPegOrange == 0)
+                    return;
                 if (positionScore < pegOrangeTouched * 26 / totalPegOrange && positionScore < 26) {
                     ++positionScore;
                     ImageIcon imageIcon = new ImageIcon(this.getClass()

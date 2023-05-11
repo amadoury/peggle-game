@@ -28,12 +28,15 @@ public class BoardEdit extends Board {
     public CardLayout cardMain;
     private int eX, eY;
     private boolean mouseDragging;
+    private Dimension dim ;
 
     public BoardEdit(Dimension dim) throws FontFormatException, IOException {
         super(1);
-        width = (6. / 8.) * dim.getWidth();
-        height = dim.getHeight();
+        // width = (6. / 8.) * dim.getWidth();
+        // height = dim.getHeight();
         editor = new Editor();
+        this.dim = dim ;
+        System.out.println("w : " + width + " h :" + height);
 
         List<String> listPath = new ArrayList<String>();
         listPath.add("ressources/peg-orange.png");
@@ -68,6 +71,7 @@ public class BoardEdit extends Board {
 
                     /* set : isEditing, App, BoardEdit */
                     pegCercle.getLabelPeg().setEditing(true);
+                    pegCercle.getLabelPeg().setDim(dim);
                     pegCercle.getLabelPeg().setApp(app);
                     pegCercle.getLabelPeg().setBoardEdit(this);
                     pegCercle.getLabelPeg().setPeg(pegCercle);
@@ -86,6 +90,7 @@ public class BoardEdit extends Board {
 
                     /* set : isEditing, App, BoardEdit, Peg */
                     pegCercle.getLabelPeg().setEditing(true);
+                    pegCercle.getLabelPeg().setDim(dim) ;
                     pegCercle.getLabelPeg().setApp(app);
                     pegCercle.getLabelPeg().setBoardEdit(this);
                     pegCercle.getLabelPeg().setPeg(pegCercle);
@@ -107,6 +112,7 @@ public class BoardEdit extends Board {
 
                     /* set : isEditing, App, BoardEdit, Peg */
                     pegRectangle.getLabelPeg().setEditing(true);
+                    pegRectangle.getLabelPeg().setDim(dim);
                     pegRectangle.getLabelPeg().setApp(app);
                     pegRectangle.getLabelPeg().setBoardEdit(this);
                     pegRectangle.getLabelPeg().setPeg(pegRectangle);
@@ -120,6 +126,7 @@ public class BoardEdit extends Board {
                     add(pegSoleil.getLabelPeg());
 
                     pegSoleil.getLabelPeg().setEditing(true);
+                    pegSoleil.getLabelPeg().setDim(dim);
                     pegSoleil.getLabelPeg().setApp(app);
                     pegSoleil.getLabelPeg().setBoardEdit(this);
                     pegSoleil.getLabelPeg().setPeg(pegSoleil);
@@ -133,6 +140,7 @@ public class BoardEdit extends Board {
                     add(pegRebond.getLabelPeg());
 
                     pegRebond.getLabelPeg().setEditing(true);
+                    pegRebond.getLabelPeg().setDim(dim);
                     pegRebond.getLabelPeg().setApp(app);
                     pegRebond.getLabelPeg().setBoardEdit(this);
                     pegRebond.getLabelPeg().setPeg(pegRebond);
@@ -155,6 +163,8 @@ public class BoardEdit extends Board {
 
                     /* set : isEditing, App, BoardEdit, Peg */
                     pegRectangle.getLabelPeg().setEditing(true);
+                    pegRectangle.getLabelPeg().setDim(dim) ;
+
                     pegRectangle.getLabelPeg().setApp(app);
                     pegRectangle.getLabelPeg().setBoardEdit(this);
                     pegRectangle.getLabelPeg().setPeg(pegRectangle);
@@ -170,7 +180,7 @@ public class BoardEdit extends Board {
 
     public void paintComponent(Graphics g) {
         g2d = (Graphics2D) g;
-        g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
+        g2d.drawImage(imageBoard, 0, 0, (int) dim.getWidth(), (int) dim.getHeight(), null);
 
         if (rectangleMoving != null && mouseDragging) {
             g2d.setColor(new Color(180, 162, 184, 60));

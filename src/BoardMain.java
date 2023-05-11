@@ -94,10 +94,10 @@ public class BoardMain extends Board implements KeyListener {
                                 boardModel.getGenerator().getRadius(), tabRows[2]));
                         break;
                     case "PegRebond":
-                    listPeg.add(new PegRebond((int) (Double.parseDouble(tabRows[0]) * width / reso),
-                            (int) (Double.parseDouble(tabRows[1]) * height / reso),
-                            boardModel.getGenerator().getRadius() * 3, tabRows[2]));
-                    break;
+                        listPeg.add(new PegRebond((int) (Double.parseDouble(tabRows[0]) * width / reso),
+                                (int) (Double.parseDouble(tabRows[1]) * height / reso),
+                                boardModel.getGenerator().getRadius() * 3, tabRows[2]));
+                        break;
                     case "PegSoleil":
                         listPeg.add(new PegSoleil((int) (Double.parseDouble(tabRows[0]) * width / reso),
                                 (int) (Double.parseDouble(tabRows[1]) * height / reso),
@@ -178,9 +178,7 @@ public class BoardMain extends Board implements KeyListener {
                 g2d.drawLine((int) p.getX(), (int) p.getY(), (int) point.getX(), (int) point.getY());
             }
         }
-
-        showFireWorksOnScreen();
-
+        
         if (boardModel.getLeft().barreMax()
                 || (boardModel.getRight().noBalls() && !boardModel.getBall().isBallStart())) {
 
@@ -203,28 +201,6 @@ public class BoardMain extends Board implements KeyListener {
                     drawGameWiningScreen("YOU LOST");
             }
         }
-
-    }
-
-    public void showFireWorksOnScreen() {
-        ImageIcon imgFireWorks = new ImageIcon(this.getClass().getResource("ressources/fireworks.gif"));
-
-        // Image img = imgFireWorks.getImage() ;
-        // Image newimg = img.getScaledInstance(1000,1000,
-        // java.awt.Image.SCALE_DEFAULT);
-
-        // imgFireWorks = new ImageIcon(newimg) ;
-
-        JLabel fireFireWorksLabel = new JLabel(imgFireWorks);
-
-        boolean show = false;
-
-        javax.swing.Timer timer = new javax.swing.Timer(3000, (action) -> {
-            // show = true ;
-        });
-
-        timer.setRepeats(false);
-        timer.start();
 
     }
 

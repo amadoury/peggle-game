@@ -236,7 +236,8 @@ public class PegRectangle extends Peg {
                 java.awt.Image.SCALE_SMOOTH); // scale
         ImageIcon imageIcon = new ImageIcon(newimg); // transform it back
 
-        jlabel = new LabelPeg(imageIcon);
+         jlabel.setIcon(imageIcon);
+
         double carreLength = Math.sqrt(longueur * longueur + largeur * largeur);
         jlabel.setBounds(
                 (int) (pegX - carreLength / 2),
@@ -250,15 +251,18 @@ public class PegRectangle extends Peg {
         if (touched)
             return;
         touched = true;
-        ImageIcon imageIcon = new ImageIcon(
-                PegRectangle.this.getClass().getResource("ressources/peg-" + color + "-glow.png"));
-        double carreLength = Math.sqrt(longueur * longueur + largeur * largeur);
-        jlabel.setBounds(
-                (int) (pegX - carreLength / 2),
-                (int) (pegY - carreLength / 2),
-                (int) carreLength,
-                (int) carreLength);
-        jlabel.setIcon(imageIcon);
+        try {
+            imageLabel = ImageIO.read(this.getClass().getResource("ressources/peg-" + color + "-rectangle-glow.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        // ImageIcon imageIcon = new ImageIcon(
+        // PegRectangle.this.getClass().getResource("ressources/peg-" + color +
+        // "-rectangle-glow.png"));
+        // jlabel.setIcon(imageIcon);
+        rotationPegRectangle(angle);
+
     }
 
     public void touchTimeStart() {
