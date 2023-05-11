@@ -61,6 +61,7 @@ public class App extends JPanel {
             buttonPlay.setEnabled(false);
         }
 
+        
         boardEdit.valid_edit.addActionListener((event) -> {
             boardEdit.WriteLevelText();
             buttonPlay.setEnabled(true);
