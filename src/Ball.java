@@ -424,6 +424,8 @@ public class Ball {
                 if (!p.touched)
                     ((PegRectangle) p).touchTimeStart();
                 p.pegTouchdown();
+                sound.setFile(1);
+                sound.play();
             }
 
             return true;
