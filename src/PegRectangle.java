@@ -254,6 +254,15 @@ public class PegRectangle extends Peg {
         if (touched)
             return;
         touched = true;
+        ImageIcon imageIcon = new ImageIcon(
+                PegRectangle.this.getClass().getResource("ressources/peg-" + color + "-glow.png"));
+        double carreLength = Math.sqrt(longueur * longueur + largeur * largeur);
+        jlabel.setBounds(
+                (int) (pegX - carreLength / 2),
+                (int) (pegY - carreLength / 2),
+                (int) carreLength,
+                (int) carreLength);
+        jlabel.setIcon(imageIcon);
     }
 
     public void touchTimeStart() {
