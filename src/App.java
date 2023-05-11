@@ -2,11 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 public class App extends JPanel {
 
@@ -32,26 +27,19 @@ public class App extends JPanel {
     private MenuLevel menuLevel ;
     private  boolean isValidate ;
 
-    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel){
+    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, CardLayout cardMain){
         this.dim = dim;
         this.path = path;
         this.multiPlayer = multiPlayer;
         right = new BoardRight(dim.getWidth(), dim.getHeight(),  cdLMenu, panelMenu, menuLevel);
         left = new BoardLeft(dim.getWidth(), dim.getHeight());
-        boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
-        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim) ;
-
-        // if (!multiPlayer){
-        //     boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel);
-        // }
-        // else{
-        //     boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel) ;
-        // }
-
+        boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel, this);
+        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim, this) ;
         initUI();
     }
 
-    public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu) {
+    public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, Main main) {
+        this.menuLevel = menuLevel ;
         this.dim = dim;
         try {
             boardEdit = new BoardEdit(dim);
@@ -81,13 +69,20 @@ public class App extends JPanel {
 
         buttonPlay.addActionListener((event) -> {
             try{
-                //FileSystems.getDefault()
-                File file = new File("ressources/level/ediit1.txt") ;
+                File file = new File("src/ressources/level/ediit1.txt") ;
                 if (file.exists()){
-                   // Files.move(Paths.get(this.getClass().getResource("ediit1.txt").toURI()), Paths.get(this.getClass().getResource("ressources/level/").toURI()), StandardCopyOption.REPLACE_EXISTING);
-                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel) ;
-                    menuLevel.add(app, "appEdit") ;
-                    cdLMenu.show(menuLevel, "appEdit") ;
+                    System.out.println("hello text");
+                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel, cdLMenu) ;
+
+                    panelMenu.add(app, "appEdit") ;
+                    cdLMenu.show(panelMenu, "appEdit") ;
+                   // app = null ;
+                    file.delete();
+                    //main.moveCdLToEditor();   
+                    //panelMenu.remove(app);
+                }
+                else{
+                    System.out.println("file doesn't exist");
                 }
             }
             catch(Exception e){

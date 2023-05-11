@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ public class BoardEdit extends Board {
     private int rayon = 20;
     private PegRectangle rectangleMoving;
     private double rectangleMovingAngle;
+    public CardLayout cardMain;
 
     public BoardEdit(Dimension dim) throws FontFormatException, IOException {
         super(1);
@@ -150,29 +152,30 @@ public class BoardEdit extends Board {
         this.app = app;
     }
 
-    public void WriteLevelText() {
-        // System.out.println("OK");
-        if (editor.getListPeg().size() >= 1) {
+    public void WriteLevelText(){
+        if(editor.getListPeg().size() >= 1){
             try {
-                FileWriter writer = new FileWriter("ediit1.txt");
-                for (Peg e : editor.getListPeg()) {
-                    String type = "";
-                    if (e instanceof PegRebond)
-                        type = "PegRebond";
-                    else if (e instanceof PegSoleil)
-                        type = "PegSoleil";
-                    else if (e instanceof PegCercle)
-                        type = "PegCercle";
-                    else if (e instanceof PegRectangle)
-                        type = "PegRectangle";
-                    writer.write((e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/" + type + "\n");
+                 File file = new File("src/ressources/level/ediit1.txt") ;
+                if (file.createNewFile()){
+     
+
+               
+
+                        String type = "";
+                        if (e instanceof PegRebond) type = "PegRebond" ;
+                        else if (e instanceof PegSoleil) type = "PegSoleil";
+                        else if(e instanceof PegCercle) type = "PegCercle";
+                        else if(e instanceof PegRectangle) type = "PegRectangle";
+                        writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/" +type + "\n");
+                    }  
+                    writer.close();
                 }
-                writer.close();
-            } catch (IOException e) {
+            } catch(Exception e){
                 System.out.println("Une erreur est survenue lors de la création du fichier.");
                 e.printStackTrace();
             }
         }
+
     }
 
     public Editor getEditor() {

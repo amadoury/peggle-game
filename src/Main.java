@@ -18,8 +18,7 @@ public class Main extends JFrame {
         MenuLevel menuLevel = new MenuLevel(dim, cardLayout, mainPanel);
         mainPanel.add(menuLevel, "menuLevel");
 
-        App appEdit = new App(dim, cardLayout, mainPanel);
-        mainPanel.add(appEdit, "appEdit");
+
 
         Tutorial tutorial = new Tutorial(dim, cardLayout, mainPanel);
         mainPanel.add(tutorial, "tutorial");
@@ -41,10 +40,17 @@ public class Main extends JFrame {
         });
 
         menup.editButton.addActionListener((event) -> {
+            //System.out.println("button editor");
+            App appEdit = new App(dim, cardLayout, mainPanel, menuLevel, this);
+            mainPanel.add(appEdit, "appEdit");
             cardLayout.show(mainPanel, "appEdit");
         });
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void moveCdLToMain(){
+        cardLayout.show(this,  "menup");
     }
 }
