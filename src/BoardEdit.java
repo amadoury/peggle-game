@@ -152,30 +152,33 @@ public class BoardEdit extends Board {
         this.app = app;
     }
 
-    public void WriteLevelText(){
-        if(editor.getListPeg().size() >= 1){
+    public void WriteLevelText() {
+        if (editor.getListPeg().size() >= 1) {
             try {
-                 File file = new File("src/ressources/level/ediit1.txt") ;
-                if (file.createNewFile()){
-     
-
-               
-
+                File file = new File("src/ressources/level/ediit1.txt");
+                if (file.createNewFile()) {
+                    System.out.println("file create");
+                    FileWriter writer = new FileWriter(file);
+                    for (Peg e : editor.getListPeg()) {
                         String type = "";
-                        if (e instanceof PegRebond) type = "PegRebond" ;
-                        else if (e instanceof PegSoleil) type = "PegSoleil";
-                        else if(e instanceof PegCercle) type = "PegCercle";
-                        else if(e instanceof PegRectangle) type = "PegRectangle";
-                        writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/" +type + "\n");
-                    }  
+                        if (e instanceof PegRebond)
+                            type = "PegRebond";
+                        else if (e instanceof PegSoleil)
+                            type = "PegSoleil";
+                        else if (e instanceof PegCercle)
+                            type = "PegCercle";
+                        else if (e instanceof PegRectangle)
+                            type = "PegRectangle";
+                        writer.write(
+                                (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/" + type + "\n");
+                    }
                     writer.close();
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Une erreur est survenue lors de la création du fichier.");
                 e.printStackTrace();
             }
         }
-
     }
 
     public Editor getEditor() {
