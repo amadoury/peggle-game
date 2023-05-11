@@ -237,10 +237,6 @@ public class PegRectangle extends Peg {
         ImageIcon imageIcon = new ImageIcon(newimg); // transform it back
 
         jlabel = new LabelPeg(imageIcon);
-        // jlabel.setBounds((int) (pegX - Math.cos(angle) * longueur / 2), (int) (pegY -
-        // Math.sin(angle) * largeur / 2),
-        // (int) longueur,
-        // (int) longueur);
         double carreLength = Math.sqrt(longueur * longueur + largeur * largeur);
         jlabel.setBounds(
                 (int) (pegX - carreLength / 2),
