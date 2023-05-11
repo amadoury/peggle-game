@@ -15,7 +15,7 @@ public class App extends JPanel {
     private JPanel panelBoard;
     private BoardMain boardMain;
     private BoardEdit boardEdit;
-    private BoardIA boardIA ;
+    private BoardIA boardIA;
 
     private double width;
     private double height;
@@ -24,22 +24,23 @@ public class App extends JPanel {
     public Dimension dim;
     public String path;
     public boolean multiPlayer;
-    private MenuLevel menuLevel ;
-    private  boolean isValidate ;
+    private MenuLevel menuLevel;
+    private boolean isValidate;
 
-    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, CardLayout cardMain){
+    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu,
+            MenuLevel menuLevel, CardLayout cardMain) {
         this.dim = dim;
         this.path = path;
         this.multiPlayer = multiPlayer;
-        right = new BoardRight(dim.getWidth(), dim.getHeight(),  cdLMenu, panelMenu, menuLevel);
+        right = new BoardRight(dim.getWidth(), dim.getHeight(), cdLMenu, panelMenu, menuLevel);
         left = new BoardLeft(dim.getWidth(), dim.getHeight());
         boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel, this);
-        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim, this) ;
+        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel, dim, this);
         initUI();
     }
 
     public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, Main main) {
-        this.menuLevel = menuLevel ;
+        this.menuLevel = menuLevel;
         this.dim = dim;
         try {
             boardEdit = new BoardEdit(dim);
@@ -51,45 +52,42 @@ public class App extends JPanel {
         JButton buttonRetour = new JButton("Back To Menu");
         buttonRetour.setBounds(10, 10, 200, 40);
 
-        JButton buttonPlay = new JButton("Play") ;
-        
+        JButton buttonPlay = new JButton("Play");
+
         isValidate = false;
         buttonPlay.setBounds(10, 70, 100, 40);
 
-        if (!isValidate){
+        if (!isValidate) {
             buttonPlay.setEnabled(false);
         }
-
 
         boardEdit.valid_edit.addActionListener((event) -> {
             boardEdit.WriteLevelText();
             buttonPlay.setEnabled(true);
-            isValidate = true ;
+            isValidate = true;
         });
 
         buttonPlay.addActionListener((event) -> {
-            try{
-                File file = new File("src/ressources/level/ediit1.txt") ;
-                if (file.exists()){
+            try {
+                File file = new File("ressources/level/ediit1.txt");
+                if (file.exists()) {
                     System.out.println("hello text");
-                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel, cdLMenu) ;
+                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel,
+                            cdLMenu);
 
-                    panelMenu.add(app, "appEdit") ;
-                    cdLMenu.show(panelMenu, "appEdit") ;
-                   // app = null ;
+                    panelMenu.add(app, "appEdit");
+                    cdLMenu.show(panelMenu, "appEdit");
+                    // app = null ;
                     file.delete();
-                    //main.moveCdLToEditor();   
-                    //panelMenu.remove(app);
-                }
-                else{
+                    // main.moveCdLToEditor();
+                    // panelMenu.remove(app);
+                } else {
                     System.out.println("file doesn't exist");
                 }
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }); 
-
+        });
 
         buttonRetour.addActionListener((event) -> {
             cdLMenu.show(panelMenu, "menup");
@@ -100,7 +98,7 @@ public class App extends JPanel {
         boardEdit.setApp(this);
     }
 
-    public void initUIBoardEdit(){
+    public void initUIBoardEdit() {
         cardLayout = new CardLayout();
         panelBoard = new JPanel();
         panelBoard.setLayout(cardLayout);
@@ -133,10 +131,9 @@ public class App extends JPanel {
         this.add(right);
         this.add(left);
 
-        if (multiPlayer){
+        if (multiPlayer) {
             cardLayout.show(panelBoard, "boardIA");
-        }
-        else{
+        } else {
             cardLayout.show(panelBoard, "boardMain");
         }
 
@@ -144,10 +141,9 @@ public class App extends JPanel {
         right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
         left.setBounds(0, 0, (int) xStart, (int) height);
 
-        if (!multiPlayer){
+        if (!multiPlayer) {
             setParams(boardMain);
-        }
-        else{
+        } else {
             setParams(boardIA);
         }
 

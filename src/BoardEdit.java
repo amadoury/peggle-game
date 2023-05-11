@@ -167,7 +167,7 @@ public class BoardEdit extends Board {
     public void WriteLevelText() {
         if (editor.getListPeg().size() >= 1) {
             try {
-                File file = new File("src/ressources/level/ediit1.txt");
+                File file = new File("ressources/level/ediit1.txt");
                 if (file.createNewFile()) {
                     System.out.println("file create");
                     FileWriter writer = new FileWriter(file);
