@@ -56,6 +56,8 @@ public class BoardModel {
         paths.add("ressources/audio/rebond.wav");
         paths.add("ressources/audio/pegRebond.wav");
         paths.add("ressources/audio/burn.wav");
+        paths.add("ressources/audio/gameover.wav");
+        paths.add("ressources/audio/ballFall.wav");
         sound = new Sound(paths);
         right.setRayon((int) (20 / resolutionScreen));
         right.setNombreBall(nombreBall);

@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.InputStream;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import java.awt.event.*;
 
@@ -17,6 +19,7 @@ public class MenuPrincipal extends JPanel {
   public JButton editButton = createButton("EDITOR");
   public JButton exitButton = createButton("EXIT");
   private Dimension dim;
+  private Sound sound;
 
   public MenuPrincipal(Dimension dim) {
     this.dim = dim;
@@ -49,6 +52,10 @@ public class MenuPrincipal extends JPanel {
     ButtonPanel.add(tutoButton);
     ButtonPanel.add(editButton);
     ButtonPanel.add(exitButton);
+
+    ArrayList<String> paths = new ArrayList<String>();
+    paths.add("ressources/audio/boutonClick.wav");
+    sound = new Sound(paths);
 
     this.add(ButtonPanel);
     this.setVisible(true);
@@ -105,6 +112,8 @@ public class MenuPrincipal extends JPanel {
       public void actionPerformed(ActionEvent e) {
         button.setBackground(colorClicked);
         button.setColor(colorClicked);
+        sound.setFile(0);
+        sound.play();
       }
     });
 

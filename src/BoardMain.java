@@ -37,6 +37,7 @@ public class BoardMain extends Board implements KeyListener {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private MenuLevel menuLevel;
+    private boolean startLose = true;
 
     public BoardMain(String filePath, BoardRight right, BoardLeft left, boolean multiPlayer, CardLayout cdLayout,
             JPanel mainPanel, MenuLevel menuLevel, App app) {
@@ -48,7 +49,7 @@ public class BoardMain extends Board implements KeyListener {
         this.menuLevel = menuLevel;
         this.multiPlayer = multiPlayer;
         initBoard(filePath);
-        this.app = app ;
+        this.app = app;
         this.addKeyListener(this);
         this.setFocusable(true);
     }
@@ -103,11 +104,12 @@ public class BoardMain extends Board implements KeyListener {
                                 (int) (Double.parseDouble(tabRows[1]) * height / reso),
                                 boardModel.getGenerator().getRadius() * 3, tabRows[2]));
                         break;
-                    case "PegRectangle" :
-                        double larg = 30 ;
-                        double lon = 60 ;
-                        double angle = Double.parseDouble(tabRows[4]) ;
-                        listPeg.add(new PegRectangle((int)(Double.parseDouble(tabRows[0]) * width / reso), (int)(Double.parseDouble(tabRows[1]) * height / reso), lon, larg,  angle ,tabRows[2])) ;
+                    case "PegRectangle":
+                        double larg = 30;
+                        double lon = 60;
+                        double angle = Double.parseDouble(tabRows[4]);
+                        listPeg.add(new PegRectangle((int) (Double.parseDouble(tabRows[0]) * width / reso),
+                                (int) (Double.parseDouble(tabRows[1]) * height / reso), lon, larg, angle, tabRows[2]));
                         break;
                 }
             }
@@ -178,7 +180,7 @@ public class BoardMain extends Board implements KeyListener {
                 g2d.drawLine((int) p.getX(), (int) p.getY(), (int) point.getX(), (int) point.getY());
             }
         }
-        
+
         if (boardModel.getLeft().barreMax()
                 || (boardModel.getRight().noBalls() && !boardModel.getBall().isBallStart())) {
 
@@ -197,9 +199,16 @@ public class BoardMain extends Board implements KeyListener {
             if (!multiPlayer) {
                 if (boardModel.getLeft().barreMax())
                     drawGameWiningScreen("YOU WON");
-                else
+                else {
                     drawGameWiningScreen("YOU LOST");
-            }
+                    if (startLose) {
+                        boardModel.getSound().setFile(4);
+                        boardModel.getSound().play();
+                        startLose = false;
+                    }
+                }
+            } else
+                startLose = true;
         }
 
     }
@@ -364,7 +373,7 @@ public class BoardMain extends Board implements KeyListener {
             if (commandKey == 0) {
                 // retour to menu princiapl
                 menuLevel.moveCdLToPage1();
-                mainPanel.remove(app) ;
+                mainPanel.remove(app);
                 cardLayout.show(mainPanel, "menup");
             }
             if (commandKey == 1) {
