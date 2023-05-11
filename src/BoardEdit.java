@@ -26,6 +26,8 @@ public class BoardEdit extends Board {
     private PegRectangle rectangleMoving;
     private double rectangleMovingAngle;
     public CardLayout cardMain;
+    private int eX, eY;
+    private boolean mouseDragging;
 
     public BoardEdit(Dimension dim) throws FontFormatException, IOException {
         super(1);
@@ -146,39 +148,50 @@ public class BoardEdit extends Board {
     public void paintComponent(Graphics g) {
         g2d = (Graphics2D) g;
         g2d.drawImage(imageBoard, 0, 0, (int) width, (int) height, null);
+
+        if (rectangleMoving != null && mouseDragging) {
+            g2d.setColor(new Color(180, 162, 184, 60));
+            g2d.setStroke(new BasicStroke((float) (15 / (resolutionScreen / 100))));
+            float dash1[] = { 10.0f };
+            g2d.setStroke(new BasicStroke(7.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 20.0f, dash1, 0.0f));
+            g2d.drawLine((int) rectangleMoving.getPegX(), (int) rectangleMoving.getPegY(), eX, eY);
+
+        }
+
     }
 
     public void setApp(App app) {
         this.app = app;
     }
 
-    public void WriteLevelText(){
-        if(editor.getListPeg().size() >= 1){
+    public void WriteLevelText() {
+        if (editor.getListPeg().size() >= 1) {
             try {
-                File file = new File("src/ressources/level/ediit1.txt") ;
-                if (file.createNewFile()){
+                File file = new File("src/ressources/level/ediit1.txt");
+                if (file.createNewFile()) {
                     System.out.println("file create");
                     FileWriter writer = new FileWriter(file);
-                    for(Peg e : editor.getListPeg()) {
-                        if (e instanceof PegRebond){
-                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegRebond\n");
+                    for (Peg e : editor.getListPeg()) {
+                        if (e instanceof PegRebond) {
+                            writer.write(
+                                    (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/PegRebond\n");
+                        } else if (e instanceof PegSoleil) {
+                            writer.write(
+                                    (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/PegSoleil\n");
+                        } else if (e instanceof PegCercle) {
+                            writer.write(
+                                    (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/PegCercle\n");
+                        } else if (e instanceof PegRectangle) {
+                            writer.write((e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor()
+                                    + "/PegRectangle/" + ((PegRectangle) e).getAngle() + "\n");
                         }
-                        else if (e instanceof PegSoleil){
-                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegSoleil\n");
-                        }
-                        else if(e instanceof PegCercle){
-                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegCercle\n");
-                        } 
-                        else if(e instanceof PegRectangle) {
-                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegRectangle/" + ((PegRectangle)e).getAngle() +"\n");
-                        }
-                    }  
+                    }
                     writer.close();
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Une erreur est survenue lors de la création du fichier.");
                 e.printStackTrace();
-            } 
+            }
         }
     }
 
@@ -247,12 +260,22 @@ public class BoardEdit extends Board {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        rectangleMoving = null;
+        // TODO Auto-generated method stub
+        if (rectangleMoving != null) {
+            mouseDragging = false;
+            rectangleMoving.getLabelPeg().setEditing(true);
+            rectangleMoving.getLabelPeg().setApp(app);
+            rectangleMoving.getLabelPeg().setBoardEdit(this);
+            rectangleMoving.getLabelPeg().setPeg(rectangleMoving);
+            rectangleMoving = null;
+            repaint();
+        }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         if (rectangleMoving != null) {
+            mouseDragging = true;
             double angle = -Math.atan2(e.getX() - rectangleMoving.getPegX(), e.getY() - rectangleMoving.getPegY());
             angle += Math.PI / 2.0;
             angle = Math.toDegrees(angle);
@@ -265,9 +288,8 @@ public class BoardEdit extends Board {
             rectangleMoving.rotationPegRectangle(angle);
             add(rectangleMoving.getLabelPeg());
             rectangleMoving.getLabelPeg().setEditing(true);
-            rectangleMoving.getLabelPeg().setApp(app);
-            rectangleMoving.getLabelPeg().setBoardEdit(this);
-            rectangleMoving.getLabelPeg().setPeg(rectangleMoving);
+            eX = e.getX();
+            eY = e.getY();
             repaint();
         }
     }
