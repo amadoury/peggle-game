@@ -41,6 +41,7 @@ public class BoardEdit extends Board {
         listPath.add("ressources/peg-bleu-rectangle.png");
         listPath.add("ressources/peg-soleil.png");
         listPath.add("ressources/peg-rebond.png");
+        listPath.add("ressources/peg-orange-rectangle.png") ;
 
         valid_edit.setBounds((int) (width * 0.40), 0, 325, 50);
         add(valid_edit);
@@ -135,6 +136,28 @@ public class BoardEdit extends Board {
                     pegRebond.getLabelPeg().setApp(app);
                     pegRebond.getLabelPeg().setBoardEdit(this);
                     pegRebond.getLabelPeg().setPeg(pegRebond);
+                    repaint();
+                });
+            }
+            else if (listPath.get(i).endsWith("orange-rectangle.png")) {
+                popUp.getListMenuItem().get(i).addActionListener((event) -> {
+                    PegRectangle pegRectangle = new PegRectangle(xMouse, yMouse, (int) (60 /
+                            (resolutionScreen / 100)),
+                            (int) (30 * (resolutionScreen / 100)), 0, "orange");
+
+                    /* add peg to editor */
+                    editor.addPeg(pegRectangle);
+
+                    /* add to boardEdit */
+                    rectangleMoving = pegRectangle;
+
+                    add(pegRectangle.getLabelPeg());
+
+                    /* set : isEditing, App, BoardEdit, Peg */
+                    pegRectangle.getLabelPeg().setEditing(true);
+                    pegRectangle.getLabelPeg().setApp(app);
+                    pegRectangle.getLabelPeg().setBoardEdit(this);
+                    pegRectangle.getLabelPeg().setPeg(pegRectangle);
                     repaint();
                 });
             }
