@@ -1,15 +1,23 @@
-import java.awt.Graphics2D;
-
-import javax.swing.JLabel;
-
 public abstract class Peg {
 
     protected int pegX;
     protected int pegY;
+    protected String color;
+    protected boolean touched;
+    protected boolean destructed;
+    protected LabelPeg jlabel;
+    protected String player = "";
+    protected Sound sound;
 
-    Peg(int x, int y) {
+    Peg(int x, int y, String c) {
         pegX = x;
         pegY = y;
+        color = c;
+    }
+
+    public String toString() {
+        return "pegX = " + pegX + "; pegY = " + pegY + "; color = " + color + "; touched = " + touched
+                + "; destructed = " + destructed;
     }
 
     public double getPegX() {
@@ -20,6 +28,10 @@ public abstract class Peg {
         return pegY;
     }
 
+    public String getColor() {
+        return color;
+    }
+
     public void setPegX(int pegX) {
         this.pegX = pegX;
     }
@@ -28,10 +40,34 @@ public abstract class Peg {
         this.pegY = pegY;
     }
 
-    public abstract void drawPeg(Graphics2D g);
+    public void updatePeg() {
+        if (touched) {
+            delete();
+            destructed = true;
+        }
+    }
 
-    public abstract JLabel getJlabel();
+    public boolean isTouched() {
+        return touched;
+    }
+
+    public boolean isDestructed() {
+        return destructed;
+    }
+
+    public void delete() {
+        jlabel.setIcon(null);
+    }
 
     public abstract void pegTouchdown();
 
+    public LabelPeg getLabelPeg() {
+        return jlabel;
+    }
+
+    public void actualisePeg() {
+    }
+
+    public void touchTimeStart() {
+    }
 }

@@ -1,66 +1,177 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
-public class App extends JFrame {
+public class App extends JPanel {
 
     private Dimension dimensionFrame;
 
-    private JPanel left = new JPanel();
-    private JPanel right = new JPanel();
+    private BoardRight right;
+    private BoardLeft left;
 
-    public App() {
+    // private JPanel right = new JPanel() ;
+
+    private JPanel panelBoard;
+    private BoardMain boardMain;
+    private BoardEdit boardEdit;
+    private BoardIA boardIA ;
+
+    private double width;
+    private double height;
+    private boolean isEditing = false;
+    private CardLayout cardLayout;
+    public Dimension dim;
+    public String path;
+    public boolean multiPlayer;
+    private MenuLevel menuLevel ;
+    private  boolean isValidate ;
+
+    public App(Dimension dim, String path, boolean multiPlayer, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, CardLayout cardMain){
+        this.dim = dim;
+        this.path = path;
+        this.multiPlayer = multiPlayer;
+        right = new BoardRight(dim.getWidth(), dim.getHeight(),  cdLMenu, panelMenu, menuLevel);
+        left = new BoardLeft(dim.getWidth(), dim.getHeight());
+        boardMain = new BoardMain(path, right, left, false, cdLMenu, panelMenu, menuLevel, this);
+        boardIA = new BoardIA(path, right, left, cdLMenu, panelMenu, menuLevel,dim, this) ;
         initUI();
     }
 
+    public App(Dimension dim, CardLayout cdLMenu, JPanel panelMenu, MenuLevel menuLevel, Main main) {
+        this.menuLevel = menuLevel ;
+        this.dim = dim;
+        try {
+            boardEdit = new BoardEdit(dim);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        initUIBoardEdit();
+
+        JButton buttonRetour = new JButton("Back To Menu");
+        buttonRetour.setBounds(10, 10, 200, 40);
+
+        JButton buttonPlay = new JButton("Play") ;
+        
+        isValidate = false;
+        buttonPlay.setBounds(10, 70, 100, 40);
+
+        if (!isValidate){
+            buttonPlay.setEnabled(false);
+        }
+
+
+        boardEdit.valid_edit.addActionListener((event) -> {
+            boardEdit.WriteLevelText();
+            buttonPlay.setEnabled(true);
+            isValidate = true ;
+        });
+
+        buttonPlay.addActionListener((event) -> {
+            try{
+                File file = new File("src/ressources/level/ediit1.txt") ;
+                if (file.exists()){
+                    System.out.println("hello text");
+                    App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel, cdLMenu) ;
+
+                    panelMenu.add(app, "appEdit") ;
+                    cdLMenu.show(panelMenu, "appEdit") ;
+                   // app = null ;
+                    file.delete();
+                    //main.moveCdLToEditor();   
+                    //panelMenu.remove(app);
+                }
+                else{
+                    System.out.println("file doesn't exist");
+                }
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }); 
+
+
+        buttonRetour.addActionListener((event) -> {
+            cdLMenu.show(panelMenu, "menup");
+        });
+
+        this.add(buttonRetour);
+        this.add(buttonPlay);
+        boardEdit.setApp(this);
+    }
+
+    public void initUIBoardEdit(){
+        cardLayout = new CardLayout();
+        panelBoard = new JPanel();
+        panelBoard.setLayout(cardLayout);
+        panelBoard.add(boardEdit, "boardEdit");
+
+        width = (6. / 8.) * dim.getWidth();
+        Rectangle winSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+        height = winSize.height;
+        double xStart = (1. / 8.) * dim.getWidth();
+
+        setLayout(null);
+        this.add(panelBoard);
+        panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
+        // this.addComponentListener(new ResizeListener());
+    }
+
     private void initUI() {
-        // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLayout(new GridBagLayout());
+        cardLayout = new CardLayout();
+        panelBoard = new JPanel();
+        panelBoard.setLayout(cardLayout);
+        panelBoard.add(boardMain, "boardMain");
+        panelBoard.add(boardIA, "boardIA");
 
-        GridBagConstraints c = new GridBagConstraints();
+        width = (6. / 8.) * dim.getWidth();
+        height = dim.getHeight();
+        double xStart = (1. / 8.) * dim.getWidth();
+        setLayout(null);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
+        this.add(panelBoard);
+        this.add(right);
+        this.add(left);
 
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = 0;
-        add(left, c);
+        if (multiPlayer){
+            cardLayout.show(panelBoard, "boardIA");
+        }
+        else{
+            cardLayout.show(panelBoard, "boardMain");
+        }
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 3;
-        c.ipady = 1500;
-        c.gridx = 1;
-        c.gridy = 0;
-        Board board = new Board();
-        add(board, c);
+        panelBoard.setBounds((int) xStart, 0, (int) width, (int) height);
+        right.setBounds((int) (xStart + width), 0, (int) xStart, (int) height);
+        left.setBounds(0, 0, (int) xStart, (int) height);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
-        c.gridx = 2;
-        c.gridy = 0;
-        add(right, c);
+        if (!multiPlayer){
+            setParams(boardMain);
+        }
+        else{
+            setParams(boardIA);
+        }
 
-        pack();
+        right.setWidth(dim.getWidth());
+        right.setHeight(dim.getHeight());
+        right.initalisation();
 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        board.setDimensionBoard(board.getSize());
-
-        dimensionFrame = this.getBounds().getSize();
-
-        board.setWidthScreen(dimensionFrame.getWidth());
-
-        setTitle("App");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        left.setWidth(dim.getWidth());
+        left.setHeight(dim.getHeight());
 
         this.addComponentListener(new ResizeListener());
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            App app = new App();
-            app.setVisible(true);
-        });
+    public void setParams(BoardMain boardMain) {
+        boardMain.setWidthScreen(dim.getWidth());
+        boardMain.setHeightScreen(dim.getHeight());
+    }
+
+    public JPanel getPanelBoard() {
+        return panelBoard;
+    }
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
     }
 
     private class ResizeListener implements ComponentListener {
@@ -74,7 +185,12 @@ public class App extends JFrame {
         }
 
         public void componentResized(ComponentEvent e) {
-            dimensionFrame = e.getComponent().getBounds().getSize();
+            dimensionFrame = getBounds().getSize();
+            // if (width != dimensionFrame.getWidth())
+            // boardMain.setWidthScreen(dimensionFrame.getWidth());
+            // if (height != dimensionFrame.getHeight())
+            // dimensionFrame = e.getComponent().getBounds().getSize();
+            // boardMain.setHeightScreen(dimensionFrame.getHeight());
         }
     }
 }
