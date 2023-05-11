@@ -212,6 +212,19 @@ public class MenuLevel extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (type.equals("bLevel")) {
+                // try {
+                // // URL imageURL = ChatMenuItem.class.getResource(rootPath+imageRelativePath);
+                // ImageIcon iIcon = new ImageIcon(
+                // Button.this.getClass().getClassLoader()
+                // .getResource("ressources/levelBoutons/img-level-ANI-" + nLevel + ".gif"));
+                // if (imgIcon.getImageLoadStatus() == MediaTracker.COMPLETE) { // if image is
+                // correctly loaded
+                // imgIcon = iIcon;
+                // }
+                // } catch (NullPointerException err) {
+                // err.printStackTrace();
+                // }
+                // this.setIcon(imgIcon);
                 System.out.println("ismultiplayer dans menuLvele" + isMultiplayer);
                 app = new App(dim, pathLevel, isMultiplayer, cdLayoutMain, mainPanel, MenuLevel.this, cdLayoutMain);
                 MenuLevel.this.add(app, "app" + nLevel);
@@ -247,7 +260,8 @@ public class MenuLevel extends JPanel {
 
             if (type.equals("bLevel")) {
                 imgIcon = new ImageIcon(
-                        this.getClass().getResource("ressources/levelBoutons/img-level-light-" + nLevel + ".png"));
+                        this.getClass().getResource("ressources/levelBoutons/img-level-light-" +
+                                nLevel + ".png"));
                 this.setIcon(imgIcon);
             } else if (iaButton) {
                 // JLabel info = new JLabel("Info");
@@ -294,6 +308,12 @@ public class MenuLevel extends JPanel {
                 Image newImg = img.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
                 imgIcon.setImage(newImg);
             }
+        }
+
+        @Override
+        public void paint(Graphics g) {
+            // TODO Auto-generated method stub
+            super.paint(g);
         }
     }
 }
