@@ -40,10 +40,10 @@ public class MenuPrincipal extends JPanel {
     double w = width * reso;
     double h = height * reso;
 
-    playButton.setBounds((int) (w * 0.42), (int) (h * 0.30), (int) (360 * reso), (int) (85 * reso));
-    tutoButton.setBounds((int) (w * 0.42), (int) (h * 0.42), (int) (360 * reso), (int) (85 * reso));
-    editButton.setBounds((int) (w * 0.42), (int) (h * 0.54), (int) (360 * reso), (int) (85 * reso));
-    exitButton.setBounds((int) (w * 0.42), (int) (h * 0.66), (int) (360 * reso), (int) (85 * reso));
+    playButton.setBounds((int) (w * 0.40), (int) (h * 0.36), (int) (420 * reso), (int) (75 * reso));
+    tutoButton.setBounds((int) (w * 0.40), (int) (h * 0.46), (int) (420 * reso), (int) (75 * reso));
+    editButton.setBounds((int) (w * 0.40), (int) (h * 0.56), (int) (420 * reso), (int) (75 * reso));
+    exitButton.setBounds((int) (w * 0.40), (int) (h * 0.66), (int) (420 * reso), (int) (75 * reso));
 
     ButtonPanel.add(playButton);
     ButtonPanel.add(tutoButton);
@@ -88,7 +88,7 @@ public class MenuPrincipal extends JPanel {
     button.addMouseListener(new MouseAdapter() {
       public void mouseEntered(MouseEvent e) {
         button.setBackground(Color.WHITE);
-        button.setColor(Color.WHITE);
+        button.setColor(new Color(255, 217, 60));
         button.setForeground(Color.BLACK);
       }
     });

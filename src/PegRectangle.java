@@ -260,11 +260,23 @@ public class PegRectangle extends Peg {
             e.printStackTrace();
             return;
         }
-        // ImageIcon imageIcon = new ImageIcon(
-        // PegRectangle.this.getClass().getResource("ressources/peg-" + color +
-        // "-rectangle-glow.png"));
-        // jlabel.setIcon(imageIcon);
+
         rotationPegRectangle(angle);
+        if (angle == 0) {
+            ImageIcon imageIcon = new ImageIcon(
+                    PegRectangle.this.getClass().getResource("ressources/peg-" + color +
+                            "-rectangle-animation.gif"));
+            Image newimg = imageIcon.getImage().getScaledInstance((int) (longueur), (int) (longueur),
+                    java.awt.Image.SCALE_DEFAULT); // scale
+            imageIcon.setImage(newimg);
+            jlabel.setIcon(imageIcon);
+            double carreLength = Math.sqrt(longueur * longueur + largeur * largeur);
+            jlabel.setBounds(
+                    (int) (pegX - carreLength / 2),
+                    (int) (pegY - carreLength / 2),
+                    (int) carreLength,
+                    (int) carreLength);
+        }
 
     }
 
