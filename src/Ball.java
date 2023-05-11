@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Ball {
+
     private double xt; // position x de la balle à chaque instant
     private double yt; // position y de la balle à chaque instant
     private double x_initial; // position x initial de la balle
@@ -54,23 +55,6 @@ public class Ball {
         nombreBall = nb;
         this.multiPlayer = multiPlayer;
 
-        // ActionListener task = new ActionListener() {
-
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-
-        // for (Peg p : boardModel.getGenerator().getPegListe()) {
-        // if (p instanceof PegCercle || p instanceof PegRectangle) {
-        // p.actualisePeg();
-        // }
-        // }
-        // }
-
-        // };
-        // timer = new Timer(1000, task);
-        // timer.setRepeats(true);
-
-        // this.thetha = Math.toRadians(thetha) ;
         try {
             imageCurrent = ImageIO.read(this.getClass().getResource("ressources/ball.png"));
         } catch (IOException e) {
@@ -93,25 +77,6 @@ public class Ball {
     }
 
     public void updateImgBall() {
-        // double spaceWithTrou = boardModel.getTrou().getY() -
-        // boardModel.getTrou().getLargeur() / 2 - yt + rayon;
-        // if (spaceWithTrou < 2 * rayon) {
-        // BufferedImage newImg = imageCurrent.getSubimage(0, 0,
-        // labelImgBall.getWidth(), (int) spaceWithTrou);
-        // ImageIcon subImageIcon = new ImageIcon(newImg);
-        // labelImgBall = new JLabel(subImageIcon);
-        // labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, (int)
-        // spaceWithTrou);
-
-        // Image image = subImageIcon.getImage(); // transform it
-        // Image newimg = image.getScaledInstance(2 * rayon, 2 * rayon,
-        // java.awt.Image.SCALE_SMOOTH); // scale it the
-        // // smooth way
-        // subImageIcon = new ImageIcon(newimg); // transform it back
-        // labelImgBall.setIcon(subImageIcon);
-        // System.out.println("sjfjrkjgkr");
-
-        // } else
         labelImgBall.setBounds((int) xt - rayon, (int) yt - rayon, 2 * rayon, 2 * rayon);
     }
 
@@ -490,23 +455,4 @@ public class Ball {
     public void setMultiPlayer(boolean multiPlayer) {
         this.multiPlayer = multiPlayer;
     }
-
-    // class Helper extends TimerTask {
-    // public static int i = 0;
-
-    // public void run() {
-    // System.out.println("Timer ran " + ++i);
-    // }
-    // }
-
-    // public class Test {
-    // public static void main(String[] args) {
-
-    // Timer timer = new Timer(0, null);
-    // TimerTask task = new Helper();
-
-    // timer.s
-
-    // }
-    // }
 }

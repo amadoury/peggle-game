@@ -155,27 +155,31 @@ public class BoardEdit extends Board {
     public void WriteLevelText(){
         if(editor.getListPeg().size() >= 1){
             try {
-                 File file = new File("src/ressources/level/ediit1.txt") ;
+                File file = new File("src/ressources/level/ediit1.txt") ;
                 if (file.createNewFile()){
-     
-
-               
-
-                        String type = "";
-                        if (e instanceof PegRebond) type = "PegRebond" ;
-                        else if (e instanceof PegSoleil) type = "PegSoleil";
-                        else if(e instanceof PegCercle) type = "PegCercle";
-                        else if(e instanceof PegRectangle) type = "PegRectangle";
-                        writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/" +type + "\n");
+                    System.out.println("file create");
+                    FileWriter writer = new FileWriter(file);
+                    for(Peg e : editor.getListPeg()) {
+                        if (e instanceof PegRebond){
+                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegRebond\n");
+                        }
+                        else if (e instanceof PegSoleil){
+                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegSoleil\n");
+                        }
+                        else if(e instanceof PegCercle){
+                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegCercle\n");
+                        } 
+                        else if(e instanceof PegRectangle) {
+                            writer.write((e.pegX/width) + "/" + (e.pegY/height)+"/" + e.getColor() + "/PegRectangle/" + ((PegRectangle)e).getAngle() +"\n");
+                        }
                     }  
                     writer.close();
                 }
             } catch(Exception e){
                 System.out.println("Une erreur est survenue lors de la création du fichier.");
                 e.printStackTrace();
-            }
+            } 
         }
-
     }
 
     public Editor getEditor() {
@@ -232,7 +236,6 @@ public class BoardEdit extends Board {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
         if (e.getButton() == MouseEvent.BUTTON3) {
             popUp.show(this, e.getX(), e.getY());
             xMouse = e.getX();
@@ -244,14 +247,12 @@ public class BoardEdit extends Board {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
         rectangleMoving = null;
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         if (rectangleMoving != null) {
-
             double angle = -Math.atan2(e.getX() - rectangleMoving.getPegX(), e.getY() - rectangleMoving.getPegY());
             angle += Math.PI / 2.0;
             angle = Math.toDegrees(angle);

@@ -59,6 +59,7 @@ public class BoardModel {
         sound = new Sound(paths);
         right.setRayon((int) (20 / resolutionScreen));
         right.setNombreBall(nombreBall);
+        ball.setSound(sound);
     }
 
     public Canon getCanon() {
@@ -128,7 +129,6 @@ public class BoardModel {
             return false;
         for (Peg p : listPeg) {
             ball.contactPeg(p);
-            ball.setSound(sound);
         }
         return true;
     }
