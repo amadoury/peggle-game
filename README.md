@@ -1,13 +1,16 @@
 # PROJET DE PROGRAMMATION
 ## MEMBRE DU GROUPE : 
-1-Amadou Oury DIALLO
-2-Abounaim ELIAS
-3-Aurelien GUILLOUX
-4-Imran KHALED
-5-Yannis TAQUI
+* Amadou Oury DIALLO
+* Abounaim ELIAS
+* Aurelien GUILLOUX
+* Imran KHALED
+* Yannis TAQUI
 
-### COMPILATION ET EXECUTION
-Placez-vous le dossier principal (2022-OS1-C-PEGGLERS), puis ouvrez un Terminal et éxécuter la commande suivante
+## RAPPORT
+[Rapport du Projet](https://gaufre.informatique.univ-paris-diderot.fr/diallama/2022-os1-c-pegglers/blob/master/rapport.pdf)
+
+## COMPILATION ET EXECUTION
+Ouverz un Terminal dans le dossier **2022-0S1-C-PEGGLERS/src** et taper la commande suivante pour lancer le jeux : 
 pour lancer le jeu : 
 ```shell
 javac LoadingScreen.java && java LoadingScreen
