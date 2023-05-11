@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class BoardLeft extends JPanel {
     private JLabel labelNumberBall;
@@ -53,6 +54,10 @@ public class BoardLeft extends JPanel {
         add(jlabel);
         score.setBounds((int) (width / 5 * 2), 3, 100, 25);
 
+        ArrayList<String> paths = new ArrayList<String>();
+        paths.add("ressources/audio/scoreUp.wav");
+        sound = new Sound(paths);
+
         ActionListener task = new ActionListener() {
 
             @Override
@@ -67,6 +72,8 @@ public class BoardLeft extends JPanel {
                             imageIcon.getImage().getScaledInstance((int) width, (int) height,
                                     java.awt.Image.SCALE_SMOOTH));
                     jlabel.setIcon(imageIcon);
+                    sound.setFile(0);
+                    sound.play();
                 }
             }
 

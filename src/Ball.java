@@ -41,9 +41,9 @@ public class Ball {
     BufferedImage imageCurrent;
     private boolean multiPlayer;
     private Timer timer;
-    private Player player1 ;
-    private Player playerIA ;
-    private boolean currentPlayer ;
+    private Player player1;
+    private Player playerIA;
+    private boolean currentPlayer;
 
     public Ball(double x_initial, double y_initial, double thetha, int r, int nb, BoardModel bm, boolean multiPlayer) {
         this.x_initial = x_initial;
@@ -226,6 +226,8 @@ public class Ball {
             if (!c)
                 --nombreBall;
             boardModel.ballRestart();
+            sound.setFile(5);
+            sound.play();
         }
     }
 
@@ -274,12 +276,11 @@ public class Ball {
                 vitesseY *= 1.3;
                 p.pegTouchdown();
             }
-            
-            if (startBall){
+
+            if (startBall) {
                 sound.setFile(2);
                 sound.play();
             }
-
 
             lastPegTouched = p;
             return true;
@@ -300,14 +301,13 @@ public class Ball {
                 sound.setFile(1);
                 sound.play();
 
-                if (multiPlayer){
-                    if (currentPlayer){
-                        if (p.color.equals("orange") && !p.touched){
+                if (multiPlayer) {
+                    if (currentPlayer) {
+                        if (p.color.equals("orange") && !p.touched) {
                             player1.incrementeScore();
                         }
-                    }
-                    else {
-                        if (p.color.equals("orange") && !p.touched){
+                    } else {
+                        if (p.color.equals("orange") && !p.touched) {
                             playerIA.incrementeScore();
                         }
                     }
@@ -315,7 +315,6 @@ public class Ball {
 
                 p.pegTouchdown();
             }
-
 
             lastPegTouched = p;
             return true;
@@ -344,12 +343,14 @@ public class Ball {
             double produitScalaireLargeur = r.produitScalaireLargeur(vecteurX, vecteurY);
 
             // if (startBall) {
-            //     System.out.println(produitScalaireLongueurV * vectLargeurXNormalise + " X Y "
-            //             + produitScalaireLongueurV * vectLargeurYNormalise);
-            //     System.out.println("REBOND " + produitScalaireLargeurV + " " + produitScalaireLongueurV);
-            //     System.out
-            //             .println("CONDITIONS " + conditions[0] + " " + conditions[1] + " " + conditions[2] + " "
-            //                     + conditions[3]);
+            // System.out.println(produitScalaireLongueurV * vectLargeurXNormalise + " X Y "
+            // + produitScalaireLongueurV * vectLargeurYNormalise);
+            // System.out.println("REBOND " + produitScalaireLargeurV + " " +
+            // produitScalaireLongueurV);
+            // System.out
+            // .println("CONDITIONS " + conditions[0] + " " + conditions[1] + " " +
+            // conditions[2] + " "
+            // + conditions[3]);
             // }
 
             if (conditions[0]) {
