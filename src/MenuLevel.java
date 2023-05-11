@@ -242,8 +242,7 @@ public class MenuLevel extends JPanel {
             }
             else if (type.equals("backToMenup") && nbPage == 1) {
                 cdLayoutMain.show(mainPanel, "menup");
-            }
-            
+            }            
         }
 
         @Override

@@ -11,8 +11,6 @@
 
 ## COMPILATION ET EXECUTION
 Ouverz un Terminal dans le dossier **2022-0S1-C-PEGGLERS/src** et taper la commande suivante pour lancer le jeux : 
-pour lancer le jeu : 
 ```shell
 javac LoadingScreen.java && java LoadingScreen
-``` 
-
+```
