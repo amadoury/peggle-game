@@ -200,14 +200,19 @@ public class MenuLevel extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (type.equals("bLevel")) {
-                System.out.println("AAAAAAAAAAAAA");
-                imgIcon = new ImageIcon(
-                        Button.this.getClass().getClassLoader()
-                                .getResource("ressources/levelBoutons/img-level-ANI-" + nLevel + ".gif"));
-                imgIcon.setImage(
-                        imgIcon.getImage().getScaledInstance((int) 100, (int) 100,
-                                java.awt.Image.SCALE_DEFAULT));
-                this.setIcon(imgIcon);
+                // try {
+                // // URL imageURL = ChatMenuItem.class.getResource(rootPath+imageRelativePath);
+                // ImageIcon iIcon = new ImageIcon(
+                // Button.this.getClass().getClassLoader()
+                // .getResource("ressources/levelBoutons/img-level-ANI-" + nLevel + ".gif"));
+                // if (imgIcon.getImageLoadStatus() == MediaTracker.COMPLETE) { // if image is
+                // correctly loaded
+                // imgIcon = iIcon;
+                // }
+                // } catch (NullPointerException err) {
+                // err.printStackTrace();
+                // }
+                // this.setIcon(imgIcon);
                 System.out.println("ismultiplayer dans menuLvele" + isMultiplayer);
                 app = new App(dim, pathLevel, isMultiplayer, cdLayoutMain, mainPanel, MenuLevel.this);
                 MenuLevel.this.add(app, "app" + nLevel);
@@ -238,10 +243,10 @@ public class MenuLevel extends JPanel {
             setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             if (type.equals("bLevel")) {
-                // imgIcon = new ImageIcon(
-                // this.getClass().getResource("ressources/levelBoutons/img-level-light-" +
-                // nLevel + ".png"));
-                // this.setIcon(imgIcon);
+                imgIcon = new ImageIcon(
+                        this.getClass().getResource("ressources/levelBoutons/img-level-light-" +
+                                nLevel + ".png"));
+                this.setIcon(imgIcon);
             } else if (iaButton) {
                 // JLabel info = new JLabel("Info");
 

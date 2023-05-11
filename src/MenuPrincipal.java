@@ -136,7 +136,7 @@ public class MenuPrincipal extends JPanel {
       g2.draw(new RoundRectangle2D.Double(0, 0, width, height, height, height));
       g2.dispose();
       g.setColor(color);
-      g.fillRoundRect(0, 0, getSize().width, getSize().height, 80, 80);
+      g.fillRoundRect(0, 0, getSize().width, getSize().height, 100, 100);
       super.paintComponent(g);
     }
 
