@@ -172,17 +172,19 @@ public class BoardEdit extends Board {
                     System.out.println("file create");
                     FileWriter writer = new FileWriter(file);
                     for (Peg e : editor.getListPeg()) {
-                        String type = "";
-                        if (e instanceof PegRebond)
-                            type = "PegRebond";
-                        else if (e instanceof PegSoleil)
-                            type = "PegSoleil";
-                        else if (e instanceof PegCercle)
-                            type = "PegCercle";
-                        else if (e instanceof PegRectangle)
-                            type = "PegRectangle";
-                        writer.write(
-                                (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/" + type + "\n");
+                        if (e instanceof PegRebond) {
+                            writer.write(
+                                    (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/PegRebond\n");
+                        } else if (e instanceof PegSoleil) {
+                            writer.write(
+                                    (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/PegSoleil\n");
+                        } else if (e instanceof PegCercle) {
+                            writer.write(
+                                    (e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor() + "/PegCercle\n");
+                        } else if (e instanceof PegRectangle) {
+                            writer.write((e.pegX / width) + "/" + (e.pegY / height) + "/" + e.getColor()
+                                    + "/PegRectangle/" + ((PegRectangle) e).getAngle() + "\n");
+                        }
                     }
                     writer.close();
                 }
@@ -247,7 +249,6 @@ public class BoardEdit extends Board {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
         if (e.getButton() == MouseEvent.BUTTON3) {
             popUp.show(this, e.getX(), e.getY());
             xMouse = e.getX();

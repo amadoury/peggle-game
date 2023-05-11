@@ -254,11 +254,6 @@ public class PegRectangle extends Peg {
         if (touched)
             return;
         touched = true;
-        // ImageIcon imageIcon = new ImageIcon(
-        // PegRectangle.this.getClass().getResource("ressources/peg-" + color +
-        // "-animation.gif"));
-        sound.setFile(0);
-        sound.play();
     }
 
     public void touchTimeStart() {

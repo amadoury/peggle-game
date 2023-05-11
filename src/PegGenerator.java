@@ -140,17 +140,6 @@ public class PegGenerator {
                 }
             }
             if (p instanceof PegRectangle && !p.isDestructed()) {
-                // if (b.getXt() + b.getRayon() > p.getPegX() - ((PegRectangle) p).getLongueur()
-                // / 2.
-                // && b.getXt() - b.getRayon() < p.getPegX() + ((PegRectangle) p).getLongueur()
-                // / 2.
-                // && b.getYt() + b.getRayon() > p.getPegY() - (((PegRectangle) p).getLargeur()
-                // / 2.)
-                // && b.getYt() - b.getRayon() < p.getPegY() + ((PegRectangle) p).getLargeur() /
-                // 2.) {
-                // l.add(p);
-                // }
-
                 PegRectangle r = (PegRectangle) p;
 
                 double[] PARayons = { 0, b.getRayon(), -b.getRayon() };
@@ -190,20 +179,6 @@ public class PegGenerator {
                 }
                 if (insideOfRectangle)
                     l.add(p);
-
-                // System.out.println(" n m " + n + " " + m);
-
-                // boolean[] conditions = r.projectionBallOrigineVecteurs(b.getXt(), b.getYt(),
-                // b.getRayon());
-
-                // boolean contactWithPeg = false;
-                // for (int j = 0; j < 4; ++j) {
-                // if (conditions[j])
-                // contactWithPeg = true;
-                // }
-                // if (contactWithPeg)
-                // l.add(p);
-
             }
         }
         if (l.size() == 0)
