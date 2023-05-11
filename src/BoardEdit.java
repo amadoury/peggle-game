@@ -36,7 +36,6 @@ public class BoardEdit extends Board {
         // height = dim.getHeight();
         editor = new Editor();
         this.dim = dim ;
-        System.out.println("w : " + width + " h :" + height);
 
         List<String> listPath = new ArrayList<String>();
         listPath.add("ressources/peg-orange.png");
@@ -202,7 +201,6 @@ public class BoardEdit extends Board {
             try {
                 File file = new File("src/ressources/level/ediit1.txt");
                 if (file.createNewFile()) {
-                    System.out.println("file create");
                     FileWriter writer = new FileWriter(file);
                     for (Peg e : editor.getListPeg()) {
                         if (e instanceof PegRebond) {

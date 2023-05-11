@@ -69,7 +69,6 @@ public class BoardIA extends BoardMain {
             else{
                 str = "EQUALITY" ;
             }
-            System.out.println("1 : " + player1.getScore() + " 2 : "+playerIA.getScore());
             drawGameWiningScreen(str);
         }
     }

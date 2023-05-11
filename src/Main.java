@@ -40,7 +40,6 @@ public class Main extends JFrame {
         });
 
         menup.editButton.addActionListener((event) -> {
-            //System.out.println("button editor");
             App appEdit = new App(dim, cardLayout, mainPanel, menuLevel, this);
             mainPanel.add(appEdit, "appEdit");
             cardLayout.show(mainPanel, "appEdit");

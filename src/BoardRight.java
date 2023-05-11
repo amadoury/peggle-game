@@ -17,6 +17,7 @@ public class BoardRight extends JPanel {
     private ArrayList<JLabel> listLabelBall;
     private int valScore = 0;
     private ImageIcon imageIconBall;
+
     private Graphics2D g2d;
     private int nombreBall;
     private JLabel jlabel;
@@ -44,7 +45,6 @@ public class BoardRight extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println(e.getY());
                 if (Math.pow(e.getX() - 90, 2) + Math.pow(e.getY() + 60 - height, 2) < 50 * 50) {
 
                     int result = JOptionPane.showConfirmDialog(null, "Do you want to go to Menu Level ?", "Warning !",

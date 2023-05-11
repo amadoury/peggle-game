@@ -93,7 +93,6 @@ public class LabelPeg extends JLabel implements MouseInputListener {
     public void mouseDragged(MouseEvent e) {
         if (isEditing) {
             /* action to Drag label */
-            //System.out.println(dim.getWidth() * 0.125 + "xxxxxxxxxxxx");
             int x = e.getXOnScreen() - xClick - (int) (0.125 * dim.getWidth())- app.getInsets().left;
             int y = e.getYOnScreen() - yClick - app.getInsets().top;
             this.setLocation(x, y);

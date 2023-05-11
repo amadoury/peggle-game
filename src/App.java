@@ -71,7 +71,6 @@ public class App extends JPanel {
             try {
                 File file = new File("src/ressources/level/ediit1.txt");
                 if (file.exists()) {
-                    System.out.println("hello text");
                     App app = new App(dim, "ressources/level/ediit1.txt", false, cdLMenu, panelMenu, menuLevel,
                             cdLMenu);
 
@@ -80,6 +79,7 @@ public class App extends JPanel {
                     // app = null ;
                     file.delete();
                     // main.moveCdLToEditor();
+
                     // panelMenu.remove(app);
                 } else {
                     System.out.println("file doesn't exist");

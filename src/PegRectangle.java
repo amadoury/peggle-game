@@ -55,17 +55,12 @@ public class PegRectangle extends Peg {
                 .sqrt(Math.pow(vecteurLargeurX, 2) + Math.pow(vecteurLargeurY, 2)));
         vecteurLargeurX = vecteurLargeurX / normeVectLargeur * largeur;
         vecteurLargeurY = vecteurLargeurY / normeVectLargeur * largeur;
-        // System.out.println("vecteurLongueur " + vecteurLongueurX + " " +
-        // vecteurLongueurY + "longueur" + longueur);
 
         determinant = vecteurLongueurX * vecteurLargeurY - vecteurLargeurX * vecteurLongueurY;
 
         origineVecteurX = pegX - vecteurLongueurX / 2 - vecteurLargeurX / 2;
         origineVecteurY = pegY - vecteurLongueurY / 2 - vecteurLargeurY / 2;
 
-        // System.out.println(" vect " + vecteurLongueurX + " " + vecteurLongueurY);
-        // System.out.println(" vect " + vecteurLargeurX + " " + vecteurLargeurY);
-        // System.out.println(" vectOrigin " + origineVecteurX + " " + origineVecteurY);
 
         BufferedImage image;
         try {
